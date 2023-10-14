@@ -1,6 +1,6 @@
 import { Outlet, Link, NavLink } from 'react-router-dom';
-import './Navbar.css';
-import myImage from './graphics/BakeryLogo.png';
+import './user-styles/Navbar.css';
+import myImage from '../../graphics/BakeryLogo.png';
 import { FaUser, FaShoppingCart, FaBars } from 'react-icons/fa';
 import React, { useState } from 'react';
 
