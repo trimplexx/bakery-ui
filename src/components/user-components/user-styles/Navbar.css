@@ -61,6 +61,7 @@ nav ul li a:not(.active):hover {
 .icon {
    font-size: 1.5rem;
    text-decoration: none;
+   cursor: pointer;
    color: white;
    position: relative;
    transition: color 0.3s;
@@ -69,6 +70,10 @@ nav ul li a:not(.active):hover {
 
 .icon:hover {
    color: #fda329;
+}
+
+.icon.active{
+    color: #fda329;
 }
 
 nav .toggle_btn {

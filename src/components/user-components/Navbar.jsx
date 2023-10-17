@@ -1,11 +1,14 @@
+import React, { useState } from 'react';
 import { Outlet, Link, NavLink } from 'react-router-dom';
 import './user-styles/Navbar.css';
 import myImage from '../../graphics/BakeryLogo.png';
 import { FaUser, FaShoppingCart, FaBars } from 'react-icons/fa';
-import React, { useState } from 'react';
+import Login from './Login';
+import Registration from './Registration';
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState('login');
 
   return (
     <>
@@ -25,15 +28,26 @@ export const Navbar = () => {
               <NavLink to="/Products">Produkty</NavLink>
             </li>
             <li>
-              <NavLink to="/Login" className="icon">
+              <div onClick={() => setModalOpen('login')} className="icon">
                 <FaUser />
-              </NavLink>
+              </div>
+            </li>
+            <li>
               <NavLink to="/ShoppingCard" className="icon">
                 <FaShoppingCart />
               </NavLink>
             </li>
           </ul>
       </nav>
+
+      {modalOpen === 'login' && (
+        <Login isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={() => setModalOpen('register')} />
+      )}
+
+      {modalOpen === 'register' && (
+        <Registration isOpen={true} onClose={() => setModalOpen(null)} />
+      )}
+
       <Outlet />
     </>
   );
