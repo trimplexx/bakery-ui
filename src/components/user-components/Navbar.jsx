@@ -26,6 +26,8 @@ export const Navbar = () => {
             <li>
               <NavLink to="/Products">Produkty</NavLink>
             </li>
+            </ul>
+            <ul className={menuOpen ? "icons-open" : "icons-list"}>
             <li>
               <div onClick={() => setModalOpen('login')} className="icon">
                 <FaUser />
@@ -36,7 +38,7 @@ export const Navbar = () => {
                 <FaShoppingCart />
               </NavLink>
             </li>
-          </ul>
+            </ul>
       </nav>
 
       {modalOpen === 'login' && (
