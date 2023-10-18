@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./user-styles/Login.css";
 import "./user-styles/Registration.css"
 
 const Login = ({ onClose }) => {
   const [modalOpen, setModalOpen] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
+  const modalRef = useRef(null);
+
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -21,8 +23,25 @@ const Login = ({ onClose }) => {
     document.getElementById("first_name").value = "";
   };
 
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleEscKey);
+    return () => window.removeEventListener("keydown", handleEscKey);
+  }, [onClose]);
+
+  const handleBackdropClick = (event) => {
+    if (modalRef.current && modalRef.current === event.target) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="modal">
+    <div className="modal" onClick={handleBackdropClick} ref={modalRef}>
       {modalOpen === "login" ? (
         <form className="login-form">
           <div class="flex space-x-1 justify-end">
