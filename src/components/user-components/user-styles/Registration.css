@@ -19,7 +19,7 @@
     background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
-    width: 300px;
+    width: 600px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   }
   
@@ -29,32 +29,24 @@
     color: #333333;
   }
   
-  .login-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: solid thin #aaaaaa;
-  }
-  
   .registration-form a {
       display: block;
       text-align: right;
-      color: #6c63ff; /* purple color to match the image */
+      color: #fda329;
       text-decoration: none;
   }
   
-  .registration-form button {
+  .registration-form .register_submit {
       width: 100%;
       padding: 10px;
       border-radius: 5px;
       border: none;
       color: #ffffff;
-      background-color: #6c63ff; /* purple color to match the image */
+      background-color: #fda329;
   }
   
   .registration-form button:hover {
-      background-color: #5a54d8; /* darker shade for hover effect */
+      background-color: rgb(139, 138, 138); 
   }
   
   .modal p {
@@ -62,7 +54,19 @@
   }
   
   .modal p a {
-      color: #6c63ff; /* purple color to match the image */
+      color: #fda329; 
       text-decoration: none;
   }
+
+  .registration-form .register_submit{
+    margin-top:-20px;
+  }
+
+  .registration-form span{
+    cursor: pointer;
+    color: #fda329;
+  }
   
+  .registration-form span:hover{
+    color: rgb(139, 138, 138);
+  }

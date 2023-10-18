@@ -3,12 +3,11 @@ import { Outlet, Link, NavLink } from 'react-router-dom';
 import './user-styles/Navbar.css';
 import myImage from '../../graphics/BakeryLogo.png';
 import { FaUser, FaShoppingCart, FaBars } from 'react-icons/fa';
-import Login from './Login';
-import Registration from './Registration';
+import Login from './Login'
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState('login');
+  const [modalOpen, setModalOpen] = useState(null);
 
   return (
     <>
@@ -41,11 +40,7 @@ export const Navbar = () => {
       </nav>
 
       {modalOpen === 'login' && (
-        <Login isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={() => setModalOpen('register')} />
-      )}
-
-      {modalOpen === 'register' && (
-        <Registration isOpen={true} onClose={() => setModalOpen(null)} />
+        <Login isOpen={true} onClose={() => setModalOpen(null)}  />
       )}
 
       <Outlet />
