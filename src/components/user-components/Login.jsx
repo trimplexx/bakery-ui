@@ -30,8 +30,8 @@ const Login = ({ onClose }) => {
       }
     };
 
-    window.addEventListener("keydown", handleEscKey);
-    return () => window.removeEventListener("keydown", handleEscKey);
+    window.addEventListener("keyup", handleEscKey);
+    return () => window.removeEventListener("keyup", handleEscKey);
   }, [onClose]);
 
   const handleBackdropClick = (event) => {

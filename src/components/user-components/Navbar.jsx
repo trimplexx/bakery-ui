@@ -10,40 +10,41 @@ export const Navbar = () => {
   const [modalOpen, setModalOpen] = useState(null);
 
   return (
-    <>
-      <nav>
-        <Link to="/">
-          <img src={myImage} alt="a" className="logo" />
-        </Link>
-        <FaBars className="toggle_btn" onClick={() => setMenuOpen(!menuOpen)} />
-        <ul className={`menu ${menuOpen ? 'open' : ''}`}>
-          <li>
-            <NavLink to="/About">O nas</NavLink>
-          </li>
-          <li>
-            <NavLink to="/Contact">Kontakt</NavLink>
-          </li>
-          <li>
-            <NavLink to="/Products">Produkty</NavLink>
-          </li>
-        </ul>
-        <ul className={menuOpen ? 'icons-open' : 'icons-list'}>
-          <li>
-            <div onClick={() => setModalOpen('login')} className="icon">
-              <FaUser />
-            </div>
-          </li>
-          <li>
-            <NavLink to="/ShoppingCard" className="icon">
-              <FaShoppingCart />
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
+      <>
+        <nav>
+          <Link to="/">
+            <img src={myImage} alt="a" className="logo" />
+          </Link>
+          <FaBars className="toggle_btn" onClick={() => setMenuOpen(!menuOpen)} />
+          <ul className={`menu ${menuOpen ? 'open' : ''}`}>
+            <li>
+              <NavLink to="/About">O nas</NavLink>
+            </li>
+            <li>
+              <NavLink to="/Contact">Kontakt</NavLink>
+            </li>
+            <li>
+              <NavLink to="/Products">Produkty</NavLink>
+            </li>
+          </ul>
+          <ul className={`icons-list ${menuOpen ? 'icons-open' : ''}`}>
+            <li>
+              <div onClick={() => setModalOpen('login')} className="icon">
+                <FaUser />
+              </div>
+            </li>
+            <li>
+              <NavLink to="/ShoppingCard" className="icon">
+                <FaShoppingCart />
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
 
-      {modalOpen === 'login' && <Login isOpen={true} onClose={() => setModalOpen(null)} />}
+        {modalOpen === 'login' && <Login isOpen={true} onClose={() => setModalOpen(null)} />}
 
-      <Outlet />
-    </>
+        <Outlet />
+      </>
   );
 };
+
