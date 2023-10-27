@@ -6,7 +6,7 @@ nav {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    font-family: 'Lucida Console';
+    font-family: 'Lucida Console', serif;
     background-color: #EBEBEB;
     color: white;
     position: sticky;
@@ -20,16 +20,6 @@ body {
     overflow-x: hidden;
 }
 
-nav::after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 10px;
-    background-color: #FEA831;
-}
 
 .logo {
     width: 145px;
@@ -154,12 +144,11 @@ nav .toggle_btn:hover {
         max-height: 0;
         opacity: 0;
         overflow: hidden;
-        transition: all 0.3s ease;
+        transition: all 1s ease;
     }
 
     nav ul.menu.open {
         max-height: 200px;
-        /* dostosuj wysokość do Twoich potrzeb */
         opacity: 1;
     }
 
@@ -170,21 +159,19 @@ nav .toggle_btn:hover {
 
     .navbar-enter-active {
         max-height: 200px;
-        /* dostosuj wysokość do Twoich potrzeb */
         opacity: 1;
-        transition: all 0.3s ease;
+        transition: all 1s ease;
     }
 
     .navbar-exit {
         max-height: 200px;
-        /* dostosuj wysokość do Twoich potrzeb */
         opacity: 1;
     }
 
     .navbar-exit-active {
         max-height: 0;
         opacity: 0;
-        transition: all 0.3s ease;
+        transition: all 1s ease;
     }
 
 }
