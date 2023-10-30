@@ -86,7 +86,6 @@ nav .toggle_btn:hover {
     width: 100%;
 }
 
-
 @media (max-width: 800px) {
     nav {
         flex-direction: column;
