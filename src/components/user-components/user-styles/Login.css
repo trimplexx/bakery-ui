@@ -10,7 +10,6 @@
   align-items: center;
 }
 
-
 .modal h2 {
   text-align: center;
   color: #FEA831;
@@ -44,10 +43,6 @@
     border: none;
     color: #ffffff;
     background-color: #FEA831; 
-}
-
-.login-form button:hover {
-    background-color: #707070; 
 }
 
 .modal p {

@@ -20,11 +20,17 @@ body {
     overflow-x: hidden;
 }
 
+.errorToast{
+    margin-top: 130px;
+}
+
+.admin-icon{
+    margin-left: 13px;
+}
 
 .logo {
-    width: 145px;
-    height: 140px;
-    margin-right: 10px;
+    width: 135px;
+    height: 130px;
 }
 
 nav ul {

@@ -36,17 +36,13 @@
       text-decoration: none;
   }
   
-  .registration-form .register_submit {
+  .registration-form .register-submit {
       width: 100%;
       padding: 10px;
       border-radius: 5px;
       border: none;
       color: #ffffff;
       background-color: #FEA831;
-  }
-  
-  .registration-form button:hover {
-      background-color: #707070; 
   }
   
   .modal p {
@@ -58,7 +54,7 @@
       text-decoration: none;
   }
 
-  .registration-form .register_submit{
+  .registration-form .register-submit{
     margin-top:-20px;
   }
 
