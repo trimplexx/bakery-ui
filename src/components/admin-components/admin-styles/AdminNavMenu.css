@@ -1,0 +1,10 @@
+.logo2 {
+    width: 65px;
+    height: 60px;
+    margin-right: 20px;
+}
+
+#logo-sidebar .active{
+    background-color: white;
+}
+
