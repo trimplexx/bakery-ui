@@ -1,12 +1,38 @@
 import image from "../../graphics/chleb.png"
 import addNew from "../../graphics/add-new-product.png"
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import AddNewProductModal from "../../components/admin-components/AddNewProductModal";
 import EditProductModal from "../../components/admin-components/EditProductModal";
+import Select from "react-select";
+import {customDropdownStyles} from "../../components/admin-components/admin-styles/customDropdownStyles";
+import axios from "axios";
+import ConnectionUrl from "../../ConnectionUrl";
 
 const AdminProducts = () => {
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [options, setOptions] = useState([]);
+
+    useEffect(() => {
+        axios.get(ConnectionUrl.connectionUrlString + 'api/AdminProducts/productsCategories')
+            .then(response => {
+                const newOptions = response.data.value.map(category => ({
+                    value: category.categoryId,
+                    label: category.name
+                }));
+                setOptions(newOptions);
+            })
+            .catch(error => {
+                console.error("Error fetching categories: ", error);
+            });
+    }, []);
+
+
+
+    const handleChange = (option) => {
+        setSelectedOption(option);
+    };
 
     const handleOpenEditModal = () => {
         setIsEditModalOpen(true);
@@ -25,7 +51,16 @@ const AdminProducts = () => {
     };
 
     return <>
-        <form className="pb-4">
+        <div className="grid grid-cols-5 gap-4 pb-2">
+            <div className="col-span-1">
+                <Select
+                    value={selectedOption}
+                    onChange={handleChange}
+                    options={options}
+                    styles={customDropdownStyles} // użyj swoich niestandardowych styli
+                />
+            </div>
+        <form className="pb-2 col-span-4">
             <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -33,11 +68,11 @@ const AdminProducts = () => {
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
                 </div>
-                <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-yellow-400 focus:border-yellow-400" placeholder="Wyszukaj produkt..." required/>
-                <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-yellow-400 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2">Wyszukaj</button>
+                <input type="search" id="default-search" className="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-yellow-400 focus:border-yellow-400" placeholder="Wyszukaj produkt..." required/>
+                <button type="submit" className="text-white absolute end-2.5 bottom-1.5 bg-yellow-400 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2">Wyszukaj</button>
             </div>
         </form>
-        <button type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:text-yellow-400 focus:outline-none bg-white rounded-full border border-yellow-300 hover:bg-gray-100 hover:text-yellow-500 focus:z-10 focus:ring-4 focus:ring-yellow-400">Kategorie</button>
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 justify-center">
             <div className="flex justify-center items-start py-4 px-2">

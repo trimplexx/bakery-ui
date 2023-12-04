@@ -1,12 +1,52 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {AnimatedModal} from "../user-components/AnimatedModal";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 import {motion} from "framer-motion";
+import Select from 'react-select';
+import {customDropdownStyles} from "./admin-styles/customDropdownStyles";
+import ImageCropModal from "./ImageCropModal";
+import axios from "axios";
+import ConnectionUrl from "../../ConnectionUrl";
+import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 
 const AddNewProductModal = ({onClose}) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [backgroundImage, setBackgroundImage] = useState(null);
+    const [options, setOptions] = useState([]);
+    const formRef = useRef(null);
+    const [name, setName] = useState("");
+
+        const handleChange = (option) => {
+            setSelectedOption(option);
+        };
+
+    const handleFileChange = (event) => {
+        if(event.target.files.length > 0)
+        {
+            setSelectedFile(URL.createObjectURL(event.target.files[0]));
+            setOpenModal(true);
+        }
+    };
 
     useEffect(() => {
+        axios.get(ConnectionUrl.connectionUrlString + 'api/AdminProducts/productsCategories')
+            .then(response => {
+                const newOptions = response.data.value.map(category => ({
+                    value: category.categoryId,
+                    label: category.name
+                }));
+                setOptions(newOptions);
+            })
+            .catch(error => {
+                console.error("Error fetching categories: ", error);
+            });
+    }, []);
+
+
+        useEffect(() => {
         const handleEscKey = (e) => {
             if (e.key === "Escape") {
                 onClose();
@@ -27,10 +67,63 @@ const AddNewProductModal = ({onClose}) => {
         }
     }
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setIsLoading(true);
+
+        const formData = new FormData(formRef.current);
+
+        // Dodaj pola z DTO produktu i wartości odżywczej
+        formData.append('name', formData.get('name'));
+        formData.append('price', formData.get('price'));
+        formData.append('weight', formData.get('mass'));
+        formData.append('category', selectedOption.value);
+        formData.append('description', formData.get('description'));
+        if(backgroundImage != null)
+        {
+            formData.append('imagefile', await createImageFileFromImageUrl(backgroundImage));
+        }
+        formData.append('kj', formData.get('kj'));
+        formData.append('kcal', formData.get('kcal'));
+        formData.append('fat', formData.get('fat'));
+        formData.append('saturatedfat', formData.get('saturated-fats'));
+        formData.append('carbohydrates', formData.get('carbohydrates'));
+        formData.append('sugars', formData.get('sugar'));
+        formData.append('proteins', formData.get('protein'));
+        formData.append('salt', formData.get('salt'));
+
+        try {
+            const response = await axios.post(ConnectionUrl.connectionUrlString + 'api/AdminProducts/AddProduct', formData);
+
+            successNotify(response.data.message);
+            onClose();
+        } catch (error) {
+            errorNotify(error.response.data.error)
+        }
+        finally {
+            setIsLoading(false);
+        }
+    }
+
+    const createImageFileFromImageUrl = async (imageUrl) => {
+        try {
+            const response = await fetch(imageUrl);
+            if (!response.ok) {
+                throw new Error('Błąd pobierania obrazu');
+            }
+            const blob = await response.blob();
+            const file = new File([blob], name + ".jpg", {type: blob.type});
+            return file;
+        } catch (error) {
+            errorNotify(error.message);
+        }
+    };
+
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <AnimatedModal>
-                <form className="add-product-form bg-white p-8 rounded-lg shadow-md w-auto h-auto overflow-auto max-h-screen">
+                <form onSubmit={handleSubmit} ref={formRef} className="add-product-form bg-white p-8 rounded-lg shadow-md w-auto h-auto overflow-auto max-h-screen">
                     <div className="flex space-x-1 justify-end">
                         <button type="button" onClick={onClose}
                                 className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8">
@@ -47,27 +140,54 @@ const AddNewProductModal = ({onClose}) => {
                     <div className="grid md:grid-cols-5 gap-4 grid-cols-1 justify-center">
                         <div className="md:col-span-2 ">
                             <div className="justify-center flex">
-                            <div className="flex items-center justify-center w-64">
-                                <label htmlFor="dropzone-file"
-                                       className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                        <svg className="w-8 h-8 mb-4 text-gray-500 "
-                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 20 16">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                  stroke-width="2"
-                                                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                        </svg>
-                                        <p className="mb-2 text-sm text-gray-500 "><span
-                                            className="font-semibold">Zdjęcie produktu</span></p>
-                                        <p className="text-xs text-gray-500 ">SVG, PNG, JPG</p>
-                                    </div>
-                                    <input id="dropzone-file" type="file" class="hidden"/>
-                                </label>
-                            </div>
+                                <div className="flex items-center justify-center w-[340px]">
+                                    <label
+                                        htmlFor="dropzone-file"
+                                        className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
+                                        style={{
+                                            backgroundImage: `url(${backgroundImage})`,
+                                            backgroundSize: 'contain',
+                                            backgroundPosition: 'center',
+                                            backgroundRepeat: 'no-repeat'
+                                        }}
+                                    >
+                                        {!backgroundImage && (
+                                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <svg
+                                                    className="w-8 h-8 mb-4 text-gray-500 "
+                                                    aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 20 16"
+                                                >
+                                                    <path
+                                                        stroke="currentColor"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                    />
+                                                </svg>
+                                                <p className="mb-2 text-sm text-gray-500 ">
+                                                    <span className="font-semibold">Zdjęcie produktu</span>
+                                                </p>
+                                                <p className="text-xs text-gray-500 ">SVG, PNG, JPG</p>
+                                            </div>
+                                        )}
+                                        <input
+                                            id="dropzone-file"
+                                            type="file"
+                                            accept="image/*"
+                                            className="hidden"
+                                            onChange={handleFileChange}
+                                        />
+                                    </label>
+                                </div>
+                                {openModal && <ImageCropModal image={selectedFile} onClose={() => setOpenModal(false)} onSave={setBackgroundImage} />}
                             </div>
                             <div className="relative mt-6">
-                                <input type="text" id="name"
+                                <input type="text" id="name" name="name"
+                                       value={name} onChange={e => setName(e.target.value)}
                                        className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
                                        placeholder=" " required/>
                                 <label htmlFor="name"
@@ -77,9 +197,10 @@ const AddNewProductModal = ({onClose}) => {
                             <div className="w-auto flex mt-4">
                                 <div className="relative w-full">
                                     <div className="relative">
-                                        <input type="number" id="price"
+                                        <input type="number" id="price" name="price"
                                                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
-                                               placeholder=" " required/>
+                                               placeholder=" " required
+                                               step="0.01"/>
                                         <label htmlFor="price"
                                                className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#fda329] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">
                                                 Cena
@@ -91,11 +212,20 @@ const AddNewProductModal = ({onClose}) => {
                                 </span>
                             </div>
                             <div className="relative mt-4">
-                                <input type="number" id="mass"
+                                <input type="number" id="mass" name="mass"
                                        className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
                                        placeholder=" " required/>
                                 <label htmlFor="mass"
                                        className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#fda329] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Masa netto (G)</label>
+                            </div>
+                            <div className="relative mt-4">
+                                <Select
+                                    value={selectedOption}
+                                    onChange={handleChange}
+                                    options={options}
+                                    styles={customDropdownStyles}
+                                    required
+                                />
                             </div>
                         </div>
                         <div className="md:col-span-3">
@@ -118,9 +248,9 @@ const AddNewProductModal = ({onClose}) => {
                                         </th>
                                         <td className="px-6 py-1">
                                             <div className="grid grid-cols-3 items-center w-auto">
-                                                <input type="number" id="kj-input" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="kJ" required/>
+                                                <input type="number" id="kj" name="kj" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="kJ" required/>
                                                 <div className="text-center mx-0">/</div>
-                                                <input type="number" id="kcal-input" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="Kcal" required/>
+                                                <input type="number" id="kcal" name="kcal" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="Kcal" required/>
                                             </div>
                                         </td>
                                     </tr>
@@ -129,7 +259,7 @@ const AddNewProductModal = ({onClose}) => {
                                             Tłuszcz (G)
                                         </th>
                                         <td className="px-6 py-1">
-                                            <input type="number" id="fats" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcz" required/>
+                                            <input type="number" id="fat" step="0.01" name="fat" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcz" required/>
                                         </td>
                                     </tr>
                                     <tr className="bg-white border-b">
@@ -137,7 +267,7 @@ const AddNewProductModal = ({onClose}) => {
                                             Kwasy tłuszczowe nasycone (G)
                                         </th>
                                         <td className="px-6 py-1">
-                                            <input type="number" id="saturated-fats" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcze nasycone" required/>
+                                            <input type="number" id="saturated-fats" step="0.01" name="saturated-fats" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcze nasycone" required/>
                                         </td>
                                     </tr>
                                     <tr className="bg-white border-b">
@@ -145,7 +275,7 @@ const AddNewProductModal = ({onClose}) => {
                                             Węglowodany (G)
                                         </th>
                                         <td className="px-6 py-1">
-                                            <input type="number" id="carbohydrates" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="węglowodany" required/>
+                                            <input type="number" id="carbohydrates" step="0.01" name="carbohydrates" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="węglowodany" required/>
                                         </td>
                                     </tr>
                                     <tr className="bg-white border-b">
@@ -153,7 +283,7 @@ const AddNewProductModal = ({onClose}) => {
                                             Cukry (G)
                                         </th>
                                         <td className="px-6 py-1">
-                                            <input type="number" id="sugar" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="cukry" required/>
+                                            <input type="number" id="sugar" name="sugar" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="cukry" required/>
                                         </td>
                                     </tr>
                                     <tr className="bg-white border-b">
@@ -161,7 +291,7 @@ const AddNewProductModal = ({onClose}) => {
                                             Białka (G)
                                         </th>
                                         <td className="px-6 py-1">
-                                            <input type="number" id="protein" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="białko" required/>
+                                            <input type="number" id="protein" name="protein" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="białko" required/>
                                         </td>
                                     </tr>
                                     <tr className="bg-white border-b">
@@ -169,7 +299,7 @@ const AddNewProductModal = ({onClose}) => {
                                             Sól (G)
                                         </th>
                                         <td className="px-6 py-1">
-                                            <input type="number" id="salt" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="sól" required/>
+                                            <input type="number" id="salt" name="salt" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="sól" required/>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -179,7 +309,7 @@ const AddNewProductModal = ({onClose}) => {
 
                         </div>
                         <div className="relative md:col-span-5">
-                            <textarea id="description"
+                            <textarea id="description" name="description"
                                    className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
                                    placeholder=" " required/>
                             <label htmlFor="description"

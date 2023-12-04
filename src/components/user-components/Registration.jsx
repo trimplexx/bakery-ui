@@ -43,21 +43,7 @@ const Registration = ({ onClose, onLoginClick }) => {
             onLoginClick();
 
         } catch (error) {
-            if (error.response) {
-                // Błąd pochodzi od serwera
-                let serverError = error.response.data;
-                if (serverError.error && serverError.message) {
-                    errorNotify(serverError.message);
-                } else {
-                    errorNotify("Nieznany błąd serwera.");
-                }
-            } else if (error.request) {
-                // Odpowiedź nie została otrzymana
-                errorNotify("Nie otrzymano odpowiedzi. Sprawdź połączenie internetowe.");
-            } else {
-                // Inny błąd
-                errorNotify(error.message);
-            }
+            errorNotify(error.response.data.error)
         }
         finally {
             setIsLoading(false);
