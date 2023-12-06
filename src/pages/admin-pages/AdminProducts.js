@@ -1,5 +1,5 @@
-import image from "../../graphics/chleb.png"
-import addNew from "../../graphics/add-new-product.png"
+import notFoundImage from "../../graphics/not-found-image.jpg"
+import addNew from "../../graphics/add-image.jpg"
 import React, {useEffect, useState} from "react";
 import AddNewProductModal from "../../components/admin-components/AddNewProductModal";
 import EditProductModal from "../../components/admin-components/EditProductModal";
@@ -13,6 +13,7 @@ const AdminProducts = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [options, setOptions] = useState([]);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
         axios.get(ConnectionUrl.connectionUrlString + 'api/AdminProducts/productsCategories')
@@ -25,6 +26,14 @@ const AdminProducts = () => {
             })
             .catch(error => {
                 console.error("Error fetching categories: ", error);
+            });
+
+        axios.get(ConnectionUrl.connectionUrlString + 'api/AdminProducts/productsList')
+            .then(response => {
+                setProducts(response.data.value);
+            })
+            .catch(error => {
+                console.error('Błąd podczas pobierania produktów:', error);
             });
     }, []);
 
@@ -51,8 +60,8 @@ const AdminProducts = () => {
     };
 
     return <>
-        <div className="grid grid-cols-5 gap-4 pb-2">
-            <div className="col-span-1">
+        <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
+            <div className="md:col-span-2 xl:col-span-1">
                 <Select
                     value={selectedOption}
                     onChange={handleChange}
@@ -60,7 +69,7 @@ const AdminProducts = () => {
                     styles={customDropdownStyles} // użyj swoich niestandardowych styli
                 />
             </div>
-        <form className="pb-2 col-span-4">
+        <form className="pb-2 md:col-span-4 xl:col-span-4">
             <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -74,30 +83,36 @@ const AdminProducts = () => {
         </form>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 justify-center">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 justify-center">
             <div className="flex justify-center items-start py-4 px-2">
-                <div className="w-full max-w-sm bg-white border-4 border-[#c4c2c2] hover:border-yellow-300 rounded-lg shadow cursor-pointer">
+                <div className="w-full h-full max-w-sm bg-[#c4c2c2] border-4 border-[#c4c2c2] hover:border-yellow-300 rounded-lg shadow cursor-pointer">
                     <div onClick={handleOpenNewModal}>
-                        <img className="rounded-t-lg w-full h-full" src={addNew} alt="" />
+                        <img className="rounded w-full h-full" src={addNew} alt="" />
                     </div>
                     <h5 className="bg-[#c4c2c2] p-1 font-medium">Dodaj nowy</h5>
                 </div>
                 {isNewModalOpen && <AddNewProductModal onClose={handleCloseNewModal} />}
             </div>
-            <div className="flex justify-center items-start py-4 px-2">
-                <div className="w-full max-w-sm bg-white border-4 border-[#c4c2c2] rounded-lg shadow hover:border-yellow-300">
-                    <div onClick={handleOpenEditModal}>
-                        <img className="rounded-t-lg w-full h-full cursor-pointer" src={image} alt=""/>
-                    </div>
-                    <div className="grid grid-cols-2">
-                        <h5 className="bg-[#c4c2c2] p-1 font-medium">Nazwa</h5>
-                        <div className="flex justify-end bg-[#c4c2c2]">
-                            <h5 className="p-1 font-medium">5,99zł</h5>
+            {products.map(product => (
+                <div className="flex justify-center items-start py-4 px-2">
+                    <div className="w-full h-full max-w-sm bg-[#c4c2c2] border-4 border-[#c4c2c2] hover:border-yellow-300 rounded-lg shadow cursor-pointer">
+                          <div onClick={handleOpenEditModal}>
+                                {product.image && product.image !== '' ? (
+                                    <img className="rounded w-full h-full cursor-pointer" src={product.image} alt={product.name} />
+                                ) : (
+                                    <img className=" w-full h-full cursor-pointer" src={notFoundImage} alt="Placeholder" />
+                                )}
+                            </div>
+                            <div className="grid grid-cols-2">
+                                <h5 className="bg-[#c4c2c2] p-1 font-medium">{product.name}</h5>
+                                <div className="flex justify-end bg-[#c4c2c2]">
+                                    <h5 className="p-1 font-medium">{product.price} zł</h5>
+                                </div>
+                                {isEditModalOpen && <EditProductModal onClose={handleCloseEditModal} />}
+                            </div>
                         </div>
-                        {isEditModalOpen && <EditProductModal onClose={handleCloseEditModal} />}
-                    </div>
-                </div>
             </div>
+            ))}
         </div>
 
     </>;
