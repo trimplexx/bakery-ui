@@ -18,6 +18,6 @@ export const customDropdownStyles = {
     }),
     menu: (provided, state) => ({
         ...provided,
-        zIndex: 1000,
+        zIndex: 10000,
     }),
 };

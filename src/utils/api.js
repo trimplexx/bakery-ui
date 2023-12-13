@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {successNotify} from "../helpers/ToastNotifications";
 
 const api = {
     register: async (connectionUrlString, data, successNotify, errorNotify, onLoginClick, setIsLoading) => {
@@ -7,7 +8,11 @@ const api = {
             successNotify('Pomyślnie zarejestrowano');
             onLoginClick();
         } catch (error) {
-            errorNotify(error.response.data.error)
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
         }
         finally {
             setIsLoading(false);
@@ -20,7 +25,11 @@ const api = {
             localStorage.setItem('successNotifyStorage', 'Poprawnie zalogowano');
             window.location.reload(true);
         } catch (error) {
-            errorNotify(error.response.data.error);
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
         }
         finally{
             setIsLoading(false);
@@ -41,7 +50,11 @@ const api = {
                 email: userDataFromAPI.email
             });
         } catch (error) {
-            errorNotify(error.response.data.error);
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
         }
     },
     fetchProductCategories: async (connectionUrlString, setOptions, errorNotify) => {
@@ -56,7 +69,7 @@ const api = {
             if (error.response && error.response.data && error.response.data.error) {
                 errorNotify(error.response.data.error);
             } else {
-                errorNotify("Błąd wczytywania kategorii z serwera");
+                errorNotify("Błąd połączenia serwera");
             }
         }
     },
@@ -69,22 +82,26 @@ const api = {
             if (error.response && error.response.data && error.response.data.error) {
                 errorNotify(error.response.data.error);
             } else {
-                errorNotify("An error occurred while adding the product.");
+                errorNotify("Błąd połączenia serwera");
             }
         } finally {
             setIsLoading(false);
         }
     },
-    fetchSingleProduct: async (connectionUrlString, productId, successCallback, errorCallback) => {
+    fetchSingleProduct: async (connectionUrlString, productId, setProductsData, errorNotify) => {
         try {
             const response = await axios.get(connectionUrlString + 'api/AdminProducts/singleProduct', {
                 headers: {
                     'ProductId': productId
                 }
             });
-            successCallback(response.data);
+            setProductsData(response.data)
         } catch (error) {
-            errorCallback(error.response.data.error);
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
         }
     },
     fetchProductsList: async (connectionUrlString, setProducts, errorNotify) => {
@@ -92,7 +109,119 @@ const api = {
             const response = await axios.get(connectionUrlString + 'api/AdminProducts/productsList');
             setProducts(response.data);
         } catch (error) {
-            errorNotify(error.response.data.error);
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
+        }
+    },
+    deleteProduct: async (connectionUrlString, productId, successNotify, errorNotify) => {
+        try {
+            const response = await axios.post(connectionUrlString + 'api/AdminProducts/deleteProduct', {
+                productId: productId
+            });
+            successNotify(response.data);
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
+        }
+    },
+    adminChangeUserData: async (connectionUrlString, data, setIsLoading, errorNotify) => {
+        try {
+            const response = await axios.post(connectionUrlString + 'api/AdminUser/editUser', data);
+            successNotify(response.data);
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
+        }
+        finally{
+            setIsLoading(false);
+        }
+    },
+    deleteUser: async (connectionUrlString, userId, successNotify, errorNotify) => {
+        try {
+            const response = await axios.post(connectionUrlString + 'api/AdminUser/deleteUser', {
+                userId: userId
+            });
+            successNotify(response.data);
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
+        }
+    },
+    getProductsQuantity: async (connectionUrlString, dateTime, setProductsList, errorNotify) => {
+        try {
+            const response = await axios.get(connectionUrlString + 'api/AdminProduction/productsQuantity', {
+                headers: {
+                    'DateTime': dateTime
+                }
+            });
+            setProductsList(response.data);
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
+        }
+    },
+    updateProductsAvailability: async (connectionUrlString, products, dateTime, successNotify, errorNotify) => {
+        try {
+            const response = await axios.put(connectionUrlString + 'api/AdminProduction/updateProductsAvailability', products, {
+                headers: {
+                    'DateTime': dateTime
+                }
+            });
+            successNotify(response.data);
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
+        }
+    },
+    fetchProductsToSelect: async (connectionUrlString, setOptions, errorNotify) => {
+        try {
+            const response = await axios.get(connectionUrlString + 'api/AdminMakingOrder/productsToSelect');
+            const newOptions = response.data.map(products => ({
+                value: products.productId,
+                label: products.name
+            }));
+            setOptions(newOptions);
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
+        }
+    },
+    fetchMaximumProductQuantity: async (connectionUrlString, dateTime, productId, setMaxQuantity, errorNotify) => {
+        try {
+            const response = await axios.get(connectionUrlString + 'api/AdminMakingOrder/getProductQuantityLeft', {
+                params: {
+                    productId: productId,
+                    dateTime: dateTime
+                }
+            });
+            setMaxQuantity(response.data);
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.error) {
+                errorNotify(error.response.data.error);
+            } else {
+                errorNotify("Błąd połączenia serwera");
+            }
         }
     },
 };

@@ -28,12 +28,12 @@ function App() {
                 <div className="p-4 sm:ml-64">
                     <div className="sm:p-4 border-2 border-gray-200 border-dashed rounded-lg">
                         <Routes>
-                            <Route path="HomePage" element={<AdminHome/>}/>
-                            <Route path="Produkty" element={<AdminProducts/>}/>
-                            <Route path="Zamowienia" element={<AdminOrders/>}/>
-                            <Route path="Zamow" element={<AdminMakeOrder/>}/>
-                            <Route path="Uzytkownicy" element={<AdminUsers/>}/>
-                            <Route path="Produkcja" element={<AdminProduction/>}/>
+                            <Route path="home" element={<AdminHome/>}/>
+                            <Route path="produkty" element={<AdminProducts/>}/>
+                            <Route path="zamowienia" element={<AdminOrders/>}/>
+                            <Route path="zamow" element={<AdminMakeOrder/>}/>
+                            <Route path="uzytkownicy" element={<AdminUsers/>}/>
+                            <Route path="produkcja" element={<AdminProduction/>}/>
                             <Route path="*" element={<Navigate to="/*" />} ></Route>
                         </Routes>
                     </div>

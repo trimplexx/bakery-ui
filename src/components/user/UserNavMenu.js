@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {bakeryLogo} from "../../utils/props"
 import {Link, NavLink, Outlet} from 'react-router-dom';
-import '../../styles/navbar.css';
+import '../../styles/userNavLink.css';
 import {FaBars, FaShoppingCart, FaTimes, FaToolbox, FaUser} from 'react-icons/fa';
 import LoginModal from './LoginModal';
 import RegistrationModal from './RegistrationModal';

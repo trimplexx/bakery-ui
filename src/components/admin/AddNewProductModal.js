@@ -33,7 +33,7 @@ const AddNewProductModal = ({onClose}) => {
     }
 
     return (
-        <ProductModal isLoading={isLoading} onClose={onClose} onSubmit={onSubmit} productsData={productsData}/>
+        <ProductModal isLoading={isLoading} onClose={onClose} onSubmit={onSubmit} productsData={productsData} text="Dodaj produkt"/>
     )
 };
 

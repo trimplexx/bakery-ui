@@ -1,95 +1,75 @@
-import React, { useState, useRef, useEffect } from 'react';
-import DatePicker, { registerLocale } from 'react-datepicker';
-import pl from 'date-fns/locale/pl';
+import React, { useState, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'tailwindcss/tailwind.css';
-import Select from "react-select";
-import {customDropdownStyles} from "../../styles/customDropdownStyles";
-
-registerLocale('pl', pl);
+import BasicInput from "../../components/common/BasicInput";
+import CustomDatePicker from "../../components/common/CustomDataPicker";
+import api from "../../utils/api";
+import {connectionUrlString} from "../../utils/props";
+import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 
 const AdminProduction = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [secSelectedDate, secSetSelectedDate] = useState(new Date());
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [showSecDatePicker, setShowSecDataPicker] = useState(false);
-    const wrapperRef = useRef(null);
-    const [options, setOptions] = useState([]);
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [productsList, setProductsList] = useState([]);
+    const [productsToCopy, setProductsToCopy] = useState([]);
 
-    const handleChange = (option) => {
-        setSelectedOption(option);
-    };
-
-    const handleClickOutside = (event) => {
-        if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-            setShowDatePicker(false);
-            setShowSecDataPicker(false);
-        }
+    const handleQuantityChange = (productId, newQuantity) => {
+        setProductsList(prevProducts =>
+            prevProducts.map(product =>
+                product.productId === productId
+                    ? {...product, quantity: newQuantity}
+                    : product
+            )
+        );
     };
 
     useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+        var isoDate = selectedDate.toISOString();
+        var dateOnly = isoDate.slice(0,10);
+        setProductsToCopy(null);
+        const getProductsQuantity = async () => {
+            await api.getProductsQuantity(connectionUrlString, dateOnly, setProductsList,errorNotify);
         };
-    }, []);
 
+        getProductsQuantity();
+    }, [selectedDate]);
+
+    const copyFromThisDate = () => {
+        var isoDate = secSelectedDate.toISOString();
+        var dateOnly = isoDate.slice(0,10);
+
+        const getProductsQuantity = async () => {
+            await api.getProductsQuantity(connectionUrlString, dateOnly, setProductsToCopy,errorNotify);
+        };
+        const setProductsToCopy = (products) => {
+            const updatedProducts = products.map(product => ({
+                ...product,
+                orderedQuantity: 0,
+            }));
+
+            setProductsList(updatedProducts);
+        };
+        getProductsQuantity();
+    };
+
+    const SaveChanges = async () => {
+        var isoDate = selectedDate.toISOString();
+        var dateOnly = isoDate.slice(0, 10);
+        await api.updateProductsAvailability(connectionUrlString, productsList, dateOnly, successNotify, errorNotify);
+    };
 
     return(
     <>
-            <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-                <div ref={wrapperRef} className="sm:col-span-1 h-14 z-50">
-                    <div className="relative h-full">
-                        <input type="text" id="date"
-                               className="block px-2.5 pb-2.5 pt-4 w-full h-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
-                               readOnly
-                               value={selectedDate.toLocaleDateString('pl-PL')}
-                               onClick={() => setShowDatePicker(!showDatePicker)}/>
-                        <label htmlFor="date"
-                               className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#fda329] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Data</label>
-                    </div>
-                    {showDatePicker &&
-                        <DatePicker
-                            selected={selectedDate}
-                            onChange={(date) => {
-                                setSelectedDate(date);
-                                setShowDatePicker(false);
-                            }}
-                            locale="pl"
-                            inline
-                            className="border p-2 rounded"
-                        />
-                    }
-                </div>
-                    <div ref={wrapperRef} className="sm:col-span-1 sm:col-start-4 h-14 z-50">
-                        <div className="relative h-full">
-                            <input type="text" id="date"
-                                   className="block px-2.5 pb-2.5 pt-4 w-full h-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
-                                   readOnly
-                                   value={secSelectedDate.toLocaleDateString('pl-PL')}
-                                   onClick={() => setShowSecDataPicker(!showSecDatePicker)}/>
-                            <label htmlFor="date"
-                                   className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#fda329] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Data</label>
-                        </div>
-                        {showSecDatePicker &&
-                            <DatePicker
-                                selected={secSelectedDate}
-                                onChange={(date) => {
-                                    secSetSelectedDate(date);
-                                    setShowSecDataPicker(false);
-                                }}
-                                locale="pl"
-                                inline
-                                className="border p-2 rounded"
-                            />
-                        }
-                    </div>
-                <button type="button" className="h-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Skopiuj z wybranego dnia</button>
-
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+            <div className="h-14 z-50">
+                <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
             </div>
-
-
+            <div className="lg:col-start-3 h-14 z-50">
+                <CustomDatePicker selectedDate={secSelectedDate} setSelectedDate={secSetSelectedDate} />
+            </div>
+            <button type="button" onClick={copyFromThisDate} className=" w-full h-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Skopiuj z wybranego dnia</button>
+            <button type="button" onClick={SaveChanges} className="h-full w-full focus:outline-none text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Zapisz wybrany dzień</button>
+        </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
@@ -101,42 +81,36 @@ const AdminProduction = () => {
                         Ilość na dzień
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Pozostała ilość w tym dniu
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-
+                        Zamówiona ilość
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                    <th scope="row" className="py-2 font-normal whitespace-nowrap">
-                        <div className="px-4">
-                        <div className="relative">
-                            <Select
-                                value={selectedOption}
-                                onChange={handleChange}
-                                options={options}
-                                styles={customDropdownStyles}
-                            />
-                        </div>
-                        </div>
-                    </th>
-                    <td className="px-6 py-4">
-                        <div className="relative">
-                            <input type="number" id="quantity"
-                                   className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
-                                   placeholder=" " required/>
-                            <label htmlFor="quantity"
-                                   className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#fda329] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Ilość danego produktu</label>
-                        </div>
-                    </td>
-                    <td className="px-6 py-4">
-                    </td>
-                    <td className="px-6 py-4">
-                        <button type="button" className=" focus:outline-none text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Zapisz</button>
-                    </td>
-                </tr>
+                {productsList &&
+                    productsList.map((product) => (
+                        <tr key={product.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                            <th scope="row" className="py-2 font-bold text-lg whitespace-nowrap">
+                                <div className="px-6">
+                                    {product.name}
+                                </div>
+                            </th>
+                            <td className="px-6 py-4">
+                                <BasicInput
+                                    id={`quantity-${product.productId}`}
+                                    type="number"
+                                    label="Podaj ilość"
+                                    value={product.quantity}
+                                    onChange={(e) => handleQuantityChange(product.productId, e.target.value)}
+                                />
+                            </td>
+                            <td className="px-6 py-4 text-lg font-bold">
+                                <div className="px-10">
+                                    {product.orderedQuantity}
+                                </div>
+                            </td>
+                        </tr>
+                    ))
+                }
                 </tbody>
             </table>
         </div>

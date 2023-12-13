@@ -1,18 +1,19 @@
 import React from 'react';
 import ImageCropModal from './ImageCropModal';
+import {FaTrashAlt} from "react-icons/fa";
 
-const ImageDropzone = ({ backgroundImage, handleFileChange, selectedFile, openModal, setOpenModal, setBackgroundImage }) => {
+const ImageDropzone = ({ backgroundImage, handleFileChange, handleInputClick, selectedFile, openModal, setOpenModal, setBackgroundImage , handleDeleteImage}) => {
     return (
         <div className="justify-center flex">
-            <div className="flex items-center justify-center w-[340px]">
+            <div className="relative w-[340px]">
                 <label
                     htmlFor="dropzone-file"
-                    className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
+                    className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 relative"
                     style={{
                         backgroundImage: `url(${backgroundImage})`,
                         backgroundSize: 'contain',
                         backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat'
+                        backgroundRepeat: 'no-repeat',
                     }}
                 >
                     {!backgroundImage && (
@@ -44,7 +45,16 @@ const ImageDropzone = ({ backgroundImage, handleFileChange, selectedFile, openMo
                         accept="image/*"
                         className="hidden"
                         onChange={handleFileChange}
+                        onClick={handleInputClick}
                     />
+                    {backgroundImage && (
+                        <button
+                            className="absolute right-2 bottom-2 rounded-full bg-white p-2 hover:bg-red-200"
+                            onClick={handleDeleteImage}
+                        >
+                            <FaTrashAlt className="text-red-500" />
+                        </button>
+                    )}
                 </label>
             </div>
             {openModal && <ImageCropModal image={selectedFile} onClose={() => setOpenModal(false)} onSave={setBackgroundImage} />}

@@ -11,7 +11,7 @@ import api from "../../utils/api";
 const EditUserModal = ({userId, onClose}) => {
     useCloseOnEsc(onClose);
 
-    const { register, handleSubmit} = useForm();
+    const { register, handleSubmit,setValue} = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState({
         firstName: "",
@@ -21,17 +21,19 @@ const EditUserModal = ({userId, onClose}) => {
     });
 
     useEffect(() => {
+        setValue('userId', userId);
         const fetchData = async () => {
             await api.fetchSingleUser(connectionUrlString, userId, setUserData, errorNotify);
         };
 
         fetchData();
-    }, [userId]);
+    }, [userId, setValue]);
 
 
     const onSubmit = async (data) => {
         setIsLoading(true);
-    }
+        await api.adminChangeUserData(connectionUrlString, data, setIsLoading, errorNotify);
+    };
 
     return (
         <div className="fixed inset-0 z-50">

@@ -3,22 +3,27 @@ import axios from "axios";
 import {connectionUrlString} from "../../utils/props";
 import OrdersHistoryModal from "../../components/admin/OrdersHistoryModal";
 import EditUserModal from "../../components/admin/EditUserModal";
-import {errorNotify} from "../../helpers/ToastNotifications";
+import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import SearchInput from "../../components/common/SearchInput";
+import {FaTrashAlt} from "react-icons/fa";
+import api from "../../utils/api";
+import useAuth from "../../hooks/useAuth";
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
-    const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [isHistoryModalOpen, setHistoryModalOpen] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState(null);
+    const [isModalClosed, setIsModalClosed] = useState(false);
+    const [editedUserId, setEditedUserId] = useState(null);
+    const { isAdmin } = useAuth();
 
     const handleOpenEditModal = (userId) => {
-        setSelectedUserId(userId);
-        setEditModalOpen(true);
+        setEditedUserId(userId);
+        setIsModalClosed(false);
     };
 
     const handleCloseEditModal = () => {
-        setEditModalOpen(false);
+        setEditedUserId(null);
+        setIsModalClosed(true);
     };
 
     const handleOpenHistoryModal = () => {
@@ -37,7 +42,15 @@ const AdminUsers = () => {
             .catch(error => {
                 errorNotify(error.response.data.error);
             });
-    }, []);
+    }, [isModalClosed]);
+
+    const handleDeleteUser = async (userId) => {
+        const confirmDelete = window.confirm("Czy na pewno chcesz usunąć tego użytkownika?");
+        if (confirmDelete) {
+            console.log(userId);
+            await api.deleteUser(connectionUrlString, userId, successNotify, errorNotify);
+        }
+    };
 
     return <>
         <SearchInput text="Wyszukaj użytkownika..."/>
@@ -62,6 +75,9 @@ const AdminUsers = () => {
                     </th>
                     <th scope="col" className="px-6 py-3">
                         Edytuj
+                    </th>
+                    <th scope="col" className="px-6 py-3 flex justify-center">
+                        Usuń
                     </th>
                 </tr>
                 </thead>
@@ -88,7 +104,19 @@ const AdminUsers = () => {
                         </td>
                         <td className="px-6 py-4">
                             <span onClick={() => handleOpenEditModal(user.userId)} className="font-medium text-yellow-400 no-underline hover:underline cursor-pointer">Edytuj</span>
-                            {isEditModalOpen && <EditUserModal userId={selectedUserId} onClose={handleCloseEditModal} />}
+                            {editedUserId === user.userId && (
+                                <EditUserModal userId={user.userId} onClose={handleCloseEditModal} />
+                            )}
+                        </td>
+                        <td className="px-6 py-4 flex justify-center">
+                            {!isAdmin ? (
+                                <button
+                                    className="rounded-full bg-white p-2 hover:bg-red-200 mr-1"
+                                    onClick={() => handleDeleteUser(user.userId)}
+                                >
+                                    <FaTrashAlt className="text-red-500" />
+                                </button>
+                            ): null }
                         </td>
                     </tr>
                 ))}
