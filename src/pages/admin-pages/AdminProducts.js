@@ -1,4 +1,4 @@
-import {addImage, connectionUrlString, notFoundImage} from "../../utils/props";
+import {addImage, notFoundImage} from "../../utils/props";
 import React, {useEffect, useState} from "react";
 import AddNewProductModal from "../../components/admin/AddNewProductModal";
 import EditProductModal from "../../components/admin/EditProductModal";
@@ -8,27 +8,49 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import SearchInput from "../../components/common/SearchInput";
 import api from "../../utils/api";
 import {FaTrashAlt} from "react-icons/fa";
+import CustomPagination from "../../components/common/CustomPagination";
 
 const AdminProducts = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [editedProductId, setEditedProductId] = useState(null);
+    const [paginationNumber, setPaginationNumber] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
+    const [searchTerm, setSearchTerm] = useState(null);
     const [options, setOptions] = useState([]);
     const [products, setProducts] = useState([]);
     const [isModalClosed, setIsModalClosed] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [deletedProductId, setDeletedProductId] = useState(null);
 
     useEffect(() => {
         const fetchCategories = async () => {
-            await api.fetchProductCategories(connectionUrlString, setOptions, errorNotify);
-        };
-
-        const fetchProducstList = async () => {
-            await api.fetchProductsList(connectionUrlString, setProducts, errorNotify);
+            await api.fetchProductCategories(setOptions, errorNotify);
         };
 
         fetchCategories();
-        fetchProducstList();
-    }, [isModalClosed]);
+
+
+        if (selectedOption !== null) {
+            const fetchProductsPaginationNumber = async () => {
+                await api.fetchProductsPaginationNumber(searchTerm, selectedOption.value, setPaginationNumber, errorNotify);
+            };
+            const fetchProductsList = async () => {
+                await api.fetchProductsList(currentPage - 1, selectedOption.value, searchTerm, setProducts, errorNotify);
+            };
+            fetchProductsPaginationNumber();
+            fetchProductsList();
+        } else {
+            const fetchProductsPaginationNumber = async () => {
+                await api.fetchProductsPaginationNumber(searchTerm,null, setPaginationNumber, errorNotify);
+            };
+            const fetchProductsList = async () => {
+                await api.fetchProductsList(currentPage - 1, null, searchTerm, setProducts, errorNotify);
+            };
+            fetchProductsPaginationNumber();
+            fetchProductsList();
+        }
+    }, [currentPage, isModalClosed, searchTerm, selectedOption, deletedProductId]);
+
 
     const handleChange = (option) => {
         setSelectedOption(option);
@@ -57,10 +79,18 @@ const AdminProducts = () => {
     const handleDeleteProduct = async (productId) => {
         const confirmDelete = window.confirm("Czy na pewno chcesz usunąć ten produkt?");
         if (confirmDelete) {
-            await api.deleteProduct(connectionUrlString, productId, successNotify, errorNotify);
+            await api.deleteProduct(productId, successNotify, errorNotify);
+            setDeletedProductId(productId);
         }
     };
 
+    const handlePageChange = async (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleSearchInputChange = (searchTerm) => {
+        setSearchTerm(searchTerm);
+    };
 
     return <>
         <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
@@ -73,11 +103,11 @@ const AdminProducts = () => {
                 />
             </div>
             <div className="pb-2 md:col-start-4 xl:col-start-3 md:col-span-3 xl:col-span-3">
-                <SearchInput text="Wyszukaj produkt..."/>
+                <SearchInput text="Wyszukaj produkt..." onChange={handleSearchInputChange} />
             </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 justify-center">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 justify-center mb-10">
             <div className="flex justify-center items-start py-4 px-2">
                 <div
                     className="w-full h-full max-w-sm bg-[#c4c2c2] border-4 border-[#c4c2c2] hover:border-yellow-300 rounded-lg shadow cursor-pointer">
@@ -115,7 +145,9 @@ const AdminProducts = () => {
                     </div>
                 </div>))}
         </div>
-
+        <div className="w-full flex justify-center relative bottom-0 py-4">
+            <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange} initialPage={currentPage}/>
+        </div>
     </>;
 };
 

@@ -15,6 +15,7 @@ export const useProductsData = () => {
         sugars: '',
         proteins: '',
         salt: '',
+        quantity: null,
     };
 
     const [productsData, setProductsData] = useState(initialProductsData);

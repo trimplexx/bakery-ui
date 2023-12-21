@@ -1,12 +1,19 @@
 import React from 'react';
 
-const BasicInput = ({ id, label, type, value, onChange }) => {
+const BasicInput = ({ id, label, type, value, onChange, maxLength }) => {
     const handleInputChange = (e) => {
-        const inputValue = e.target.value;
+        let inputValue = e.target.value;
+
+        // Limit the input value to the specified maxLength
+        if (maxLength && inputValue.length > maxLength) {
+            inputValue = inputValue.slice(0, maxLength);
+        }
+
         const filteredValue = inputValue.split('.')[0];
 
-        if(filteredValue < 0 )
+        if (filteredValue < 0) {
             return;
+        }
 
         onChange({ target: { value: filteredValue } });
     };
@@ -20,6 +27,7 @@ const BasicInput = ({ id, label, type, value, onChange }) => {
                 onChange={handleInputChange}
                 className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
                 placeholder=" "
+                maxLength={maxLength}
             />
             <label
                 htmlFor={id}

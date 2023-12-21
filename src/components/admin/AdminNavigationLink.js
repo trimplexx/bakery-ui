@@ -1,11 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
-const AdminNavLink = ({ to, text, icon }) => {
+const AdminNavLink = ({ to, text, icon: Icon }) => {
+    const location = useLocation();
+    const isActive = location.pathname === to;
+
     return (
         <li>
-            <NavLink to={to} className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                {React.createElement(icon)}
+            <NavLink
+                to={to}
+                className={`flex items-center text-lg p-2 rounded-lg hover:bg-gray-100 group ${isActive ? 'active bg-gray-100' : ''}`}
+            >
+                <Icon />
                 <span className="ml-3">{text}</span>
             </NavLink>
         </li>

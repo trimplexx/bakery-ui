@@ -5,13 +5,13 @@
 nav {
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
     font-family: 'Lucida Console', serif;
     background-color: #EBEBEB;
     color: white;
     position: sticky;
     top: 0;
     height: auto;
+    z-index: 30;
 }
 
 body {
@@ -22,11 +22,6 @@ body {
 
 .errorToast{
     margin-top: 130px;
-}
-
-.logo {
-    width: 135px;
-    height: 130px;
 }
 
 nav ul {
@@ -94,7 +89,7 @@ nav ul.icons-list li {
     height: 56px;
 }
 
-nav ul.icons-list li a, nav ul.icons-list li div {
+nav ul.icons-list li div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -147,8 +142,6 @@ nav ul.icons-list li div {
     nav .icons-open {
         flex-direction: row;
         display: flex;
-        align-items: center;
-
         justify-content: center;
     }
 
@@ -192,16 +185,4 @@ nav ul.icons-list li div {
         opacity: 0;
         transition: all 1s ease;
     }
-
-}
-
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-}
-
-.show-password-checkbox {
-    margin-right: 10px;
-    width: auto;
 }

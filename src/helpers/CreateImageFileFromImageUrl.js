@@ -9,7 +9,7 @@ const createImageFileFromImageUrl = async (imageUrl, name, errorNotify) => {
         return file;
     } catch (error) {
         errorNotify(error.message);
-        return null; // Return null or handle the error accordingly
+        return null;
     }
 };
 

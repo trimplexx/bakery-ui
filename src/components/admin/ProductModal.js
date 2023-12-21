@@ -3,7 +3,6 @@ import {AnimatedModal} from "../common/AnimatedModal";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 import Select from 'react-select';
 import {customDropdownStyles} from "../../styles/customDropdownStyles";
-import {connectionUrlString} from "../../utils/props";
 import {errorNotify} from "../../helpers/ToastNotifications";
 import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import SubmitButton from "../common/SubmitButton";
@@ -14,7 +13,7 @@ import api from "../../utils/api";
 import createImageFileFromImageUrl from "../../helpers/CreateImageFileFromImageUrl";
 import NutritionalTable from "./NutritionalTable";
 
-const ProductModal = ({onClose, onSubmit, productsData, isLoading, text}) => {
+const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoading, text}) => {
     useCloseOnEsc(onClose);
     const {register, handleSubmit} = useForm();
     const [openModal, setOpenModal] = useState(false);
@@ -28,6 +27,10 @@ const ProductModal = ({onClose, onSubmit, productsData, isLoading, text}) => {
         setBackgroundImage(null);
         setSelectedFile(null);
         setOpenModal(false);
+        setProductsData(prevState => ({
+            ...prevState,
+            image: null
+        }));
     };
 
     const submitForm = async (formData) => {
@@ -39,11 +42,21 @@ const ProductModal = ({onClose, onSubmit, productsData, isLoading, text}) => {
             } else {
                 formData.image = null;
             }
+            setProductsData(prevState => ({
+                ...prevState,
+                image: backgroundImage
+            }));
+            console.log(backgroundImage, ":Fota");
         }
         await onSubmit(formData);
     };
+
     const handleChange = (option) => {
         setSelectedOption(option);
+        setProductsData(prevState => ({
+            ...prevState,
+            category: option.value
+        }));
     };
 
     const handleFileChange = (event) => {
@@ -59,11 +72,11 @@ const ProductModal = ({onClose, onSubmit, productsData, isLoading, text}) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            await api.fetchProductCategories(connectionUrlString, setOptions, errorNotify);
+            await api.fetchProductCategories(setOptions, errorNotify);
         };
         fetchData();
 
-    }, [connectionUrlString, setOptions, errorNotify]);
+    }, [setOptions]);
 
     useEffect(() => {
         if (productsData && options.length > 0) {
@@ -75,6 +88,9 @@ const ProductModal = ({onClose, onSubmit, productsData, isLoading, text}) => {
         }
     }, [productsData, options, setBackgroundImage, setSelectedOption]);
 
+    const handleInputChange = (id, newValue) => {
+        setProductsData(prevData => ({ ...prevData, [id]: newValue }));
+    };
 
     return (<div className="fixed inset-0 z-50">
         <AnimatedModal onClose={onClose}>
@@ -90,17 +106,24 @@ const ProductModal = ({onClose, onSubmit, productsData, isLoading, text}) => {
                             selectedFile={selectedFile}
                             openModal={openModal}
                             setOpenModal={setOpenModal}
-                            setBackgroundImage={setBackgroundImage}
+                            setBackgroundImage={(imageData) => {
+                                setProductsData(prevState => ({
+                                    ...prevState,
+                                    image: imageData
+                                }));
+                                setBackgroundImage(imageData);
+                            }}
                             handleDeleteImage={handleDeleteImage}
                         />
+
                         <div className="mt-4">
-                            <FormInput register={register} id="name" label="Nazwa produktu" type="text"
-                                       defaultValue={productsData.name}/>
+                            <FormInput register={register} id="name" label="Nazwa produktu" type="text" maxLength="45"
+                                       value={productsData.name} onChange={(e) => handleInputChange('name', e.target.value)}/>
                         </div>
                         <div className="w-auto flex mt-4">
                             <div className="relative w-full">
-                                <FormInput register={register} id="price" label="Cena" type="text"
-                                           defaultValue={productsData.price}/>
+                                <FormInput register={register} id="price" label="Cena" type="text" maxLength="10"
+                                           value={productsData.price} onChange={(e) => handleInputChange('price', e.target.value)}/>
                             </div>
                             <span
                                 className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-e-lg">
@@ -108,8 +131,8 @@ const ProductModal = ({onClose, onSubmit, productsData, isLoading, text}) => {
                                 </span>
                         </div>
                         <div className="mt-4">
-                            <FormInput register={register} id="weight" label="Masa netto (G)" type="number"
-                                       defaultValue={productsData.weight}/>
+                            <FormInput register={register} id="weight" label="Masa netto (G)" type="number" maxLength="20"
+                                       value={productsData.weight} onChange={(e) => handleInputChange('weight', e.target.value)}/>
                         </div>
                         <div className="relative mt-4">
                             <Select
@@ -121,10 +144,12 @@ const ProductModal = ({onClose, onSubmit, productsData, isLoading, text}) => {
                             />
                         </div>
                     </div>
-                    <NutritionalTable register={register} productsData={productsData}/>
+                    <NutritionalTable register={register} productsData={productsData} setProductsData={setProductsData}/>
                     <div className="relative md:col-span-5">
                             <textarea id="description" {...register("description")}
-                                      defaultValue={productsData.description}
+                                      value={productsData.description}
+                                      maxLength="1000"
+                                      onChange={(e) => handleInputChange('description', e.target.value)}
                                       className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
                                       placeholder=" " required/>
                         <label htmlFor="description"

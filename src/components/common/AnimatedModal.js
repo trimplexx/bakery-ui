@@ -25,7 +25,7 @@ export const AnimatedModal = ({children, onClose}) => {
     }
 
     return (
-        <div className="modal">
+        <div className="modal z-50">
             <motion.div
                 variants={dropIn}
                 initial="hidden"

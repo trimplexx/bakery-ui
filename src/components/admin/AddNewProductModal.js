@@ -4,13 +4,12 @@ import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import ProductModal from "./ProductModal";
 import {useProductsData} from "../../hooks/useProductsData";
 import api from "../../utils/api";
-import {connectionUrlString} from "../../utils/props";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 
 const AddNewProductModal = ({onClose}) => {
     useCloseOnEsc(onClose);
     const [isLoading, setIsLoading] = useState(false);
-    const [productsData] = useProductsData();
+    const [productsData, setProductsData] = useProductsData();
 
     const onSubmit = async (data) => {
         setIsLoading(true);
@@ -23,7 +22,6 @@ const AddNewProductModal = ({onClose}) => {
         }
 
         await api.addProduct(
-            connectionUrlString,
             formData,
             successNotify,
             errorNotify,
@@ -33,7 +31,14 @@ const AddNewProductModal = ({onClose}) => {
     }
 
     return (
-        <ProductModal isLoading={isLoading} onClose={onClose} onSubmit={onSubmit} productsData={productsData} text="Dodaj produkt"/>
+        <ProductModal
+            isLoading={isLoading}
+            onClose={onClose}
+            onSubmit={onSubmit}
+            productsData={productsData}
+            setProductsData={setProductsData}
+            text="Dodaj produkt"
+        />
     )
 };
 

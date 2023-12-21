@@ -1,8 +1,12 @@
 import React from 'react';
 
-const SearchInput = ({ text }) => {
+const SearchInput = ({ text, onChange }) => {
+    const handleInputChange = (event) => {
+        onChange(event.target.value);
+    };
+
     return (
-        <form className="pb-4">
+        <>
             <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -14,18 +18,19 @@ const SearchInput = ({ text }) => {
                     type="search"
                     id="default-search"
                     name="defaultSearch"
+                    maxLength="45"
                     className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-yellow-400 focus:border-yellow-400"
                     placeholder={text}
+                    onChange={handleInputChange}
                     required
                 />
                 <button
-                    type="submit"
                     className="text-white absolute end-2.5 bottom-2.5 bg-yellow-400 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2"
                 >
                     Wyszukaj
                 </button>
             </div>
-        </form>
+        </>
     );
 };
 

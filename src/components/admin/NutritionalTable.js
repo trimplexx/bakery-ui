@@ -1,6 +1,13 @@
 import React from 'react';
 
-const NutritionalTable = ({ register, productsData }) => {
+const NutritionalTable = ({ register, productsData, setProductsData }) => {
+
+    const handleInputChange = (id, newValue) => {
+        const inputValue = newValue.slice(0, 10);
+        setProductsData(prevData => ({ ...prevData, [id]: inputValue }));
+    };
+
+
     return (
         <div className="md:col-span-3">
             <div className="relative overflow-x-auto">
@@ -22,9 +29,13 @@ const NutritionalTable = ({ register, productsData }) => {
                         </th>
                         <td className="px-6 py-1">
                             <div className="grid grid-cols-3 items-center w-auto">
-                                <input {...register("kj")} defaultValue={productsData.kj} type="number" id="kj" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="kJ" required/>
+                                <input {...register("kj")} value={productsData.kj}
+                                       onChange={(e) => handleInputChange('kj', e.target.value)}
+                                       type="number" id="kj" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="kJ" required/>
                                 <div className="text-center mx-0">/</div>
-                                <input {...register("kcal")} defaultValue={productsData.kcal} type="number" id="kcal" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="Kcal" required/>
+                                <input {...register("kcal")} value={productsData.kcal}
+                                       onChange={(e) => handleInputChange('kcal', e.target.value)}
+                                       type="number" id="kcal" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="Kcal" required/>
                             </div>
                         </td>
                     </tr>
@@ -33,7 +44,9 @@ const NutritionalTable = ({ register, productsData }) => {
                             Tłuszcz (G)
                         </th>
                         <td className="px-6 py-1">
-                            <input {...register("fat")} defaultValue={productsData.fat} type="number" id="fat" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcz" required/>
+                            <input {...register("fat")} value={productsData.fat}
+                                   onChange={(e) => handleInputChange('fat', e.target.value)}
+                                   type="number" id="fat" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcz" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -41,7 +54,9 @@ const NutritionalTable = ({ register, productsData }) => {
                             Kwasy tłuszczowe nasycone (G)
                         </th>
                         <td className="px-6 py-1">
-                            <input {...register("saturatedFat")} defaultValue={productsData.saturatedFat} type="number" id="saturatedFat" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcze nasycone" required/>
+                            <input {...register("saturatedFat")} value={productsData.saturatedFat}
+                                   onChange={(e) => handleInputChange('saturatedFat', e.target.value)}
+                                   type="number" id="saturatedFat" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcze nasycone" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -49,7 +64,9 @@ const NutritionalTable = ({ register, productsData }) => {
                             Węglowodany (G)
                         </th>
                         <td className="px-6 py-1">
-                            <input {...register("carbohydrates")} defaultValue={productsData.carbohydrates} type="number" id="carbohydrates" step="0.01" name="carbohydrates" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="węglowodany" required/>
+                            <input {...register("carbohydrates")} value={productsData.carbohydrates}
+                                   onChange={(e) => handleInputChange('carbohydrates', e.target.value)}
+                                   type="number" id="carbohydrates" step="0.01" name="carbohydrates" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="węglowodany" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -57,7 +74,9 @@ const NutritionalTable = ({ register, productsData }) => {
                             Cukry (G)
                         </th>
                         <td className="px-6 py-1">
-                            <input {...register("sugars")} defaultValue={productsData.sugars} type="number" id="sugars" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="cukry" required/>
+                            <input {...register("sugars")} value={productsData.sugars}
+                                   onChange={(e) => handleInputChange('sugars', e.target.value)}
+                                   type="number" id="sugars" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="cukry" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -65,7 +84,9 @@ const NutritionalTable = ({ register, productsData }) => {
                             Białka (G)
                         </th>
                         <td className="px-6 py-1">
-                            <input {...register("proteins")} defaultValue={productsData.proteins} type="number" id="proteins" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="białko" required/>
+                            <input {...register("proteins")} value={productsData.proteins}
+                                   onChange={(e) => handleInputChange('proteins', e.target.value)}
+                                   type="number" id="proteins" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="białko" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -73,7 +94,9 @@ const NutritionalTable = ({ register, productsData }) => {
                             Sól (G)
                         </th>
                         <td className="px-6 py-1">
-                            <input {...register("salt")} defaultValue={productsData.salt} type="number" id="salt" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="sól" required/>
+                            <input {...register("salt")} value={productsData.salt}
+                                   onChange={(e) => handleInputChange('salt', e.target.value)}
+                                   type="number" id="salt" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="sól" required/>
                         </td>
                     </tr>
                     </tbody>

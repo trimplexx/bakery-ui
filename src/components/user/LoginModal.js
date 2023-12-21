@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import "../../styles/modal.css"
-import {connectionUrlString} from "../../utils/props";
 import {AnimatedModal} from "../common/AnimatedModal";
 import {errorNotify} from "../../helpers/ToastNotifications";
 import SubmitButton from "../common/SubmitButton";
@@ -15,6 +14,10 @@ const LoginModal = ({onClose, onRegisterClick}) => {
     const { register, handleSubmit} = useForm();
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -22,7 +25,14 @@ const LoginModal = ({onClose, onRegisterClick}) => {
 
     const onSubmit = async (data) => {
         setIsLoading(true);
-        await api.login(connectionUrlString, data, setIsLoading, errorNotify);
+        await api.login(data, setIsLoading, errorNotify);
+    };
+
+    const handleInputChange = (field, value) => {
+        setFormData(prevData => ({
+            ...prevData,
+            [field]: value
+        }));
     };
 
     return (
@@ -30,8 +40,11 @@ const LoginModal = ({onClose, onRegisterClick}) => {
         <form className="bg-white p-7 rounded-lg w-600 shadow-md w-[400px]" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="mb-8 text-4xl text-center max-w-lg font-semibold leading-loose text-[#fda329] ">Logowanie</h1>
             <div className="grid gap-6 mb-2">
-                <FormInput register={register} id="email" label="Email" type="email" />
-                <FormInput register={register} id="password" label="Hasło" type={showPassword ? "text" : "password"} />
+                <FormInput register={register} id="email" label="Email" type="email" maxLength="50" onChange={(e) => handleInputChange('email', e.target.value)}
+                />
+                <FormInput register={register} id="password" label="Hasło" type={showPassword ? "text" : "password"} maxLength="20"
+                           onChange={(e) => handleInputChange('password', e.target.value)}
+                />
                 <div className="grid items-center mb-4 grid-cols-2 ">
                     <div>
                         <input type="checkbox" id="show-password" onClick={toggleShowPassword} value="" className=" cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]"/>

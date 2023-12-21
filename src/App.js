@@ -4,7 +4,6 @@ import HomePage from "./pages/user-pages/HomePage";
 import AboutPage from "./pages/user-pages/AboutPage";
 import ContactPage from "./pages/user-pages/ContactPage";
 import ProductsPage from "./pages/user-pages/ProductsPage";
-import ShoppingCardPage from './pages/user-pages/ShoppingCardPage';
 import NoPage from "./pages/user-pages/NoPage";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,6 +16,8 @@ import useAuth from "./hooks/useAuth";
 import AdminUsers from "./pages/admin-pages/AdminUsers";
 import AdminProduction from "./pages/admin-pages/AdminProduction";
 import AdminMakeOrder from "./pages/admin-pages/AdminMakeOrder";
+import SingleProductPage from "./pages/user-pages/SingleProductPage";
+import OrderSumaryPage from "./pages/user-pages/OrderSumaryPage";
 
 function App() {
     const { isAdmin } = useAuth();
@@ -24,9 +25,8 @@ function App() {
     const AdminPage = () => {
         return (
             <>
-                <AdminMavMenu/>
-                <div className="p-4 sm:ml-64">
-                    <div className="sm:p-4 border-2 border-gray-200 border-dashed rounded-lg">
+                <AdminMavMenu />
+                <div className="p-4 sm:ml-64 max-h-screen sm:h-auto">
                         <Routes>
                             <Route path="home" element={<AdminHome/>}/>
                             <Route path="produkty" element={<AdminProducts/>}/>
@@ -36,7 +36,6 @@ function App() {
                             <Route path="produkcja" element={<AdminProduction/>}/>
                             <Route path="*" element={<Navigate to="/*" />} ></Route>
                         </Routes>
-                    </div>
                 </div>
             </>
         );
@@ -51,7 +50,8 @@ function App() {
                         <Route path="about" element={<AboutPage/>}/>
                         <Route path="contact" element={<ContactPage/>}/>
                         <Route path="products" element={<ProductsPage/>}/>
-                        <Route path="shoppingCard" element={<ShoppingCardPage/>}/>
+                        <Route path="product/:productId" element={<SingleProductPage />} />
+                        <Route path="podsumowanie" element={<OrderSumaryPage />} />
                     </Route>
                     {isAdmin && (<Route path="admin/*" element={<AdminPage/>}/>)}
                     <Route path="*" element={<NoPage/>}/>

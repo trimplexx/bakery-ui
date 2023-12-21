@@ -8,11 +8,15 @@ import RegistrationModal from './RegistrationModal';
 import {motion} from 'framer-motion';
 import useAuth from "../../hooks/useAuth";
 import useToastStorage from "../../hooks/useToastStorage";
+import ShoppingCard from "./ShoppingCard";
+import UserModal from "./UserModal";
 
 export const UserNavMenu = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(null);
-    const { isAdmin, isLoggedIn } = useAuth();
+    const {isAdmin, isLoggedIn} = useAuth();
+    const [userModalOpen, setUserModalOpen] = useState(false);
     useToastStorage();
 
     const handleRegisterClick = () => {
@@ -20,8 +24,17 @@ export const UserNavMenu = () => {
     };
 
     const handleLoginClick = () => {
-        setModalOpen('login');
+        if (isLoggedIn) {
+            setUserModalOpen(true);
+        } else {
+            setModalOpen('login');
+        }
     };
+
+    const handleCartIconClick = () => {
+        setSidebarOpen(true);
+    };
+
 
     const toggleVariants = {
         open: {rotate: 180, transition: {duration: 0.9}}, closed: {rotate: 0, transition: {duration: 0.9}}
@@ -34,12 +47,16 @@ export const UserNavMenu = () => {
     return (<>
         <nav id="navbar"><Link to="/">
             <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><img src={bakeryLogo} alt="a"
-                                                                                       className="logo"/>
+                                                                                       className="w-36 h-36"/>
             </motion.div>
         </Link>
             <motion.div className="toggle_btn" onClick={() => setMenuOpen(!menuOpen)} variants={toggleVariants}
                         animate={menuOpen ? "open" : "closed"}> {menuOpen ? <FaTimes/> : <FaBars/>} </motion.div>
             <ul className={`menu ${menuOpen ? 'open' : ''}`}>
+                <li>
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink
+                        to="/products">Produkty</NavLink></motion.div>
+                </li>
                 <li>
                     <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink to="/about">O
                         nas</NavLink></motion.div>
@@ -47,10 +64,6 @@ export const UserNavMenu = () => {
                 <li>
                     <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink
                         to="/contact">Kontakt</NavLink></motion.div>
-                </li>
-                <li>
-                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink
-                        to="/products">Produkty</NavLink></motion.div>
                 </li>
             </ul>
             <ul className={`icons-list ${menuOpen ? 'icons-open' : ''}`}>
@@ -61,22 +74,28 @@ export const UserNavMenu = () => {
                     </motion.div>
                 </li>
                 <li>
-                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink
-                        to="/ShoppingCardPage" className={`icon ${menuOpen ? 'icon-open' : ''}`}> <FaShoppingCart/>
-                    </NavLink></motion.div>
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap">
+                        <div onClick={handleCartIconClick} className={`icon ${menuOpen ? 'icon-open' : ''}`}>
+                            <FaShoppingCart />
+                        </div>
+                    </motion.div>
                 </li>
+
                 {isAdmin && (<li className="admin-icon">
-                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><a href="/admin/home" className={`icon ${menuOpen ? 'icon-open' : ''}`}>
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><a href="/admin/home"
+                                                                                             className={`icon ${menuOpen ? 'icon-open' : ''}`}>
                         <FaToolbox/> </a></motion.div>
                 </li>)}
             </ul>
         </nav>
-
+        <ShoppingCard isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         {!isLoggedIn && modalOpen === 'login' &&
             <LoginModal isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={handleRegisterClick}/>}
         {!isLoggedIn && modalOpen === 'register' &&
             <RegistrationModal isOpen={true} onClose={() => setModalOpen(null)} onLoginClick={handleLoginClick}/>}
-
+        {isLoggedIn && userModalOpen && (
+            <UserModal isOpen={true} onClose={() => setUserModalOpen(false)} />
+        )}
         <Outlet/>
     </>);
 };

@@ -1,67 +1,83 @@
-import React, { useState, useRef, useEffect } from 'react';
-import DatePicker, { registerLocale } from 'react-datepicker';
+import React, {useState, useEffect} from 'react';
+import {registerLocale} from 'react-datepicker';
 import pl from 'date-fns/locale/pl';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'tailwindcss/tailwind.css';
+import CustomDatePicker from "../../components/common/CustomDataPicker";
+import api from "../../utils/api";
+import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
+import CustomPagination from "../../components/common/CustomPagination";
 import SearchInput from "../../components/common/SearchInput";
 
 registerLocale('pl', pl);
 
 const AdminOrders = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const wrapperRef = useRef(null);
+    const [orders, setOrders] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [paginationNumber, setPaginationNumber] = useState(null);
+    const [searchTerm, setSearchTerm] = useState(null);
 
-    const handleClickOutside = (event) => {
-        if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-            setShowDatePicker(false);
+    useEffect(() => {
+        let isoDate = selectedDate.toISOString();
+        let dateOnly = isoDate.slice(0, 10);
+
+        const fetchOrdersPaginationNumber = async () => {
+            await api.fetchOrdersPaginationNumber(dateOnly, setPaginationNumber, errorNotify);
+        };
+
+        const fetchOrdersList = async () => {
+            await api.fetchOrdersList(currentPage - 1, dateOnly, searchTerm, setOrders, errorNotify);
+        };
+
+        fetchOrdersPaginationNumber();
+        fetchOrdersList();
+    }, [currentPage, searchTerm, selectedDate]);
+
+    const handleCheckboxChange = async (orderId, newStatus) => {
+        const confirmed = window.confirm("Czy na pewno chcesz oznaczyć to zamówienie jako zrealizowane?");
+
+        if (confirmed) {
+                await api.changeOrderStatus(orderId, errorNotify, successNotify);
+
+                const updatedOrders = orders.map(order => {
+                    if (order.orderId === orderId) {
+                        return {
+                            ...order,
+                            status: newStatus
+                        };
+                    }
+                    return order;
+                });
+                setOrders(updatedOrders);
         }
     };
 
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+    const handlePageChange = async (page) => {
+        setCurrentPage(page);
+        let isoDate = selectedDate.toISOString();
+        let dateOnly = isoDate.slice(0, 10);
+        await api.fetchOrdersList(page - 1, dateOnly, setOrders, errorNotify);
+    };
+
+    const handleSearchInputChange = (searchTerm) => {
+        setSearchTerm(searchTerm);
+    };
 
     return (
         <>
-        <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-            <div ref={wrapperRef} className="sm:col-span-1 h-14 z-50">
-                <div className="relative h-full">
-                    <input type="text" id="date"
-                           className="block px-2.5 pb-2.5 pt-4 w-full h-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
-                           readOnly
-                           value={selectedDate.toLocaleDateString('pl-PL')}
-                           onClick={() => setShowDatePicker(!showDatePicker)}/>
-                    <label htmlFor="date"
-                           className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#fda329] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Data</label>
+            <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
+                <div className="h-14 z-40 md:col-span-2 xl:col-span-1">
+                    <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white" minDate={null}/>
                 </div>
-                {showDatePicker &&
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => {
-                            setSelectedDate(date);
-                            setShowDatePicker(false);
-                        }}
-                        locale="pl"
-                        inline
-                        className="border p-2 rounded"
-                    />
-                }
+                <div className="pb-2 md:col-start-4 xl:col-start-3 md:col-span-3 xl:col-span-3">
+                    <SearchInput text="Wyszukaj numer telefonu..." onChange={handleSearchInputChange} />
+                </div>
             </div>
-            <div className="sm:col-start-3 sm:col-span-3 h-14">
-                <SearchInput text="Wyszukaj numer telefonu..."/>
-            </div>
-        </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                    <tr >
-                        <th scope="col" className="px-6 py-3">
-                            Imię nazwisko
-                        </th>
+                    <tr>
                         <th scope="col" className="px-6 py-3">
                             Numer telefonu
                         </th>
@@ -72,33 +88,45 @@ const AdminOrders = () => {
                             Suma
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Zrealizowane
+                            <div className="flex justify-center">Zrealizowane
+                            </div>
+
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Łukasz Krawczyk
-                        </th>
-                        <td className="px-6 py-4">
-                            734410872
-                        </td>
-                        <td className="px-6 py-4">
-                            Chlep, Chlep, Chlep, Chlep,Chlep, Chlep,Chlep, Chlep,Chlep, Chlep,ChlepChlep, Chlep, Chlep, Chlep, , Chlep,Chlep, Chlep,Chlep, Chlep,Chlep, Chlep,Chlep, Chlep,Chlep, Chlep,Chlep, Chlep,
-                        </td>
-                        <td className="px-6 py-4">
-                            102 zł
-                        </td>
-                        <td className="px-6 py-4 ">
-                            <div className="justify-center flex">
-                                <input type="checkbox" id="complete" className=" cursor-pointer w-6 h-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-600"/>
-                            </div>
-                        </td>
-
-                    </tr>
+                    {orders.map((order, index) => (
+                        <tr key={index}
+                            className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                            <th className="px-6 py-4">{order.phone || 'Brak numeru'}</th>
+                            <td className="px-6 py-4">
+                                {order.orderedProducts.map((product, idx) => (
+                                    <span key={idx}>
+                    {product.productName} x{product.productQuantity}
+                                        {idx !== order.orderedProducts.length - 1 && ', '}
+                </span>
+                                ))}
+                            </td>
+                            <td className="px-6 py-4">{order.orderTotal} zł</td>
+                            <td className="px-6 py-4">
+                                <div className="justify-center flex">
+                                    <input
+                                        type="checkbox"
+                                        id={`complete_${index}`}
+                                        className="cursor-pointer w-6 h-6 disabled:bg-green-600 disabled:cursor-not-allowed text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-600"
+                                        checked={order.status === 2}
+                                        onChange={() => handleCheckboxChange(order.orderId, order.status === 2 ? 1 : 2)}
+                                        disabled={order.status === 2}
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
+            </div>
+            <div className="w-full flex justify-center relative bottom-0 py-4">
+                <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange} initialPage={currentPage}/>
             </div>
         </>
     );

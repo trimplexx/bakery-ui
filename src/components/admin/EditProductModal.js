@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 
 import ProductModal from "./ProductModal";
 import api from "../../utils/api";
-import {connectionUrlString} from "../../utils/props";
-import {errorNotify} from "../../helpers/ToastNotifications";
+import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import {useProductsData} from "../../hooks/useProductsData";
+import createImageFileFromImageUrl from "../../helpers/CreateImageFileFromImageUrl";
 
 const EditProductModal = ({onClose, productId}) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -13,13 +13,36 @@ const EditProductModal = ({onClose, productId}) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            await api.fetchSingleProduct(connectionUrlString, productId, setProductData, errorNotify);
+            await api.fetchSingleProduct(productId, setProductData, errorNotify);
         };
         fetchData();
     }, [productId, setProductData]);
 
-    const onSubmit = async (event) => {
-        event.preventDefault();
+    const onSubmit = async () => {
+        setIsLoading(true);
+
+        const imageFile = await createImageFileFromImageUrl(productsData.image, productsData.name, errorNotify);
+        const formData = new FormData();
+
+        for (const key in productsData) {
+            if (Object.prototype.hasOwnProperty.call(productsData, key)) {
+                if (key === 'image') {
+                    // Append the transformed image file
+                    formData.append('image', imageFile);
+                } else {
+                    formData.append(key, productsData[key]);
+                }
+            }
+        }
+
+        await api.editProduct(
+            formData,
+            productId,
+            successNotify,
+            errorNotify,
+            onClose,
+            setIsLoading
+        );
     }
 
     return (<>
@@ -28,6 +51,7 @@ const EditProductModal = ({onClose, productId}) => {
                 onClose={onClose}
                 onSubmit={onSubmit}
                 productsData={productsData}
+                setProductsData={setProductData}
                 text="Edytuj produkt"
             />
         </>);

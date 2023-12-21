@@ -42,7 +42,7 @@ export const AdminMavMenu = () => {
                 <ul className="space-y-2 font-medium mt-auto">
                     <li>
                         <Link to="/"
-                              className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                              className="flex items-center p-2 text-gray-900 text-lg rounded-lg hover:bg-gray-100 group">
                             <ImExit/>
                             <span className="ml-3">Wyjście</span>
                         </Link>

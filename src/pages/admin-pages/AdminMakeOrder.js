@@ -5,20 +5,23 @@ import {FaPlus, FaTrashAlt} from "react-icons/fa";
 import Select from "react-select";
 import {customDropdownStyles} from "../../styles/customDropdownStyles";
 import api from "../../utils/api";
-import {connectionUrlString} from "../../utils/props";
-import {errorNotify} from "../../helpers/ToastNotifications";
+import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
+import OrderConfirmModal from "../../components/admin/OrderConfirmModal";
 
 const AdminMakeOrder = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedQuantity, setSelectedQuantity] = useState();
     const [maxProductQuantity, setMaxProductQuantity] = useState();
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [selectedOption, setSelectedOption] = useState(null);
     const [options, setOptions] = useState([]);
     const [productsList, setProductsList] = useState([]);
+    const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+
 
     useEffect(() => {
         const fetchProductsToSelect = async () => {
-            await api.fetchProductsToSelect(connectionUrlString, setOptions, errorNotify);
+            await api.fetchProductsToSelect(setOptions, errorNotify);
         };
         fetchProductsToSelect();
         getLocalStorageItems();
@@ -31,6 +34,8 @@ const AdminMakeOrder = () => {
             const productList = JSON.parse(existingList);
             setProductsList(productList);
         }
+        else
+            setProductsList([]);
     }
 
     const handleAddQuantityChange = (newQuantity) => {
@@ -43,29 +48,36 @@ const AdminMakeOrder = () => {
     };
 
     const handleEditQuantityChange = (index, newValue) => {
+        const updatedProductList = [...productsList];
+        const productToUpdate = updatedProductList[index];
+        const maxQuantity = parseInt(productToUpdate.maxQuantity);
+
+        if (parseInt(newValue) > maxQuantity) {
+            newValue = maxQuantity.toString();
+        }
+
         if (newValue !== "0") {
-            const updatedProductList = [...productsList];
-            const productToUpdate = updatedProductList[index];
             productToUpdate.quantity = newValue;
             setProductsList(updatedProductList);
             localStorage.setItem('productList', JSON.stringify(updatedProductList));
         }
     };
 
+
     const addToLocalStorage = () => {
         if (selectedOption !== null && selectedQuantity !== undefined && selectedQuantity !== '' && selectedQuantity !== "0") {
-            const productName = selectedOption ? selectedOption.label : '';
+            const name = selectedOption ? selectedOption.label : '';
             const quantity = selectedQuantity || 0;
             const maxQuantity = maxProductQuantity || 0;
             const existingList = localStorage.getItem('productList');
             let productList = existingList ? JSON.parse(existingList) : [];
 
             // Sprawdź, czy produkt o podanej nazwie już istnieje w liście
-            const existingProduct = productList.find(product => product.productName === productName);
+            const existingProduct = productList.find(product => product.productName === name);
 
             if (!existingProduct) {
                 // Dodaj tylko jeśli produkt o podanej nazwie nie istnieje w liście
-                productList.push({productName, quantity, maxQuantity});
+                productList.push({name, quantity, maxQuantity});
                 localStorage.setItem('productList', JSON.stringify(productList));
             } else errorNotify("Podany produkt już został wybrany!");
         }
@@ -78,14 +90,23 @@ const AdminMakeOrder = () => {
         var isoDate = selectedDate.toISOString();
         var dateOnly = isoDate.slice(0, 10);
         const fetchMaxSelectedProductQuantity = async () => {
-            await api.fetchMaximumProductQuantity(connectionUrlString, dateOnly, option.value, setMaxProductQuantity, errorNotify);
+            await api.fetchMaximumProductQuantity(dateOnly, option.value, setMaxProductQuantity, errorNotify);
         };
         fetchMaxSelectedProductQuantity();
+        console.log(maxProductQuantity)
         if (maxProductQuantity !== null) {
             if (selectedQuantity > maxProductQuantity) {
                 setSelectedQuantity(maxProductQuantity);
             }
         }
+        if(maxProductQuantity === undefined) {
+            setMaxProductQuantity(0);
+        }
+        else if(maxProductQuantity === 0 )
+        {
+            errorNotify("Dostępna ilość produktu " + option.label + " w podanym dniu wynosi 0")
+        }
+        setSelectedQuantity("0");
     };
 
     const handleDeleteFromList = (index) => {
@@ -95,10 +116,34 @@ const AdminMakeOrder = () => {
         localStorage.setItem('productList', JSON.stringify(updatedProductList));
     };
 
+    const handleMakeOrderAsRealized = async () => {
+        let isoDate = selectedDate.toISOString();
+        let dateOnly = isoDate.slice(0, 10);
+        await api.makeOrder(productsList, dateOnly,2,null, successNotify, errorNotify);
+        getLocalStorageItems();
+    };
+
+    const handleMakeOrder = () => {
+        setIsConfirmModalVisible(true);
+    };
+
+    const handleConfirm = async () => {
+        let isoDate = selectedDate.toISOString();
+        let dateOnly = isoDate.slice(0, 10);
+        await api.makeOrder(productsList, dateOnly, 1, phoneNumber, successNotify, errorNotify);
+        setIsConfirmModalVisible(false);
+        getLocalStorageItems();
+    };
+
+    const handleCancel = () => {
+        setIsConfirmModalVisible(false);
+    };
+
+
     return (<>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 <div className="h-14 z-50">
-                    <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
+                    <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white" minDate={new Date()}/>
                 </div>
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
@@ -153,7 +198,7 @@ const AdminMakeOrder = () => {
                         >
                             <th scope="row" className="py-2 font-bold text-lg whitespace-nowrap">
                                 <div className="px-6">
-                                    {product.productName}
+                                    {product.name}
                                 </div>
                             </th>
                             <td className="px-6 py-4">
@@ -179,11 +224,21 @@ const AdminMakeOrder = () => {
             </div>
             <div className="flex justify-end py-4">
                 <button type="button"
-                        className="focus:outline-none text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                        onClick={handleMakeOrder}
+                        className="focus:outline-none text-white bg-green-600 hover:bg-green-600 focus:ring-4 focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
                     Zamów
                 </button>
+                <OrderConfirmModal
+                    visible={isConfirmModalVisible}
+                    message="Czy na pewno chcesz zrealizować zamówienie?"
+                    onConfirm={handleConfirm}
+                    onCancel={handleCancel}
+                    phoneNumber={phoneNumber}
+                    setPhoneNumber={setPhoneNumber}
+                />
                 <button type="button"
-                        className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                        onClick={handleMakeOrderAsRealized}
+                        className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-400 focus:ring-4 focus:ring-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
                     Zamów jako zrelizowane
                 </button>
             </div>
