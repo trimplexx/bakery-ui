@@ -8,12 +8,13 @@ import AnimatedSearchInput from "../../components/common/AnimatedSearchInput";
 import {notFoundImage} from "../../utils/props";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import {FcCancel} from "react-icons/fc";
-import {errorNotify} from "../../helpers/ToastNotifications";
+import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import apiUser from "../../utils/apiUser";
 import CustomPagination from "../../components/common/CustomPagination";
 import api from "../../utils/api";
 import { motion } from "framer-motion";
-import {Link, NavLink, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {Fade} from "react-reveal";
 
 const ProductsPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -26,6 +27,7 @@ const ProductsPage = () => {
     const categoryButtonColor = isCategoryOpen ? "text-green-400" : "";
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
+    const [maxProductQuantity, setMaxProductQuantity] = useState();
     const categoriesMap = {
         'Chleby': 1,
         'Bułki': 2,
@@ -79,12 +81,44 @@ const ProductsPage = () => {
         setSearchTerm(newValue);
     };
 
+    const handleAddToCart = async (event, productId, name) => {
+        event.preventDefault();
+        const quantity = 1;
+        const isoDate = selectedDate.toISOString();
+        const dateOnly = isoDate.slice(0, 10);
+        const cartKey = `${dateOnly}`;
+
+        await api.fetchMaximumProductQuantity(dateOnly, productId, (data) => {
+            if (data >= 1) {
+                let cartItems = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+                const existingProductIndex = cartItems.findIndex(item => item.name === name);
+
+                if (existingProductIndex === -1) {
+                    cartItems.push({
+                        name: name,
+                        quantity: quantity,
+                    });
+                    successNotify("Dodano do koszyka.")
+                }
+                else
+                {
+                    errorNotify("Produkt znajduje się już w koszyku!")
+                }
+                localStorage.setItem(cartKey, JSON.stringify(cartItems));
+            }
+        }, errorNotify);
+    };
+
+
+
+
 
     return (
         <div className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-10 px-10 xl:px-24 2xl:px-64 justify-center flex">
             <div className="border-2 h-full rounded shadow-lg bg-[#EBEBEB] max-w-7xl">
                 <div className="w-auto p-4 grid grid-cols-1 md:grid-cols-8">
-                    <div className="h-12 z-20 my-2">
+                    <div className="h-12 z-20 my-2 md:col-span-2">
                         <CustomDatePicker
                             minDate={new Date()}
                             selectedDate={selectedDate}
@@ -93,7 +127,7 @@ const ProductsPage = () => {
                             text="Data zamówienia"
                         />
                     </div>
-                    <div className="h-12 justify-end flex items-center md:col-span-7 pr-4 relative my-2">
+                    <div className="h-12 justify-end flex items-center md:col-span-6 pr-4 relative my-2">
                         {isSearchOpen ? (
                             <AnimatedSearchInput isSearchOpen={isSearchOpen} searchTerm={searchTerm} onInputChange={handleInputChange} />
                         ) : null}
@@ -110,9 +144,10 @@ const ProductsPage = () => {
                                             color={categoryButtonColor}/>
                     </div>
                 </div>
-                <div className="grid lg:grid-cols-2 gap-12 gap-x-14 px-14 py-10">
+                <div className="grid lg:grid-cols-2 gap-12 gap-x-14 sm:px-14 py-10">
                     {products.map((product, index) => (
-                        <Link key={index} to={`/product/${product.productId}`}>
+                        <Fade bottom>
+                        <Link key={index} to={`/produkt/${product.productId}`}>
                             <motion.div
                                 className="lg:col-span-1 bg-white shadow-md rounded-lg overflow-hidden grid grid-cols-2 cursor-pointer"
                                 whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
@@ -132,19 +167,24 @@ const ProductsPage = () => {
                             </div>
                             <div className="p-4 flex flex-col justify-between bg-yellow-orange-200">
                                 <div className="justify-between grid grid-cols-2">
-                                    <h2 className="text-gray-600 text-2xl font-semibold">{product.name}</h2>
+                                    <h2 className="text-gray-600 text-xl font-semibold">{product.name}</h2>
                                     <div className="flex items-center justify-end">
-                                        <p className="text-gray-600 text-xl font-semibold">{product.price} zł/szt</p>
+                                        <p className="text-gray-600 text-lg font-semibold">{product.price} zł/szt</p>
                                     </div>
                                 </div>
                                 <div className="bottom-4 right-4">
                                     <div className="justify-end flex">
-                                        <AnimatedIconButton Icon={FaShoppingCart} color="text-gray-600 hover:text-green-500 text-3xl"/>
+                                        <AnimatedIconButton
+                                            Icon={FaShoppingCart}
+                                            handleIconClick={(event) => handleAddToCart(event, product.productId, product.name)}
+                                            color="text-gray-600 hover:text-green-500 text-3xl"
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </motion.div>
                         </Link>
+                        </Fade>
                     ))}
                 </div>
                 <div className="w-full flex justify-center relative bottom-0 py-4">

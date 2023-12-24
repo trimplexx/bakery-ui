@@ -1,312 +1,155 @@
+import React, {useEffect, useRef, useState} from 'react';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import {homePage1, homePage2, homePage3} from '../../utils/props';
+import Slider from 'react-slick';
+import { Fade } from 'react-reveal';
+import useAuth from "../../hooks/useAuth";
+import LoginModal from "../../components/user/LoginModal";
+import RegistrationModal from "../../components/user/RegistrationModal";
+
 const HomePage = () => {
-    return <div>Oto dokładny opis widoku strony głównej piekarni, który możesz rozważyć w swoim projekcie. Ten opis zakłada, że strona główna będzie dostępna zarówno dla użytkowników, którzy nie są zalogowani, jak i dla zalogowanych użytkowników:
+    const sliderRef = useRef(null);
+    const [userModalOpen, setUserModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(null);
+    const {isLoggedIn} = useAuth();
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
 
-    Strona Główna Piekarni - Opis Widoku
-    
-    Nagłówek Strony:
-    
-    Logo piekarni.
-    Menu nawigacyjne, które zawiera linki do różnych sekcji strony, takich jak "Produkty", "O nas", "Kontakt", "Koszyk" (jeśli użytkownik jest zalogowany) oraz opcję "Zaloguj się" lub "Wyloguj się" w zależności od stanu zalogowania.
-    Banner Promocyjny:
-    
-    Duży obszar z treścią promocyjną, np. ofertą specjalną, nowościami, lub zdjęciem produktu.
-    Przycisk "Dowiedz się więcej" lub "Zobacz ofertę", który kieruje użytkownika do odpowiedniej sekcji strony.
-    Przegląd Produktów:
-    
-    Lista produktów piekarni, które są dostępne do zakupu.
-    Każdy produkt powinien zawierać miniaturę zdjęcia, nazwę, cenę i opcję "Dodaj do koszyka".
-    Przycisk "Zobacz więcej", który umożliwia użytkownikowi przeglądanie więcej produktów.
-    Sekcja O Nas:
-    
-    Krótka informacja o historii i filozofii piekarni.
-    Zdjęcia pracowników lub wnętrza piekarni (opcjonalnie).
-    Przycisk "Dowiedz się więcej", który kieruje użytkownika do pełnej strony "O nas".
-    Stopka:
-    
-    Dane kontaktowe piekarni, takie jak adres, numer telefonu i adres e-mail.
-    Linki do mediów społecznościowych piekarni.
-    Przycisk "Kontakt" prowadzący do sekcji kontaktowej strony.
-    Logowanie/Rejestracja (dla niezalogowanych użytkowników):
-    
-    Formularz logowania lub przycisk "Zaloguj się", który przenosi użytkownika do strony logowania.
-    Przycisk "Zarejestruj się", który przenosi użytkownika do strony rejestracji.
-    Koszyk (dla zalogowanych użytkowników):
-    
-    Informacje o produktach dodanych do koszyka, w tym nazwy, ilość i cena.
-    Całkowita cena zamówienia.
-    Przycisk "Przejdź do koszyka", który kieruje użytkownika do widoku koszyka.
-    Uwagi:
-    
-    Strona główna powinna być przyjazna dla urządzeń mobilnych i dostosowana do różnych rozmiarów ekranów.
-    Wszystkie elementy interaktywne, takie jak przyciski, powinny być łatwe w obsłudze i intuicyjne.
-    Dostarcz spójną estetykę wizualną i użyj odpowiednich kolorów i czcionek zgodnie z identyfikacją wizualną piekarni.
-    Dodaj opcję filtrowania produktów lub wyszukiwania, jeśli jest to konieczne, aby ułatwić użytkownikom znalezienie produktów.
-    Upewnij się, że strona jest zoptymalizowana pod kątem wydajności, aby szybko wczytywała się na różnych urządzeniach.
-    Ten opis stanowi ogólną koncepcję strony głównej piekarni, którą możesz dostosować do swoich konkretnych potrzeb i wymagań projektu.
-    Oto dokładny opis widoku strony głównej piekarni, który możesz rozważyć w swoim projekcie. Ten opis zakłada, że strona główna będzie dostępna zarówno dla użytkowników, którzy nie są zalogowani, jak i dla zalogowanych użytkowników:
+    const handleWindowSizeChange = () => {
+        const screenWidth = window.innerWidth;
+        if (screenWidth <= 1024) {
+            setIsSmallScreen(true);
+        } else {
+            setIsSmallScreen(false);
+        }
+    };
 
-Strona Główna Piekarni - Opis Widoku
+    const handleLoginClick = () => {
+        setModalOpen('login');
+    };
 
-Nagłówek Strony:
+    const handleRegisterClick = () => {
+        if (isLoggedIn) {
+            setUserModalOpen(true);
+        } else {
+            setModalOpen('register');
+        }
+    };
 
-Logo piekarni.
-Menu nawigacyjne, które zawiera linki do różnych sekcji strony, takich jak "Produkty", "O nas", "Kontakt", "Koszyk" (jeśli użytkownik jest zalogowany) oraz opcję "Zaloguj się" lub "Wyloguj się" w zależności od stanu zalogowania.
-Banner Promocyjny:
+    useEffect(() => {
+        if (sliderRef.current) {
+            sliderRef.current.slickGoTo(0); // Rozpocznij od pierwszego slajdu
+        }
+        handleWindowSizeChange(); // Wywołanie funkcji, aby ustawić początkową wartość
 
-Duży obszar z treścią promocyjną, np. ofertą specjalną, nowościami, lub zdjęciem produktu.
-Przycisk "Dowiedz się więcej" lub "Zobacz ofertę", który kieruje użytkownika do odpowiedniej sekcji strony.
-Przegląd Produktów:
+        window.addEventListener('resize', handleWindowSizeChange);
 
-Lista produktów piekarni, które są dostępne do zakupu.
-Każdy produkt powinien zawierać miniaturę zdjęcia, nazwę, cenę i opcję "Dodaj do koszyka".
-Przycisk "Zobacz więcej", który umożliwia użytkownikowi przeglądanie więcej produktów.
-Sekcja O Nas:
+        return () => {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        };
+    }, []);
+    useEffect(() => {
 
-Krótka informacja o historii i filozofii piekarni.
-Zdjęcia pracowników lub wnętrza piekarni (opcjonalnie).
-Przycisk "Dowiedz się więcej", który kieruje użytkownika do pełnej strony "O nas".
-Stopka:
+    }, []);
 
-Dane kontaktowe piekarni, takie jak adres, numer telefonu i adres e-mail.
-Linki do mediów społecznościowych piekarni.
-Przycisk "Kontakt" prowadzący do sekcji kontaktowej strony.
-Logowanie/Rejestracja (dla niezalogowanych użytkowników):
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 2000,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    arrows: false,
+                },
+            },
+        ],
+    };
 
-Formularz logowania lub przycisk "Zaloguj się", który przenosi użytkownika do strony logowania.
-Przycisk "Zarejestruj się", który przenosi użytkownika do strony rejestracji.
-Koszyk (dla zalogowanych użytkowników):
+    return (
+        <div className="h-full bg-gradient-to-b from-[#EBEBEB] via-gray-300 to-[#EBEBEB] relative">
+            <div className="lg:flex block">
+                <div className="lg:w-1/4 p-4 bg-gray-400 w-full ">
+                        {isSmallScreen && (
+                            <Fade right>
+                                <h2 className="text-gray-200 text-4xl lg:text-6xl text-center py-4 lg:py-12 lg:text-center" style={{fontFamily:'Lucida Console, serif' }}>Eggcellent Bakery</h2>
+                            </Fade>
+                        )}
+                        {!isSmallScreen && (
+                            <Fade left>
+                                <h2 className="text-white text-6xl py-8 text-end" style={{fontFamily:'Lucida Console, serif' }}> Egg</h2>
+                            </Fade>
+                        )}
+                    <Fade left>
+                        <p className="p-4 text-2xl lg:text-3xl text-white text-center lg:text-start" style={{fontFamily:'Lucida Console, serif' }}>  Smak naszych wypieków to efekt nie tylko umiejętności, ale przede wszystkim miłości do doskonałości - w Eggcellent Bakery stawiamy na jakość, która czuje się w każdym kęsie.</p>
+                    </Fade>
+                    </div>
+                <div className="w-full lg:w-3/4">
 
-Informacje o produktach dodanych do koszyka, w tym nazwy, ilość i cena.
-Całkowita cena zamówienia.
-Przycisk "Przejdź do koszyka", który kieruje użytkownika do widoku koszyka.
-Uwagi:
+                        {!isSmallScreen && (
+                            <Fade right>
+                    <h2 className="text-[#707070] text-6xl text-start py-12" style={{fontFamily:'Lucida Console, serif' }}>cellent Bakery</h2>
+                            </Fade>
+                            )}
+                            <div className="p-4 py-6 md:px-8 md:pb-8 lg:px-10 lg:pb-10">
+                                <Fade right>
+                            <Slider ref={sliderRef} {...settings}>
+                                <div>
+                                    <img src={homePage1} alt="Slide 1" className="block lg:h-[62vh] mx-auto" />
+                                </div>
+                                <div>
+                                    <img src={homePage2} alt="Slide 2" className="block lg:h-[62vh] mx-auto " />
+                                </div>
+                            </Slider>
+                                </Fade>
+                        </div>
 
-Strona główna powinna być przyjazna dla urządzeń mobilnych i dostosowana do różnych rozmiarów ekranów.
-Wszystkie elementy interaktywne, takie jak przyciski, powinny być łatwe w obsłudze i intuicyjne.
-Dostarcz spójną estetykę wizualną i użyj odpowiednich kolorów i czcionek zgodnie z identyfikacją wizualną piekarni.
-Dodaj opcję filtrowania produktów lub wyszukiwania, jeśli jest to konieczne, aby ułatwić użytkownikom znalezienie produktów.
-Upewnij się, że strona jest zoptymalizowana pod kątem wydajności, aby szybko wczytywała się na różnych urządzeniach.
-Ten opis stanowi ogólną koncepcję strony głównej piekarni, którą możesz dostosować do swoich konkretnych potrzeb i wymagań projektu.
-Oto dokładny opis widoku strony głównej piekarni, który możesz rozważyć w swoim projekcie. Ten opis zakłada, że strona główna będzie dostępna zarówno dla użytkowników, którzy nie są zalogowani, jak i dla zalogowanych użytkowników:
 
-Strona Główna Piekarni - Opis Widoku
+                </div>
+            </div>
+            <div className="flex lg:h-custom">
+                <Fade left>
+                <div className="w-1/4 p-4" style={{backgroundImage: `url(${homePage3})`, backgroundSize: 'cover'}}>
+                </div>
+                </Fade>
+                <div className="w-3/4 bg-gray-400 flex flex-col justify-center">
+                    <div className="p-2 md:p-4 lg:p-8 flex flex-col justify-center h-full">
+                    <Fade right>
+                        <h2 className="text-white text-4xl lg:text-6xl py-8 text-center" style={{fontFamily:'Lucida Console, serif' }}> Odkrywaj smaki </h2>
+                        <p className="p-4 text-2xl lg:text-3xl text-white text-center" style={{fontFamily:'Lucida Console, serif' }}>
+                            Odkryj nasze wyjątkowe wypieki, które są wynikiem połączenia tradycyjnych receptur
+                            z nowoczesnym podejściem do pieczenia. Każdy produkt jest pieczony z najwyższej
+                            jakości składników, z miłością i pasją.</p>
+                        <p className="p-4 text-2xl lg:text-3xl text-white text-center" style={{fontFamily:'Lucida Console, serif' }}>
+                            Załóż konto w naszej piekarni oraz zamawiaj najlepszej jakości produkty do woli, na kiedy tylko chcesz.
+                            Odbieraj swoje zamówienia w wybrany dzień u nas podając swój numer telefonu.
+                        </p>
+                        <div className="flex justify-center p-4">
+                            <button
+                                type="button"
+                                onClick={handleRegisterClick}
+                                className="items-center text-gray-900 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-md lg:text-lg px-5 py-2.5 me-2 mb-2"
+                                style={{ fontFamily: 'Lucida Console, serif' }}
+                            >
+                                Zarejestruj się!
+                            </button>
+                        </div>
+                        </Fade>
+                    </div>
+                    {!isLoggedIn && modalOpen === 'login' &&
+                        <LoginModal isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={handleRegisterClick}/>}
+                    {!isLoggedIn && modalOpen === 'register' &&
+                        <RegistrationModal isOpen={true} onClose={() => setModalOpen(null)} onLoginClick={handleLoginClick}/>}
+                </div>
+            </div>
 
-Nagłówek Strony:
+        </div>
+    );
+};
 
-Logo piekarni.
-Menu nawigacyjne, które zawiera linki do różnych sekcji strony, takich jak "Produkty", "O nas", "Kontakt", "Koszyk" (jeśli użytkownik jest zalogowany) oraz opcję "Zaloguj się" lub "Wyloguj się" w zależności od stanu zalogowania.
-Banner Promocyjny:
-
-Duży obszar z treścią promocyjną, np. ofertą specjalną, nowościami, lub zdjęciem produktu.
-Przycisk "Dowiedz się więcej" lub "Zobacz ofertę", który kieruje użytkownika do odpowiedniej sekcji strony.
-Przegląd Produktów:
-
-Lista produktów piekarni, które są dostępne do zakupu.
-Każdy produkt powinien zawierać miniaturę zdjęcia, nazwę, cenę i opcję "Dodaj do koszyka".
-Przycisk "Zobacz więcej", który umożliwia użytkownikowi przeglądanie więcej produktów.
-Sekcja O Nas:
-
-Krótka informacja o historii i filozofii piekarni.
-Zdjęcia pracowników lub wnętrza piekarni (opcjonalnie).
-Przycisk "Dowiedz się więcej", który kieruje użytkownika do pełnej strony "O nas".
-Stopka:
-
-Dane kontaktowe piekarni, takie jak adres, numer telefonu i adres e-mail.
-Linki do mediów społecznościowych piekarni.
-Przycisk "Kontakt" prowadzący do sekcji kontaktowej strony.
-Logowanie/Rejestracja (dla niezalogowanych użytkowników):
-
-Formularz logowania lub przycisk "Zaloguj się", który przenosi użytkownika do strony logowania.
-Przycisk "Zarejestruj się", który przenosi użytkownika do strony rejestracji.
-Koszyk (dla zalogowanych użytkowników):
-
-Informacje o produktach dodanych do koszyka, w tym nazwy, ilość i cena.
-Całkowita cena zamówienia.
-Przycisk "Przejdź do koszyka", który kieruje użytkownika do widoku koszyka.
-Uwagi:
-
-Strona główna powinna być przyjazna dla urządzeń mobilnych i dostosowana do różnych rozmiarów ekranów.
-Wszystkie elementy interaktywne, takie jak przyciski, powinny być łatwe w obsłudze i intuicyjne.
-Dostarcz spójną estetykę wizualną i użyj odpowiednich kolorów i czcionek zgodnie z identyfikacją wizualną piekarni.
-Dodaj opcję filtrowania produktów lub wyszukiwania, jeśli jest to konieczne, aby ułatwić użytkownikom znalezienie produktów.
-Upewnij się, że strona jest zoptymalizowana pod kątem wydajności, aby szybko wczytywała się na różnych urządzeniach.
-Ten opis stanowi ogólną koncepcję strony głównej piekarni, którą możesz dostosować do swoich konkretnych potrzeb i wymagań projektu.
-Oto dokładny opis widoku strony głównej piekarni, który możesz rozważyć w swoim projekcie. Ten opis zakłada, że strona główna będzie dostępna zarówno dla użytkowników, którzy nie są zalogowani, jak i dla zalogowanych użytkowników:
-
-Strona Główna Piekarni - Opis Widoku
-
-Nagłówek Strony:
-
-Logo piekarni.
-Menu nawigacyjne, które zawiera linki do różnych sekcji strony, takich jak "Produkty", "O nas", "Kontakt", "Koszyk" (jeśli użytkownik jest zalogowany) oraz opcję "Zaloguj się" lub "Wyloguj się" w zależności od stanu zalogowania.
-Banner Promocyjny:
-
-Duży obszar z treścią promocyjną, np. ofertą specjalną, nowościami, lub zdjęciem produktu.
-Przycisk "Dowiedz się więcej" lub "Zobacz ofertę", który kieruje użytkownika do odpowiedniej sekcji strony.
-Przegląd Produktów:
-
-Lista produktów piekarni, które są dostępne do zakupu.
-Każdy produkt powinien zawierać miniaturę zdjęcia, nazwę, cenę i opcję "Dodaj do koszyka".
-Przycisk "Zobacz więcej", który umożliwia użytkownikowi przeglądanie więcej produktów.
-Sekcja O Nas:
-
-Krótka informacja o historii i filozofii piekarni.
-Zdjęcia pracowników lub wnętrza piekarni (opcjonalnie).
-Przycisk "Dowiedz się więcej", który kieruje użytkownika do pełnej strony "O nas".
-Stopka:
-
-Dane kontaktowe piekarni, takie jak adres, numer telefonu i adres e-mail.
-Linki do mediów społecznościowych piekarni.
-Przycisk "Kontakt" prowadzący do sekcji kontaktowej strony.
-Logowanie/Rejestracja (dla niezalogowanych użytkowników):
-
-Formularz logowania lub przycisk "Zaloguj się", który przenosi użytkownika do strony logowania.
-Przycisk "Zarejestruj się", który przenosi użytkownika do strony rejestracji.
-Koszyk (dla zalogowanych użytkowników):
-
-Informacje o produktach dodanych do koszyka, w tym nazwy, ilość i cena.
-Całkowita cena zamówienia.
-Przycisk "Przejdź do koszyka", który kieruje użytkownika do widoku koszyka.
-Uwagi:
-
-Strona główna powinna być przyjazna dla urządzeń mobilnych i dostosowana do różnych rozmiarów ekranów.
-Wszystkie elementy interaktywne, takie jak przyciski, powinny być łatwe w obsłudze i intuicyjne.
-Dostarcz spójną estetykę wizualną i użyj odpowiednich kolorów i czcionek zgodnie z identyfikacją wizualną piekarni.
-Dodaj opcję filtrowania produktów lub wyszukiwania, jeśli jest to konieczne, aby ułatwić użytkownikom znalezienie produktów.
-Upewnij się, że strona jest zoptymalizowana pod kątem wydajności, aby szybko wczytywała się na różnych urządzeniach.
-Ten opis stanowi ogólną koncepcję strony głównej piekarni, którą możesz dostosować do swoich konkretnych potrzeb i wymagań projektu.
-Oto dokładny opis widoku strony głównej piekarni, który możesz rozważyć w swoim projekcie. Ten opis zakłada, że strona główna będzie dostępna zarówno dla użytkowników, którzy nie są zalogowani, jak i dla zalogowanych użytkowników:
-
-Strona Główna Piekarni - Opis Widoku
-
-Nagłówek Strony:
-
-Logo piekarni.
-Menu nawigacyjne, które zawiera linki do różnych sekcji strony, takich jak "Produkty", "O nas", "Kontakt", "Koszyk" (jeśli użytkownik jest zalogowany) oraz opcję "Zaloguj się" lub "Wyloguj się" w zależności od stanu zalogowania.
-Banner Promocyjny:
-
-Duży obszar z treścią promocyjną, np. ofertą specjalną, nowościami, lub zdjęciem produktu.
-Przycisk "Dowiedz się więcej" lub "Zobacz ofertę", który kieruje użytkownika do odpowiedniej sekcji strony.
-Przegląd Produktów:
-
-Lista produktów piekarni, które są dostępne do zakupu.
-Każdy produkt powinien zawierać miniaturę zdjęcia, nazwę, cenę i opcję "Dodaj do koszyka".
-Przycisk "Zobacz więcej", który umożliwia użytkownikowi przeglądanie więcej produktów.
-Sekcja O Nas:
-
-Krótka informacja o historii i filozofii piekarni.
-Zdjęcia pracowników lub wnętrza piekarni (opcjonalnie).
-Przycisk "Dowiedz się więcej", który kieruje użytkownika do pełnej strony "O nas".
-Stopka:
-
-Dane kontaktowe piekarni, takie jak adres, numer telefonu i adres e-mail.
-Linki do mediów społecznościowych piekarni.
-Przycisk "Kontakt" prowadzący do sekcji kontaktowej strony.
-Logowanie/Rejestracja (dla niezalogowanych użytkowników):
-
-Formularz logowania lub przycisk "Zaloguj się", który przenosi użytkownika do strony logowania.
-Przycisk "Zarejestruj się", który przenosi użytkownika do strony rejestracji.
-Koszyk (dla zalogowanych użytkowników):
-
-Informacje o produktach dodanych do koszyka, w tym nazwy, ilość i cena.
-Całkowita cena zamówienia.
-Przycisk "Przejdź do koszyka", który kieruje użytkownika do widoku koszyka.
-Uwagi:
-
-Strona główna powinna być przyjazna dla urządzeń mobilnych i dostosowana do różnych rozmiarów ekranów.
-Wszystkie elementy interaktywne, takie jak przyciski, powinny być łatwe w obsłudze i intuicyjne.
-Dostarcz spójną estetykę wizualną i użyj odpowiednich kolorów i czcionek zgodnie z identyfikacją wizualną piekarni.
-Dodaj opcję filtrowania produktów lub wyszukiwania, jeśli jest to konieczne, aby ułatwić użytkownikom znalezienie produktów.
-Upewnij się, że strona jest zoptymalizowana pod kątem wydajności, aby szybko wczytywała się na różnych urządzeniach.
-Ten opis stanowi ogólną koncepcję strony głównej piekarni, którą możesz dostosować do swoich konkretnych potrzeb i wymagań projektu.Oto dokładny opis widoku strony głównej piekarni, który możesz rozważyć w swoim projekcie. Ten opis zakłada, że strona główna będzie dostępna zarówno dla użytkowników, którzy nie są zalogowani, jak i dla zalogowanych użytkowników:
-
-Strona Główna Piekarni - Opis Widoku
-
-Nagłówek Strony:
-
-Logo piekarni.
-Menu nawigacyjne, które zawiera linki do różnych sekcji strony, takich jak "Produkty", "O nas", "Kontakt", "Koszyk" (jeśli użytkownik jest zalogowany) oraz opcję "Zaloguj się" lub "Wyloguj się" w zależności od stanu zalogowania.
-Banner Promocyjny:
-
-Duży obszar z treścią promocyjną, np. ofertą specjalną, nowościami, lub zdjęciem produktu.
-Przycisk "Dowiedz się więcej" lub "Zobacz ofertę", który kieruje użytkownika do odpowiedniej sekcji strony.
-Przegląd Produktów:
-
-Lista produktów piekarni, które są dostępne do zakupu.
-Każdy produkt powinien zawierać miniaturę zdjęcia, nazwę, cenę i opcję "Dodaj do koszyka".
-Przycisk "Zobacz więcej", który umożliwia użytkownikowi przeglądanie więcej produktów.
-Sekcja O Nas:
-
-Krótka informacja o historii i filozofii piekarni.
-Zdjęcia pracowników lub wnętrza piekarni (opcjonalnie).
-Przycisk "Dowiedz się więcej", który kieruje użytkownika do pełnej strony "O nas".
-Stopka:
-
-Dane kontaktowe piekarni, takie jak adres, numer telefonu i adres e-mail.
-Linki do mediów społecznościowych piekarni.
-Przycisk "Kontakt" prowadzący do sekcji kontaktowej strony.
-Logowanie/Rejestracja (dla niezalogowanych użytkowników):
-
-Formularz logowania lub przycisk "Zaloguj się", który przenosi użytkownika do strony logowania.
-Przycisk "Zarejestruj się", który przenosi użytkownika do strony rejestracji.
-Koszyk (dla zalogowanych użytkowników):
-
-Informacje o produktach dodanych do koszyka, w tym nazwy, ilość i cena.
-Całkowita cena zamówienia.
-Przycisk "Przejdź do koszyka", który kieruje użytkownika do widoku koszyka.
-Uwagi:
-
-Strona główna powinna być przyjazna dla urządzeń mobilnych i dostosowana do różnych rozmiarów ekranów.
-Wszystkie elementy interaktywne, takie jak przyciski, powinny być łatwe w obsłudze i intuicyjne.
-Dostarcz spójną estetykę wizualną i użyj odpowiednich kolorów i czcionek zgodnie z identyfikacją wizualną piekarni.
-Dodaj opcję filtrowania produktów lub wyszukiwania, jeśli jest to konieczne, aby ułatwić użytkownikom znalezienie produktów.
-Upewnij się, że strona jest zoptymalizowana pod kątem wydajności, aby szybko wczytywała się na różnych urządzeniach.
-Ten opis stanowi ogólną koncepcję strony głównej piekarni, którą możesz dostosować do swoich konkretnych potrzeb i wymagań projektu.Oto dokładny opis widoku strony głównej piekarni, który możesz rozważyć w swoim projekcie. Ten opis zakłada, że strona główna będzie dostępna zarówno dla użytkowników, którzy nie są zalogowani, jak i dla zalogowanych użytkowników:
-
-Strona Główna Piekarni - Opis Widoku
-
-Nagłówek Strony:
-
-Logo piekarni.
-Menu nawigacyjne, które zawiera linki do różnych sekcji strony, takich jak "Produkty", "O nas", "Kontakt", "Koszyk" (jeśli użytkownik jest zalogowany) oraz opcję "Zaloguj się" lub "Wyloguj się" w zależności od stanu zalogowania.
-Banner Promocyjny:
-
-Duży obszar z treścią promocyjną, np. ofertą specjalną, nowościami, lub zdjęciem produktu.
-Przycisk "Dowiedz się więcej" lub "Zobacz ofertę", który kieruje użytkownika do odpowiedniej sekcji strony.
-Przegląd Produktów:
-
-Lista produktów piekarni, które są dostępne do zakupu.
-Każdy produkt powinien zawierać miniaturę zdjęcia, nazwę, cenę i opcję "Dodaj do koszyka".
-Przycisk "Zobacz więcej", który umożliwia użytkownikowi przeglądanie więcej produktów.
-Sekcja O Nas:
-
-Krótka informacja o historii i filozofii piekarni.
-Zdjęcia pracowników lub wnętrza piekarni (opcjonalnie).
-Przycisk "Dowiedz się więcej", który kieruje użytkownika do pełnej strony "O nas".
-Stopka:
-
-Dane kontaktowe piekarni, takie jak adres, numer telefonu i adres e-mail.
-Linki do mediów społecznościowych piekarni.
-Przycisk "Kontakt" prowadzący do sekcji kontaktowej strony.
-Logowanie/Rejestracja (dla niezalogowanych użytkowników):
-
-Formularz logowania lub przycisk "Zaloguj się", który przenosi użytkownika do strony logowania.
-Przycisk "Zarejestruj się", który przenosi użytkownika do strony rejestracji.
-Koszyk (dla zalogowanych użytkowników):
-
-Informacje o produktach dodanych do koszyka, w tym nazwy, ilość i cena.
-Całkowita cena zamówienia.
-Przycisk "Przejdź do koszyka", który kieruje użytkownika do widoku koszyka.
-Uwagi:
-
-Strona główna powinna być przyjazna dla urządzeń mobilnych i dostosowana do różnych rozmiarów ekranów.
-Wszystkie elementy interaktywne, takie jak przyciski, powinny być łatwe w obsłudze i intuicyjne.
-Dostarcz spójną estetykę wizualną i użyj odpowiednich kolorów i czcionek zgodnie z identyfikacją wizualną piekarni.
-Dodaj opcję filtrowania produktów lub wyszukiwania, jeśli jest to konieczne, aby ułatwić użytkownikom znalezienie produktów.
-Upewnij się, że strona jest zoptymalizowana pod kątem wydajności, aby szybko wczytywała się na różnych urządzeniach.
-Ten opis stanowi ogólną koncepcję strony głównej piekarni, którą możesz dostosować do swoich konkretnych potrzeb i wymagań projektu.
-
-    </div>;
-  };
-  
-  export default HomePage;
+export default HomePage;

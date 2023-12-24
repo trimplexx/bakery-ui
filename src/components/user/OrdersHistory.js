@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {errorNotify} from "../../helpers/ToastNotifications";
-import CustomPagination from "../common/CustomPagination";
 import apiUser from "../../utils/apiUser";
-import { GiConfirmed } from "react-icons/gi";
-import { VscError } from "react-icons/vsc";
 import OrdersTable from "../common/OrdersHistoryTabele";
 
 const OrdersHistory = () => {

@@ -42,6 +42,19 @@ const apiUser = {
             handleApiError(error, errorNotify);
         }
     },
+    checkPhoneMakingOrder: async (phone, setResponse, errorNotify) => {
+        try {
+
+            const response = await axios.get(connectionUrlString + 'api/Products/checkPhoneMakingOrder', {
+                headers: {
+                    phone: phone
+                }
+            });
+            setResponse(response.data);
+        } catch (error) {
+            handleApiError(error, errorNotify);
+        }
+    },
     userMakeOrder: async (products, dateTime, status, phone, successNotify, errorNotify) => {
         try {
             const response = await axios.post(connectionUrlString + 'api/AdminMakingOrder/makeOrder', products, {

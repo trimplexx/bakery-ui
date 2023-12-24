@@ -1,6 +1,5 @@
 import {UserNavMenu} from './components/user/UserNavMenu';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import HomePage from "./pages/user-pages/HomePage";
 import AboutPage from "./pages/user-pages/AboutPage";
 import ContactPage from "./pages/user-pages/ContactPage";
 import ProductsPage from "./pages/user-pages/ProductsPage";
@@ -18,9 +17,12 @@ import AdminProduction from "./pages/admin-pages/AdminProduction";
 import AdminMakeOrder from "./pages/admin-pages/AdminMakeOrder";
 import SingleProductPage from "./pages/user-pages/SingleProductPage";
 import OrderSumaryPage from "./pages/user-pages/OrderSumaryPage";
+import Footer from "./components/user/Footer";
+import HomePage from "./pages/user-pages/HomePage";
 
 function App() {
     const { isAdmin } = useAuth();
+    const isAdminPath = window.location.pathname.startsWith('/admin/');
 
     const AdminPage = () => {
         return (
@@ -42,20 +44,21 @@ function App() {
     };
 
     return (
-        <div>
+        <div className="flex flex-col min-h-screen">
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<UserNavMenu/>}>
                         <Route path="/" element={<HomePage/>}/>
-                        <Route path="about" element={<AboutPage/>}/>
-                        <Route path="contact" element={<ContactPage/>}/>
-                        <Route path="products" element={<ProductsPage/>}/>
-                        <Route path="product/:productId" element={<SingleProductPage />} />
+                        <Route path="onas" element={<AboutPage/>}/>
+                        <Route path="kontakt" element={<ContactPage/>}/>
+                        <Route path="produkty" element={<ProductsPage/>}/>
+                        <Route path="produkt/:productId" element={<SingleProductPage />} />
                         <Route path="podsumowanie" element={<OrderSumaryPage />} />
                     </Route>
                     {isAdmin && (<Route path="admin/*" element={<AdminPage/>}/>)}
                     <Route path="*" element={<NoPage/>}/>
                 </Routes>
+                {!isAdminPath && <Footer />}
             </BrowserRouter>
             <ToastContainer
                 position="top-center"

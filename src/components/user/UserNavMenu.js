@@ -47,7 +47,7 @@ export const UserNavMenu = () => {
     return (<>
         <nav id="navbar"><Link to="/">
             <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><img src={bakeryLogo} alt="a"
-                                                                                       className="w-36 h-36"/>
+                                                                                       className="w-28 h-28"/>
             </motion.div>
         </Link>
             <motion.div className="toggle_btn" onClick={() => setMenuOpen(!menuOpen)} variants={toggleVariants}
@@ -55,15 +55,15 @@ export const UserNavMenu = () => {
             <ul className={`menu ${menuOpen ? 'open' : ''}`}>
                 <li>
                     <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink
-                        to="/products">Produkty</NavLink></motion.div>
+                        to="/produkty">Produkty</NavLink></motion.div>
                 </li>
                 <li>
-                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink to="/about">O
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink to="/onas">O
                         nas</NavLink></motion.div>
                 </li>
                 <li>
                     <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink
-                        to="/contact">Kontakt</NavLink></motion.div>
+                        to="/kontakt">Kontakt</NavLink></motion.div>
                 </li>
             </ul>
             <ul className={`icons-list ${menuOpen ? 'icons-open' : ''}`}>
