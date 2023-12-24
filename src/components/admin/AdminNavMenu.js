@@ -6,9 +6,11 @@ import {FaShoppingCart, FaUsers, FaWarehouse, FaBreadSlice} from "react-icons/fa
 import React, {useState} from "react";
 import {ImExit} from "react-icons/im";
 import AdminNavLink from "./AdminNavigationLink";
+import useAuth from "../../hooks/useAuth";
 
 export const AdminMavMenu = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    useAuth();
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
