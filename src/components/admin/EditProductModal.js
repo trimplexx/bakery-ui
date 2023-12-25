@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
-
 import ProductModal from "./ProductModal";
-import api from "../../utils/api";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import {useProductsData} from "../../hooks/useProductsData";
 import createImageFileFromImageUrl from "../../helpers/CreateImageFileFromImageUrl";
+import apiAdmin from "../../utils/apiAdmin";
 
 const EditProductModal = ({onClose, productId}) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +12,7 @@ const EditProductModal = ({onClose, productId}) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            await api.fetchSingleProduct(productId, setProductData, errorNotify);
+            await apiAdmin.fetchSingleProduct(productId, setProductData, errorNotify);
         };
         fetchData();
     }, [productId, setProductData]);
@@ -35,7 +34,7 @@ const EditProductModal = ({onClose, productId}) => {
             }
         }
 
-        await api.editProduct(
+        await apiAdmin.editProduct(
             formData,
             productId,
             successNotify,

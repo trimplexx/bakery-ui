@@ -5,8 +5,7 @@ import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import SubmitButton from "../common/SubmitButton";
 import FormInput from "../common/FormInput";
 import {useForm} from "react-hook-form";
-import api from "../../utils/api";
-import EditInput from "../common/EditInput";
+import apiAdmin from "../../utils/apiAdmin";
 
 const EditUserModal = ({userId, onClose}) => {
     useCloseOnEsc(onClose);
@@ -23,7 +22,7 @@ const EditUserModal = ({userId, onClose}) => {
     useEffect(() => {
         setValue('userId', userId);
         const fetchData = async () => {
-            await api.fetchSingleUser(userId, setUserData, errorNotify);
+            await apiAdmin.fetchSingleUser(userId, setUserData, errorNotify);
         };
 
         fetchData();
@@ -32,7 +31,7 @@ const EditUserModal = ({userId, onClose}) => {
 
     const onSubmit = async (data) => {
         setIsLoading(true);
-        await api.adminChangeUserData(data, setIsLoading, errorNotify, successNotify);
+        await apiAdmin.adminChangeUserData(data, setIsLoading, errorNotify, successNotify);
     };
 
     const handleInputChange = (id, newValue) => {

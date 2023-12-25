@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { AnimatedModal } from "../common/AnimatedModal";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
-import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import SubmitButton from "../common/SubmitButton";
-import FormInput from "../common/FormInput";
 import { useForm } from "react-hook-form";
-import api from "../../utils/api";
 import EditInput from "../common/EditInput";
 import apiUser from "../../utils/apiUser";
 

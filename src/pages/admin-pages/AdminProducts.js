@@ -6,9 +6,9 @@ import Select from "react-select";
 import {customDropdownStyles} from "../../styles/customDropdownStyles";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import SearchInput from "../../components/common/SearchInput";
-import api from "../../utils/api";
 import {FaTrashAlt} from "react-icons/fa";
 import CustomPagination from "../../components/common/CustomPagination";
+import apiAdmin from "../../utils/apiAdmin";
 
 const AdminProducts = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -24,7 +24,7 @@ const AdminProducts = () => {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            await api.fetchProductCategories(setOptions, errorNotify);
+            await apiAdmin.fetchProductCategories(setOptions, errorNotify);
         };
 
         fetchCategories();
@@ -32,19 +32,19 @@ const AdminProducts = () => {
 
         if (selectedOption !== null) {
             const fetchProductsPaginationNumber = async () => {
-                await api.fetchProductsPaginationNumber(searchTerm, selectedOption.value, setPaginationNumber, errorNotify);
+                await apiAdmin.fetchProductsPaginationNumber(searchTerm, selectedOption.value, setPaginationNumber, errorNotify);
             };
             const fetchProductsList = async () => {
-                await api.fetchProductsList(currentPage - 1, selectedOption.value, searchTerm, setProducts, errorNotify);
+                await apiAdmin.fetchProductsList(currentPage - 1, selectedOption.value, searchTerm, setProducts, errorNotify);
             };
             fetchProductsPaginationNumber();
             fetchProductsList();
         } else {
             const fetchProductsPaginationNumber = async () => {
-                await api.fetchProductsPaginationNumber(searchTerm,null, setPaginationNumber, errorNotify);
+                await apiAdmin.fetchProductsPaginationNumber(searchTerm,null, setPaginationNumber, errorNotify);
             };
             const fetchProductsList = async () => {
-                await api.fetchProductsList(currentPage - 1, null, searchTerm, setProducts, errorNotify);
+                await apiAdmin.fetchProductsList(currentPage - 1, null, searchTerm, setProducts, errorNotify);
             };
             fetchProductsPaginationNumber();
             fetchProductsList();
@@ -79,7 +79,7 @@ const AdminProducts = () => {
     const handleDeleteProduct = async (productId) => {
         const confirmDelete = window.confirm("Czy na pewno chcesz usunąć ten produkt?");
         if (confirmDelete) {
-            await api.deleteProduct(productId, successNotify, errorNotify);
+            await apiAdmin.deleteProduct(productId, successNotify, errorNotify);
             setDeletedProductId(productId);
         }
     };

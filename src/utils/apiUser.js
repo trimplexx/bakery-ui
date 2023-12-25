@@ -1,37 +1,48 @@
 import axios from 'axios';
 import {connectionUrlString} from "./props";
-import {successNotifyStorage} from "../helpers/ToastNotifications";
-
-function handleApiError(error, errorNotify) {
-    if (error.response && error.response.data && error.response.data.error) {
-        errorNotify(error.response.data.error);
-    } else {
-        errorNotify('Błąd połączenia serwera');
-    }
-}
+import handleApiError from './apiUtils';
 
 const apiUser = {
-    fetchUserProductsList: async ( dateTime, offset, category, searchTerm, setProducts, errorNotify) => {
+    register: async (data, successNotify, errorNotify, onLoginClick, setIsLoading) => {
+        try {
+            console.log(data)
+            await axios.post(connectionUrlString + "api/Auth/register", data);
+            successNotify('Pomyślnie zarejestrowano, potwierdź swój adres email aby się zalogować!');
+
+            onLoginClick();
+        } catch (error) {
+            handleApiError(error, errorNotify);
+        } finally {
+            setIsLoading(false);
+        }
+    }, login: async (data, setIsLoading, errorNotify) => {
+        try {
+            const response = await axios.post(connectionUrlString + 'api/Auth/login', data);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('successNotifyStorage', 'Poprawnie zalogowano');
+            window.location.reload(true);
+        } catch (error) {
+            handleApiError(error, errorNotify);
+        } finally {
+            setIsLoading(false);
+        }
+    }, fetchUserProductsList: async (dateTime, offset, category, searchTerm, setProducts, errorNotify) => {
         try {
             const response = await axios.post(connectionUrlString + 'api/Products/getProductsList', {
-                offset: offset,
-                category: category,
-                searchTerm: searchTerm
-            },
-                {
-                    headers: {
-                        dateTime: dateTime
-                    }
-                });
+                offset: offset, category: category, searchTerm: searchTerm
+            }, {
+                headers: {
+                    dateTime: dateTime
+                }
+            });
             setProducts(response.data);
         } catch (error) {
             handleApiError(error, errorNotify);
         }
-    },
-    fetchProductsAvailability: async (dateTime, data, setProductsAvailability, errorNotify) => {
+    }, fetchProductsAvailability: async (dateTime, data, setProductsAvailability, errorNotify) => {
         try {
 
-            const response = await axios.post(connectionUrlString + 'api/Products/getSingleProduct', data,{
+            const response = await axios.post(connectionUrlString + 'api/Products/getSingleProduct', data, {
                 headers: {
                     dateTime: dateTime
                 }
@@ -41,11 +52,10 @@ const apiUser = {
         } catch (error) {
             handleApiError(error, errorNotify);
         }
-    },
-    checkPhoneMakingOrder: async (phone, setResponse, errorNotify) => {
+    }, checkPhoneMakingOrder: async (phone, setResponse, errorNotify) => {
         try {
 
-            const response = await axios.get(connectionUrlString + 'api/Products/checkPhoneMakingOrder', {
+            const response = await axios.get(connectionUrlString + 'api/Ordering/checkPhoneMakingOrder', {
                 headers: {
                     phone: phone
                 }
@@ -54,14 +64,11 @@ const apiUser = {
         } catch (error) {
             handleApiError(error, errorNotify);
         }
-    },
-    userMakeOrder: async (products, dateTime, status, phone, successNotify, errorNotify) => {
+    }, userMakeOrder: async (products, dateTime, status, phone, successNotify, errorNotify) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/AdminMakingOrder/makeOrder', products, {
+            const response = await axios.post(connectionUrlString + 'api/Ordering/makeOrder', products, {
                 headers: {
-                    dateTime: dateTime,
-                    status: status,
-                    phone: phone
+                    dateTime: dateTime, status: status, phone: phone
                 }
             });
             localStorage.removeItem(dateTime);
@@ -70,36 +77,31 @@ const apiUser = {
         } catch (error) {
             handleApiError(error, errorNotify);
         }
-    },
-    userChangePassword: async (data, setIsLoading, successNotify, errorNotify) => {
+    }, userChangePassword: async (data, setIsLoading, successNotify, errorNotify) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/User/changePassword', data);
+            const response = await axios.post(connectionUrlString + 'api/UserPanel/changePassword', data);
             successNotify(response.data)
         } catch (error) {
             handleApiError(error, errorNotify);
-        }
-        finally{
+        } finally {
             setIsLoading(false);
         }
-    },
-    getOfOrdersPagination: async (phone, setPaginationNumber, errorNotify) => {
+    }, getOfOrdersPagination: async (phone, setPaginationNumber, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/User/getNumberOfOrders',{
+            const response = await axios.get(connectionUrlString + 'api/UserPanel/getNumberOfOrders', {
                 headers: {
-                    phone : phone
+                    phone: phone
                 }
-            } );
+            });
             setPaginationNumber(response.data)
         } catch (error) {
             handleApiError(error, errorNotify);
         }
-    },
-    getUserOrdersHistoryList: async (offset, phone, setOrders, errorNotify) => {
+    }, getUserOrdersHistoryList: async (offset, phone, setOrders, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/User/getUserOrdersHistoryList', {
+            const response = await axios.get(connectionUrlString + 'api/UserPanel/getUserOrdersHistoryList', {
                 headers: {
-                    offset: offset,
-                    phone: phone
+                    offset: offset, phone: phone
                 }
             });
             setOrders(response.data)

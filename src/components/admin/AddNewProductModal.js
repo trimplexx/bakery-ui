@@ -3,8 +3,8 @@ import "/node_modules/flag-icons/css/flag-icons.min.css";
 import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import ProductModal from "./ProductModal";
 import {useProductsData} from "../../hooks/useProductsData";
-import api from "../../utils/api";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
+import apiAdmin from "../../utils/apiAdmin";
 
 const AddNewProductModal = ({onClose}) => {
     useCloseOnEsc(onClose);
@@ -21,7 +21,7 @@ const AddNewProductModal = ({onClose}) => {
             }
         }
 
-        await api.addProduct(
+        await apiAdmin.addProduct(
             formData,
             successNotify,
             errorNotify,

@@ -1,5 +1,4 @@
 import { toast } from 'react-toastify';
-import '../styles/toastNotifications.css'
 
 export const successNotifyStorage = () => {
     const content = localStorage.getItem('successNotifyStorage');

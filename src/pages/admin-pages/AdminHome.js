@@ -1,8 +1,8 @@
 import BarChart from "../../components/admin/BarChart";
 import DoughnutChart from "../../components/admin/DoughnutChart";
 import {useEffect, useState} from "react";
-import api from "../../utils/api";
 import {errorNotify} from "../../helpers/ToastNotifications";
+import apiAdmin from "../../utils/apiAdmin";
 
 const AdminHome = () => {
     const [lastDaysSalary, setLastDaysSalary] = useState([]);
@@ -13,10 +13,10 @@ const AdminHome = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            await api.fetchLastDaysSalary(setLastDaysSalary, errorNotify);
-            await api.fetchProductsLeft(setProductsLeft, errorNotify);
-            await api.fetchUnfulfilledOrders(setUnfulfilledOrders, errorNotify);
-            await api.fetchNumberOfOrders(setNumberOfOrders, errorNotify);
+            await apiAdmin.fetchLastDaysSalary(setLastDaysSalary, errorNotify);
+            await apiAdmin.fetchProductsLeft(setProductsLeft, errorNotify);
+            await apiAdmin.fetchUnfulfilledOrders(setUnfulfilledOrders, errorNotify);
+            await apiAdmin.fetchNumberOfOrders(setNumberOfOrders, errorNotify);
         };
         fetchData();
     }, [triggerFetch]);

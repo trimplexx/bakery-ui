@@ -9,9 +9,9 @@ import SubmitButton from "../common/SubmitButton";
 import FormInput from "../common/FormInput";
 import {useForm} from "react-hook-form";
 import ImageDropzone from "./ImageDropzone";
-import api from "../../utils/api";
 import createImageFileFromImageUrl from "../../helpers/CreateImageFileFromImageUrl";
 import NutritionalTable from "./NutritionalTable";
+import apiAdmin from "../../utils/apiAdmin";
 
 const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoading, text}) => {
     useCloseOnEsc(onClose);
@@ -72,7 +72,7 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
 
     useEffect(() => {
         const fetchData = async () => {
-            await api.fetchProductCategories(setOptions, errorNotify);
+            await apiAdmin.fetchProductCategories(setOptions, errorNotify);
         };
         fetchData();
 

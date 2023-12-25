@@ -20,10 +20,6 @@ body {
     overflow-x: hidden;
 }
 
-.errorToast{
-    margin-top: 130px;
-}
-
 nav ul {
     display: flex;
     align-items: center;

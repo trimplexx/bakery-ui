@@ -1,59 +1,8 @@
 import axios from 'axios';
-import {successNotify} from "../helpers/ToastNotifications";
 import {connectionUrlString} from "./props";
-import {jwtDecode} from "jwt-decode";
-function handleApiError(error, errorNotify) {
-    if (error.response && error.response.data && error.response.data.error) {
-        errorNotify(error.response.data.error);
-    } else {
-        errorNotify('Błąd połączenia serwera');
-    }
-}
+import handleApiError from './apiUtils';
 
-const api = {
-
-    register: async (data, successNotify, errorNotify, onLoginClick, setIsLoading) => {
-        try {
-            await axios.post(connectionUrlString + "api/Auth/Register", data);
-            successNotify('Pomyślnie zarejestrowano');
-            onLoginClick();
-        } catch (error) {
-            handleApiError(error, errorNotify);
-        }
-        finally {
-            setIsLoading(false);
-        }
-    },
-    login: async (data, setIsLoading, errorNotify) => {
-        try {
-            const response = await axios.post(connectionUrlString + 'api/Auth/Login', data);
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('successNotifyStorage', 'Poprawnie zalogowano');
-            window.location.reload(true);
-        } catch (error) {
-            handleApiError(error, errorNotify);
-        }
-        finally{
-            setIsLoading(false);
-        }
-    },
-    verifyToken: async (setIsAdmin, setIsLoggedIn, errorNotify) => {
-        try {
-            const token = localStorage.getItem('token');
-            if (token) {
-                await axios.post(connectionUrlString + 'api/Auth/VerifyToken', {
-                    Token: token
-                });
-                const decodedToken = jwtDecode(token);
-                setIsAdmin(decodedToken.Rank === '2');
-                setIsLoggedIn(true);
-            }
-        } catch (error) {
-            errorNotify('Nastąpiło wylogowanie!', true);
-            localStorage.removeItem('token');
-            setIsLoggedIn(false);
-        }
-    },
+const apiAdmin = {
     fetchSingleUser: async (userId, setUserData, errorNotify) => {
         try {
             const response = await axios.get(connectionUrlString + 'api/AdminUser/getSingleUser', {
@@ -233,41 +182,12 @@ const api = {
     },
     fetchProductsToSelect: async (setOptions, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMakingOrder/getProductsToSelect');
+            const response = await axios.get(connectionUrlString + 'api/AdminOrderingPage/getProductsToSelect');
             const newOptions = response.data.map(products => ({
                 value: products.productId,
                 label: products.name
             }));
             setOptions(newOptions);
-        } catch (error) {
-            handleApiError(error, errorNotify);
-        }
-    },
-    fetchMaximumProductQuantity: async (dateTime, productId, setMaxQuantity, errorNotify) => {
-        try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMakingOrder/getProductQuantityLeft', {
-                params: {
-                    productId: productId,
-                    dateTime: dateTime
-                }
-            });
-            setMaxQuantity(response.data);
-        } catch (error) {
-            handleApiError(error, errorNotify);
-            setMaxQuantity(0);
-        }
-    },
-    makeOrder: async (products, dateTime, status, phone, successNotify, errorNotify) => {
-        try {
-            const response = await axios.post(connectionUrlString + 'api/AdminMakingOrder/makeOrder', products, {
-                headers: {
-                    dateTime: dateTime,
-                    status: status,
-                    phone: phone
-                }
-            });
-            successNotify(response.data);
-            localStorage.removeItem('productList');
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -290,9 +210,9 @@ const api = {
     fetchOrdersPaginationNumber: async (dateTime, setPaginationNumber, errorNotify) => {
         try {
             const response = await axios.get(connectionUrlString + 'api/AdminOrders/getNumberOfOrders', {
-                    headers:{
-                        dateTime: dateTime
-                    }});
+                headers:{
+                    dateTime: dateTime
+                }});
             setPaginationNumber(response.data);
         } catch (error) {
             handleApiError(error, errorNotify);
@@ -341,6 +261,6 @@ const api = {
             handleApiError(error, errorNotify);
         }
     },
-};
+}
 
-export default api;
+export default apiAdmin;

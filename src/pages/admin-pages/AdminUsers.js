@@ -4,9 +4,9 @@ import EditUserModal from "../../components/admin/EditUserModal";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import SearchInput from "../../components/common/SearchInput";
 import {FaTrashAlt} from "react-icons/fa";
-import api from "../../utils/api";
 import useAuth from "../../hooks/useAuth";
 import CustomPagination from "../../components/common/CustomPagination";
+import apiAdmin from "../../utils/apiAdmin";
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
@@ -42,11 +42,11 @@ const AdminUsers = () => {
 
     useEffect(() => {
         const fetchUsersPaginationNumber = async () => {
-            await api.fetchUsersPaginationNumber(setPaginationNumber, errorNotify);
+            await apiAdmin.fetchUsersPaginationNumber(setPaginationNumber, errorNotify);
         };
 
         const fetchUsersList = async () => {
-            await api.fetchUsersList(currentPage-1, searchTerm, setUsers, errorNotify);
+            await apiAdmin.fetchUsersList(currentPage-1, searchTerm, setUsers, errorNotify);
         };
 
         fetchUsersPaginationNumber();
@@ -57,13 +57,13 @@ const AdminUsers = () => {
         const confirmDelete = window.confirm("Czy na pewno chcesz usunąć tego użytkownika?");
         if (confirmDelete) {
             console.log(userId);
-            await api.deleteUser(userId, successNotify, errorNotify);
+            await apiAdmin.deleteUser(userId, successNotify, errorNotify);
         }
     };
 
     const handlePageChange = async (page) => {
         setCurrentPage(page);
-        await api.fetchUsersList(page-1, searchTerm, setUsers, errorNotify);
+        await apiAdmin.fetchUsersList(page-1, searchTerm, setUsers, errorNotify);
     };
 
     const handleSearchInputChange = (searchTerm) => {

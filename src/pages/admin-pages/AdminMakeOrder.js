@@ -4,9 +4,10 @@ import BasicInput from "../../components/common/BasicInput";
 import {FaPlus, FaTrashAlt} from "react-icons/fa";
 import Select from "react-select";
 import {customDropdownStyles} from "../../styles/customDropdownStyles";
-import api from "../../utils/api";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import OrderConfirmModal from "../../components/admin/OrderConfirmModal";
+import apiCommon from "../../utils/apiCommon";
+import apiAdmin from "../../utils/apiAdmin";
 
 const AdminMakeOrder = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -21,7 +22,7 @@ const AdminMakeOrder = () => {
 
     useEffect(() => {
         const fetchProductsToSelect = async () => {
-            await api.fetchProductsToSelect(setOptions, errorNotify);
+            await apiAdmin.fetchProductsToSelect(setOptions, errorNotify);
         };
         fetchProductsToSelect();
         getLocalStorageItems();
@@ -90,7 +91,7 @@ const AdminMakeOrder = () => {
         var isoDate = selectedDate.toISOString();
         var dateOnly = isoDate.slice(0, 10);
         const fetchMaxSelectedProductQuantity = async () => {
-            await api.fetchMaximumProductQuantity(dateOnly, option.value, setMaxProductQuantity, errorNotify);
+            await apiCommon.fetchMaximumProductQuantity(dateOnly, option.value, setMaxProductQuantity, errorNotify);
         };
         fetchMaxSelectedProductQuantity();
         console.log(maxProductQuantity)
@@ -119,7 +120,7 @@ const AdminMakeOrder = () => {
     const handleMakeOrderAsRealized = async () => {
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        await api.makeOrder(productsList, dateOnly,2,null, successNotify, errorNotify);
+        await apiCommon.makeOrder(productsList, dateOnly,2,null, successNotify, errorNotify);
         getLocalStorageItems();
     };
 
@@ -130,7 +131,7 @@ const AdminMakeOrder = () => {
     const handleConfirm = async () => {
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        await api.makeOrder(productsList, dateOnly, 1, phoneNumber, successNotify, errorNotify);
+        await apiCommon.makeOrder(productsList, dateOnly, 1, phoneNumber, successNotify, errorNotify);
         setIsConfirmModalVisible(false);
         getLocalStorageItems();
     };

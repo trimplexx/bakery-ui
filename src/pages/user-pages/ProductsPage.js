@@ -11,10 +11,11 @@ import {FcCancel} from "react-icons/fc";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import apiUser from "../../utils/apiUser";
 import CustomPagination from "../../components/common/CustomPagination";
-import api from "../../utils/api";
 import { motion } from "framer-motion";
 import {Link} from 'react-router-dom';
 import {Fade} from "react-reveal";
+import apiAdmin from "../../utils/apiAdmin";
+import apiCommon from "../../utils/apiCommon";
 
 const ProductsPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -45,7 +46,7 @@ const ProductsPage = () => {
             categoryNumber = categoriesMap[selectedCategory];
         }
         const fetchProductsPaginationNumber = async () => {
-            await api.fetchProductsPaginationNumber(searchTerm, categoryNumber, setPaginationNumber, errorNotify);
+            await apiAdmin.fetchProductsPaginationNumber(searchTerm, categoryNumber, setPaginationNumber, errorNotify);
         };
         
         const fetchUserProductsList = async () => {
@@ -88,7 +89,7 @@ const ProductsPage = () => {
         const dateOnly = isoDate.slice(0, 10);
         const cartKey = `${dateOnly}`;
 
-        await api.fetchMaximumProductQuantity(dateOnly, productId, (data) => {
+        await apiCommon.fetchMaximumProductQuantity(dateOnly, productId, (data) => {
             if (data >= 1) {
                 let cartItems = JSON.parse(localStorage.getItem(cartKey)) || [];
 

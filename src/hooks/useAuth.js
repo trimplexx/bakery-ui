@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {errorNotify} from "../helpers/ToastNotifications";
-import api from "../utils/api";
+import apiCommon from "../utils/apiCommon";
+
 
 const useAuth = () => {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -8,7 +9,7 @@ const useAuth = () => {
 
     useEffect(() => {
         const verifyToken = async () => {
-            await api.verifyToken(setIsAdmin, setIsLoggedIn, errorNotify)
+            await apiCommon.verifyToken(setIsAdmin, setIsLoggedIn, errorNotify)
         };
         verifyToken();
     }, []);

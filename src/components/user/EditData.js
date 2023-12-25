@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {AnimatedModal} from "../common/AnimatedModal";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
-import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import SubmitButton from "../common/SubmitButton";
-import FormInput from "../common/FormInput";
 import {useForm} from "react-hook-form";
-import api from "../../utils/api";
 import EditInput from "../common/EditInput";
+import apiAdmin from "../../utils/apiAdmin";
 
 const EditData = () => {
     const [userId, setUserId] = useState(false);
@@ -30,7 +27,7 @@ const EditData = () => {
             setValue('userId', userIdFromToken);
 
             const fetchData = async () => {
-                await api.fetchSingleUser(userIdFromToken, setUserData, errorNotify);
+                await apiAdmin.fetchSingleUser(userIdFromToken, setUserData, errorNotify);
             };
 
             fetchData();
@@ -42,7 +39,7 @@ const EditData = () => {
 
     const onSubmit = async (data) => {
         setIsLoading(true);
-        await api.adminChangeUserData(data, setIsLoading, errorNotify, successNotify);
+        await apiAdmin.adminChangeUserData(data, setIsLoading, errorNotify, successNotify);
     };
 
     const handleInputChange = (id, newValue) => {

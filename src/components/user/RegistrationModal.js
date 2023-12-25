@@ -5,7 +5,7 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import SubmitButton from "../common/SubmitButton";
 import FormInput from "../common/FormInput";
 import useCloseOnEsc from "../../hooks/useClonseOnEsc";
-import api from "../../utils/api";
+import apiUser from "../../utils/apiUser";
 
 const RegistrationModal = ({ onClose, onLoginClick }) => {
     const { register, handleSubmit} = useForm();
@@ -44,7 +44,7 @@ const RegistrationModal = ({ onClose, onLoginClick }) => {
             return;
         }
 
-        await api.register(data, successNotify, errorNotify, onLoginClick, setIsLoading);
+        await apiUser.register(data, successNotify, errorNotify, onLoginClick, setIsLoading);
     };
 
     const toggleShowPassword = () => {

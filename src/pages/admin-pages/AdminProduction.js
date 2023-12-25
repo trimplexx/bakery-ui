@@ -3,8 +3,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'tailwindcss/tailwind.css';
 import BasicInput from "../../components/common/BasicInput";
 import CustomDatePicker from "../../components/common/CustomDataPicker";
-import api from "../../utils/api";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
+import apiAdmin from "../../utils/apiAdmin";
 
 const AdminProduction = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -27,7 +27,7 @@ const AdminProduction = () => {
         var dateOnly = isoDate.slice(0,10);
         setProductsToCopy(null);
         const getProductsQuantity = async () => {
-            await api.getProductsQuantity(dateOnly, setProductsList,errorNotify);
+            await apiAdmin.getProductsQuantity(dateOnly, setProductsList,errorNotify);
         };
 
         getProductsQuantity();
@@ -38,7 +38,7 @@ const AdminProduction = () => {
         let dateOnly = isoDate.slice(0,10);
 
         const getProductsQuantity = async () => {
-            await api.getProductsQuantity(dateOnly, setProductsToCopy,errorNotify);
+            await apiAdmin.getProductsQuantity(dateOnly, setProductsToCopy,errorNotify);
         };
         const setProductsToCopy = (products) => {
             const updatedProducts = products.map(product => ({
@@ -54,7 +54,7 @@ const AdminProduction = () => {
     const SaveChanges = async () => {
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        await api.updateProductsAvailability(productsList, dateOnly, successNotify, errorNotify);
+        await apiAdmin.updateProductsAvailability(productsList, dateOnly, successNotify, errorNotify);
     };
 
     return(

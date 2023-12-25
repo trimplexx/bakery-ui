@@ -4,10 +4,10 @@ import pl from 'date-fns/locale/pl';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'tailwindcss/tailwind.css';
 import CustomDatePicker from "../../components/common/CustomDataPicker";
-import api from "../../utils/api";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import CustomPagination from "../../components/common/CustomPagination";
 import SearchInput from "../../components/common/SearchInput";
+import apiAdmin from "../../utils/apiAdmin";
 
 registerLocale('pl', pl);
 
@@ -23,11 +23,11 @@ const AdminOrders = () => {
         let dateOnly = isoDate.slice(0, 10);
 
         const fetchOrdersPaginationNumber = async () => {
-            await api.fetchOrdersPaginationNumber(dateOnly, setPaginationNumber, errorNotify);
+            await apiAdmin.fetchOrdersPaginationNumber(dateOnly, setPaginationNumber, errorNotify);
         };
 
         const fetchOrdersList = async () => {
-            await api.fetchOrdersList(currentPage - 1, dateOnly, searchTerm, setOrders, errorNotify);
+            await apiAdmin.fetchOrdersList(currentPage - 1, dateOnly, searchTerm, setOrders, errorNotify);
         };
 
         fetchOrdersPaginationNumber();
@@ -38,7 +38,7 @@ const AdminOrders = () => {
         const confirmed = window.confirm("Czy na pewno chcesz oznaczyć to zamówienie jako zrealizowane?");
 
         if (confirmed) {
-                await api.changeOrderStatus(orderId, errorNotify, successNotify);
+                await apiAdmin.changeOrderStatus(orderId, errorNotify, successNotify);
 
                 const updatedOrders = orders.map(order => {
                     if (order.orderId === orderId) {
@@ -57,7 +57,7 @@ const AdminOrders = () => {
         setCurrentPage(page);
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        await api.fetchOrdersList(page - 1, dateOnly, setOrders, errorNotify);
+        await apiAdmin.fetchOrdersList(page - 1, dateOnly, setOrders, errorNotify);
     };
 
     const handleSearchInputChange = (searchTerm) => {

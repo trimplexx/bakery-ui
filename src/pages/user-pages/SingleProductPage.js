@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
-import api from '../../utils/api';
 import { errorNotify } from '../../helpers/ToastNotifications';
 import { useProductsData } from '../../hooks/useProductsData';
 import CustomDatePicker from "../../components/common/CustomDataPicker";
 import {FaShoppingCart} from "react-icons/fa";
 import AnimatedIconButton from "../../components/common/AnimatedIconButton";
+import apiAdmin from "../../utils/apiAdmin";
+import apiCommon from "../../utils/apiCommon";
 
 const SingleProductPage = () => {
     const { productId } = useParams();
@@ -19,12 +20,12 @@ const SingleProductPage = () => {
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0,10);
         const fetchData = async () => {
-            await api.fetchSingleProduct(productId, setProductData, errorNotify);
+            await apiAdmin.fetchSingleProduct(productId, setProductData, errorNotify);
         };
         fetchData();
 
         const fetchMaxSelectedProductQuantity = async () => {
-            await api.fetchMaximumProductQuantity(dateOnly, productId, setMaxProductQuantity, errorNotify);
+            await apiCommon.fetchMaximumProductQuantity(dateOnly, productId, setMaxProductQuantity, errorNotify);
         };
         fetchMaxSelectedProductQuantity();
         if (maxProductQuantity === 0) {

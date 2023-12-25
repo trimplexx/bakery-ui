@@ -6,7 +6,7 @@ import SubmitButton from "../common/SubmitButton";
 import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import FormInput from "../common/FormInput";
 import {useForm} from "react-hook-form";
-import api from "../../utils/api";
+import apiUser from "../../utils/apiUser";
 
 
 const LoginModal = ({onClose, onRegisterClick}) => {
@@ -25,7 +25,7 @@ const LoginModal = ({onClose, onRegisterClick}) => {
 
     const onSubmit = async (data) => {
         setIsLoading(true);
-        await api.login(data, setIsLoading, errorNotify);
+        await apiUser.login(data, setIsLoading, errorNotify);
     };
 
     const handleInputChange = (field, value) => {
