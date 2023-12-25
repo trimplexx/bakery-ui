@@ -1,6 +1,6 @@
 # Bakery Online - UI
 
-This repository contains the user interface (UI) for the Bakery Online project. The project is still under development, adding new features and improving old ones
+This repository contains the user interface (UI) for the Bakery Online project. The project is still under development, adding new features and improving old ones. The UI design was created using React.js.
 
 ## Project Description
 
