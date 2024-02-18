@@ -85,6 +85,8 @@ const ShoppingCard = ({isOpen, onClose}) => {
                         value={storedDates.find(option => option.value === selectedOption)}
                         styles={customDropdownStyles}
                         onChange={handleSelectChange}
+                        noOptionsMessage={() => "Brak dostępnych koszyków."}
+                        placeholder="Wybierz koszyk z produktami."
                     />
                 </div>
                 {Array.isArray(productData) && productData.length > 0 ? (

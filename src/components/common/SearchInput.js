@@ -3,6 +3,7 @@ import React from 'react';
 const SearchInput = ({ text, onChange }) => {
     const handleInputChange = (event) => {
         onChange(event.target.value);
+
     };
 
     return (

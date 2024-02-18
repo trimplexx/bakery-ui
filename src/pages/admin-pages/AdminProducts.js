@@ -100,6 +100,8 @@ const AdminProducts = () => {
                     onChange={handleChange}
                     options={options}
                     styles={customDropdownStyles}
+                    noOptionsMessage={() => "Brak kategorii."}
+                    placeholder="Wybierz kategorie produktu."
                 />
             </div>
             <div className="pb-2 md:col-start-4 xl:col-start-3 md:col-span-3 xl:col-span-3">

@@ -5,7 +5,7 @@ import handleApiError from './apiUtils';
 const apiAdmin = {
     fetchSingleUser: async (userId, setUserData, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminUser/getSingleUser', {
+            const response = await axios.get(connectionUrlString + 'api/AdminUser/singleUser', {
                 headers: {
                     'UserId': userId
                 }
@@ -23,7 +23,7 @@ const apiAdmin = {
     },
     fetchProductCategories: async (setOptions, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminProducts/getProductsCategories');
+            const response = await axios.get(connectionUrlString + 'api/AdminProducts/productsCategories');
             const categories = response.data;
 
 
@@ -66,7 +66,7 @@ const apiAdmin = {
     },
     fetchSingleProduct: async (productId, setProductsData, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminProducts/getSingleProduct', {
+            const response = await axios.get(connectionUrlString + 'api/AdminProducts/singleProduct', {
                 headers: {
                     'ProductId': productId
                 }
@@ -78,7 +78,7 @@ const apiAdmin = {
     },
     fetchProductsList: async (offset, category, searchTerm, setProducts, errorNotify) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/AdminProducts/getProductsList', {
+            const response = await axios.post(connectionUrlString + 'api/AdminProducts/productsList', {
                 offset: offset,
                 category: category,
                 searchTerm: searchTerm
@@ -90,7 +90,7 @@ const apiAdmin = {
     },
     fetchProductsPaginationNumber: async (searchTerm, category, setPaginationNumber, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminProducts/getNumberOfProducts',
+            const response = await axios.get(connectionUrlString + 'api/AdminProducts/numberOfProducts',
                 {
                     headers: {
                         searchTerm: searchTerm,
@@ -116,7 +116,7 @@ const apiAdmin = {
     },
     fetchUsersList: async (offset, searchTerm, setUsers, errorNotify) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/AdminUser/getUsersList', {
+            const response = await axios.post(connectionUrlString + 'api/AdminUser/usersList', {
                 searchTerm : searchTerm,
                 offset : offset
             });
@@ -127,7 +127,7 @@ const apiAdmin = {
     },
     fetchUsersPaginationNumber: async (setPaginationNumber, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminUser/getNumberOfUsers');
+            const response = await axios.get(connectionUrlString + 'api/AdminUser/numberOfUsers');
             setPaginationNumber(response.data);
         } catch (error) {
             handleApiError(error, errorNotify);
@@ -158,7 +158,7 @@ const apiAdmin = {
     },
     getProductsQuantity: async (dateTime, setProductsList, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminProduction/getProductsQuantity', {
+            const response = await axios.get(connectionUrlString + 'api/AdminProduction/productsQuantity', {
                 headers: {
                     'DateTime': dateTime
                 }
@@ -182,7 +182,7 @@ const apiAdmin = {
     },
     fetchProductsToSelect: async (setOptions, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminOrderingPage/getProductsToSelect');
+            const response = await axios.get(connectionUrlString + 'api/AdminOrderingPage/productsToSelect');
             const newOptions = response.data.map(products => ({
                 value: products.productId,
                 label: products.name
@@ -194,7 +194,7 @@ const apiAdmin = {
     },
     fetchOrdersList: async (offset, dateTime, phone, setUsers, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminOrders/getOrdersList', {
+            const response = await axios.get(connectionUrlString + 'api/AdminOrders/ordersList', {
                 headers:{
                     offset: offset,
                     dateTime: dateTime,
@@ -209,7 +209,7 @@ const apiAdmin = {
     },
     fetchOrdersPaginationNumber: async (dateTime, setPaginationNumber, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminOrders/getNumberOfOrders', {
+            const response = await axios.get(connectionUrlString + 'api/AdminOrders/numberOfOrders', {
                 headers:{
                     dateTime: dateTime
                 }});
@@ -231,7 +231,7 @@ const apiAdmin = {
     },
     fetchLastDaysSalary: async (setLastDaysSalary, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/getLastDaysSalary')
+            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/lastDaysSalary')
             setLastDaysSalary(response.data);
         } catch (error) {
             handleApiError(error, errorNotify);
@@ -239,7 +239,7 @@ const apiAdmin = {
     },
     fetchProductsLeft: async (setProductsLeft, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/getProductsLeft')
+            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/productsLeft')
             setProductsLeft(response.data);
         } catch (error) {
             handleApiError(error, errorNotify);
@@ -247,7 +247,7 @@ const apiAdmin = {
     },
     fetchUnfulfilledOrders: async (setUnfulfilledOrders, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/getUnfulfilledOrders')
+            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/unfulfilledOrders')
             setUnfulfilledOrders(response.data);
         } catch (error) {
             handleApiError(error, errorNotify);
@@ -255,7 +255,7 @@ const apiAdmin = {
     },
     fetchNumberOfOrders: async (setNumberOfOrders, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/getNumberOfOrders')
+            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/numberOfOrders')
             setNumberOfOrders(response.data);
         } catch (error) {
             handleApiError(error, errorNotify);

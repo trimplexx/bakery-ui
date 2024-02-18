@@ -28,7 +28,7 @@ const apiUser = {
         }
     }, fetchUserProductsList: async (dateTime, offset, category, searchTerm, setProducts, errorNotify) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/Products/getProductsList', {
+            const response = await axios.post(connectionUrlString + 'api/Products/productsList', {
                 offset: offset, category: category, searchTerm: searchTerm
             }, {
                 headers: {
@@ -42,7 +42,7 @@ const apiUser = {
     }, fetchProductsAvailability: async (dateTime, data, setProductsAvailability, errorNotify) => {
         try {
 
-            const response = await axios.post(connectionUrlString + 'api/Products/getSingleProduct', data, {
+            const response = await axios.post(connectionUrlString + 'api/Products/singleProduct', data, {
                 headers: {
                     dateTime: dateTime
                 }
@@ -88,7 +88,7 @@ const apiUser = {
         }
     }, getOfOrdersPagination: async (phone, setPaginationNumber, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/UserPanel/getNumberOfOrders', {
+            const response = await axios.get(connectionUrlString + 'api/UserPanel/numberOfOrders', {
                 headers: {
                     phone: phone
                 }
@@ -99,7 +99,7 @@ const apiUser = {
         }
     }, getUserOrdersHistoryList: async (offset, phone, setOrders, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/UserPanel/getUserOrdersHistoryList', {
+            const response = await axios.get(connectionUrlString + 'api/UserPanel/userOrdersHistoryList', {
                 headers: {
                     offset: offset, phone: phone
                 }

@@ -79,16 +79,17 @@ const OrderSumaryPage = () => {
         }
     };
 
-
     return (<div
             className=" h-full bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-5 sm:p-10 xl:p-16 2xl:p-20 flex justify-center">
             {productData && (<div className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl">
-                    <div className="p-4 w-60">
+                    <div className="p-4 w-full lg:w-96">
                         <Select
                             options={storedDates}
                             value={storedDates.find(option => option.value === selectedOption)}
                             styles={customDropdownStyles}
                             onChange={handleSelectChange}
+                            noOptionsMessage={() => "Brak dostępnych koszyków."}
+                            placeholder="Wybierz koszyk z produktami."
                         />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-5 mb-4">

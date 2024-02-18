@@ -61,8 +61,8 @@ const RegistrationModal = ({ onClose, onLoginClick }) => {
 
     return (
         <AnimatedModal onClose={onClose}>
-            <form className="bg-white p-7 rounded-lg w-600 shadow-md w-[700px]" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="mb-4 mx-8 text-4xl text-center max-w-lg font-semibold leading-loose text-[#fda329] ">Rejestracja</h1>
+            <form className="bg-white p-7 rounded-lg w-600 shadow-md w-auto sm:w-[700px] h-auto overflow-auto max-h-screen" onSubmit={handleSubmit(onSubmit)}>
+            <h1 className="mb-4 mx-8 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329] ">Zarejestruj się</h1>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <FormInput register={register} id="firstName" label="Imie" type="text" maxLength="40" onChange={(e) => handleInputChange('firstName', e.target.value)}/>
                     <FormInput register={register} id="lastName" label="Nazwisko" type="text" maxLength="50" onChange={(e) => handleInputChange('lastName', e.target.value)}/>

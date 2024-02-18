@@ -1,27 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-const buttonVariants = {
-    hover: {
-        scale: 0.95,
-        transition: {
-            duration: 0.3,
-            yoyo: Infinity
-        }
-    }
-}
+import MotionButton from "./MotionButton";
 
 const SubmitButton = ({ isLoading, text }) => {
     return (
         !isLoading ? (
-            <motion.button
-                className="w-full py-2 rounded-md border-none text-white bg-yellow-400"
-                type="submit"
-                variants={buttonVariants}
-                whileHover="hover"
-            >
-                {text}
-            </motion.button>
+            <MotionButton text={text} color="yellow-400"/>
         ) : (
             <motion.button
                 className="w-full py-2 rounded-md border-none text-white bg-yellow-400"

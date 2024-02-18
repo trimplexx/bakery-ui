@@ -37,7 +37,7 @@ const apiCommon = {
     },
     fetchMaximumProductQuantity: async (dateTime, productId, setMaxQuantity, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/Ordering/getProductQuantityLeft', {
+            const response = await axios.get(connectionUrlString + 'api/Ordering/productQuantityLeft', {
                 params: {
                     productId: productId,
                     dateTime: dateTime

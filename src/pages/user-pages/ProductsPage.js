@@ -111,12 +111,8 @@ const ProductsPage = () => {
         }, errorNotify);
     };
 
-
-
-
-
     return (
-        <div className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-10 px-10 xl:px-24 2xl:px-64 justify-center flex">
+        <div className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] py-10 xl:px-24 2xl:px-64 justify-center flex">
             <div className="border-2 h-full rounded shadow-lg bg-[#EBEBEB] max-w-7xl">
                 <div className="w-auto p-4 grid grid-cols-1 md:grid-cols-8">
                     <div className="h-12 z-20 my-2 md:col-span-2">
@@ -160,11 +156,6 @@ const ProductsPage = () => {
                                     alt={product.name}
                                     className="w-full h-64 object-cover object-center"
                                 />
-                                {product.availableQuantity > 0 ? (
-                                    <IoMdCheckmarkCircleOutline className="absolute bottom-2 right-2 text-green-600 text-xl" />
-                                ) : (
-                                    <FcCancel className="absolute bottom-2 right-2 text-red-600 text-3xl" />
-                                )}
                             </div>
                             <div className="p-4 flex flex-col justify-between bg-yellow-orange-200">
                                 <div className="justify-between grid grid-cols-2">
@@ -173,12 +164,26 @@ const ProductsPage = () => {
                                         <p className="text-gray-600 text-lg font-semibold">{product.price} zł/szt</p>
                                     </div>
                                 </div>
-                                <div className="bottom-4 right-4">
+                                <div className="bottom-4 right-4 justify-between grid grid-cols-4">
+                                    <div className="justify-start flex col-span-3">
+                                        {product.availableQuantity > 0 ? (
+                                                <div className="flex items-center">
+                                                    <IoMdCheckmarkCircleOutline className=" bottom-2 right-2 text-green-600 text-xl" />
+                                                    <span className="text-sm sm:text-md font-sans font-bold text-red-600">Produkt dostępny</span>
+                                                </div>
+                                        ) : (
+                                            <div className="flex items-center">
+                                                <FcCancel className="text-red-600 text-3xl mr-2" />
+                                                <span className="text-sm sm:text-md font-sans font-bold text-red-600">Produkt niedostępny</span>
+                                            </div>
+
+                                        )}
+                                    </div>
                                     <div className="justify-end flex">
                                         <AnimatedIconButton
                                             Icon={FaShoppingCart}
                                             handleIconClick={(event) => handleAddToCart(event, product.productId, product.name)}
-                                            color="text-gray-600 hover:text-green-500 text-3xl"
+                                            color="text-gray-600 hover:text-green-500 text-2xl sm:text-3xl"
                                         />
                                     </div>
                                 </div>

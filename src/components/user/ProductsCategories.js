@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 
 const ProductsCategories = ({ selectedCategory, handleCategorySelection }) => {
     const getCategoryButtonClass = (category) => {
-        return `hover:text-white border-4 h-full ${
+        return `hover:text-white border-2 h-full focus:outline-none border-yellow-orange-400 ${
             selectedCategory === category
-                ? "border-yellow-orange-400 bg-yellow-orange-400 text-white"
-                : "border-yellow-orange-400 hover:bg-yellow-orange-400 text-yellow-orange-400"
+                ? "hover:bg-white hover:text-yellow-orange-400 bg-yellow-orange-400 text-white"
+                : "hover:bg-yellow-orange-400 text-yellow-orange-400"
         } font-medium rounded-lg text-md px-4 py-2 text-center whitespace-nowrap mr-4`;
     };
 
