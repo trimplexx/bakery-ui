@@ -58,8 +58,8 @@ const ChangePassword = () => {
     };
 
     return (
-        <form className="p-7 px-20" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="mb-12 text-4xl text-center w-auto font-semibold leading-loose text-[#fda329]">Zmień hasło</h1>
+        <form className="py-4 sm:p-7" onSubmit={handleSubmit(onSubmit)}>
+            <h1 className="mb-12 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329] ">Zmień hasło</h1>
             <div className="grid gap-6 mb-3">
                 <EditInput
                     register={register}

@@ -37,14 +37,15 @@ const OrdersHistory = () => {
 
     return (
         <>
-            <OrdersTable
-                orders={orders}
-                paginationNumber={paginationNumber}
-                handlePageChange={handlePageChange}
-                currentPage={currentPage}
-            />
+                <OrdersTable
+                    orders={orders}
+                    paginationNumber={paginationNumber}
+                    handlePageChange={handlePageChange}
+                    currentPage={currentPage}
+                />
         </>
     );
+
 };
 
 export default OrdersHistory;

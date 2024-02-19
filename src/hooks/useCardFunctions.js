@@ -59,19 +59,21 @@ export const useOrderFunctions = () => {
             const existingProductIndex = cartItems.findIndex(item => item.name === updatedProductData[index].name);
 
             if (existingProductIndex !== -1) {
-                cartItems[existingProductIndex].quantity = newQuantity;
+                cartItems[existingProductIndex].quantity = updatedQuantity; // Zaktualizowano na updatedQuantity
             } else {
                 cartItems.push({
                     name: updatedProductData[index].name,
-                    quantity: newQuantity,
+                    quantity: updatedQuantity, // Zaktualizowano na updatedQuantity
                 });
             }
             localStorage.setItem(cartKey, JSON.stringify(cartItems));
         }
     };
 
-    const handleDelete = (indexToDelete) => {
-        const cartKey = `${storedDates[indexToDelete].value}`;
+
+    const handleDelete = (date,indexToDelete) => {
+        console.log(date)
+        const cartKey = `${date}`;
         let cartItems = JSON.parse(localStorage.getItem(cartKey)) || [];
 
         // Usunięcie produktu z localStorage na podstawie indexToDelete

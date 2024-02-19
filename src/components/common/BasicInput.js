@@ -4,7 +4,6 @@ const BasicInput = ({ id, label, type, value, onChange, maxLength }) => {
     const handleInputChange = (e) => {
         let inputValue = e.target.value;
 
-        // Limit the input value to the specified maxLength
         if (maxLength && inputValue.length > maxLength) {
             inputValue = inputValue.slice(0, maxLength);
         }

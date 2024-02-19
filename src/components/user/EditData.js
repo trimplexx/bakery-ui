@@ -47,10 +47,9 @@ const EditData = () => {
     };
 
     return (
-
-        <form className="p-10"
+        <form className="py-4 sm:p-7"
               onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="mb-12 text-4xl text-center w-auto font-semibold leading-loose text-[#fda329] ">Edytuj dane</h1>
+            <h1 className="mb-12 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329]">Edytuj dane</h1>
             <div className="grid gap-6 mb-6 md:grid-cols-2">
                 <EditInput register={register} id="firstName" label="Imię" type="text" maxLength="40"
                            value={userData.firstName} onChange={(e) => handleInputChange('firstName', e.target.value)}/>

@@ -47,47 +47,36 @@ const UserModal = ({ onClose }) => {
 
     return (
         <AnimatedModal onClose={onClose}>
-            <div className="flex flex-col lg:flex-row max-h-screen max-w-screen overflow-auto bg-white rounded-2xl">
-                <div className="flex-shrink-0 lg:w-1/3 bg-gray-300 rounded-2xl p-4 flex flex-col min-h-1/2 max-h-4/5 min-w-1/4 max-w-4/5">
-                    <h2 className="font-bold text-3xl text-gray-900 text-center m-4 p-4 bg-gray-200 rounded-2xl">
-                        Opcje
-                    </h2>
-                    <ul className="space-y-2">
-                        <li>
-                            <button
-                                className={`w-full text-center rounded p-4 text-lg font-bold text-gray-900 ${showEditData ? 'bg-gray-200' : 'hover:bg-gray-200'}`}
-                                onClick={openEditData}
-                            >
-                                Zmień dane
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                className={`w-full text-center rounded p-4 text-lg font-bold text-gray-900 ${showChangePassword ? 'bg-gray-200' : 'hover:bg-gray-200'}`}
-                                onClick={openChangePassword}
-                            >
-                                Zmień hasło
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                className={`w-full text-center rounded p-4 text-lg font-bold text-gray-900 ${showOrdersHistory ? 'bg-gray-200' : 'hover:bg-gray-200'}`}
-                                onClick={openOrdersHistory}
-                            >
-                                Historia zamówień
-                            </button>
-                        </li>
-                    </ul>
-                    <div className="mt-auto">
+            <div className="flex flex-col w-full h-full max-w-screen-lg max-h-screen mx-auto overflow-auto bg-white rounded-2xl">
+                <div className="flex-shrink-0 bg-gray-400 rounded-t-xl sm:px-4 pt-8 flex flex-col min-h-1/2 max-h-4/5">
+                    <div className="flex justify-around">
                         <button
-                            className="w-full text-center hover:bg-gray-200 rounded p-4 text-lg font-bold text-red-600"
+                            className={`text-center rounded-t-xl p-2 sm:p-4 sm:text-lg font-bold sm:mr-4 text-gray-900 ${showEditData ? 'bg-white' : 'hover:bg-white '} focus:outline-none focus:ring-0`}
+                            onClick={openEditData}
+                        >
+                            Zmień dane
+                        </button>
+                        <button
+                            className={`text-center rounded-t-xl p-2  sm:p-4  sm:text-lg sm:mr-4 font-bold text-gray-900 ${showChangePassword ? 'bg-white' : 'hover:bg-white'} focus:outline-none focus:ring-0`}
+                            onClick={openChangePassword}
+                        >
+                            Zmień hasło
+                        </button>
+                        <button
+                            className={`text-center rounded-t-xl p-2 sm:p-4  sm:text-lg sm:mr-4 font-bold text-gray-900 ${showOrdersHistory ? 'bg-white' : 'hover:bg-white'} focus:outline-none focus:ring-0`}
+                            onClick={openOrdersHistory}
+                        >
+                            Historia zamówień
+                        </button>
+                        <button
+                            className="text-center rounded-t-xl p-2 sm:p-4  sm:text-lg font-bold text-[lucida-console] text-red-600 hover:bg-white focus:outline-none focus:ring-0"
                             onClick={handleLogout}
                         >
                             Wyloguj się!
                         </button>
                     </div>
                 </div>
-                <div className="flex-grow p-4">
+                <div className="flex-grow p-2 sm:p-4 overflow-auto">
                     {showChangePassword && (
                         <ChangePassword onClose={() => setShowChangePassword(false)} />
                     )}
@@ -101,6 +90,10 @@ const UserModal = ({ onClose }) => {
             </div>
         </AnimatedModal>
     );
+
+
+
+
 };
 
 export default UserModal;

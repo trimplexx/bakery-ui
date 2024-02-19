@@ -1,22 +1,22 @@
 import React from 'react';
 import {FaTrashAlt} from "react-icons/fa";
 
-const ProductShoppingCard = ({ product, index,handleDelete, handleQuantityChange }) => {
+const ProductShoppingCard = ({ product, index, date,handleDelete, handleQuantityChange }) => {
     return (
-        <div key={index} className="flex mx-4 bg-gray-300 rounded mb-4">
-            <img className="w-44 h-auto rounded-lg shadow-xl" src={product.image} alt="image description" />
+        <div key={index} className="flex sm:mx-4 bg-gray-300 rounded mb-4">
+            <img className="w-40 h-auto rounded-lg shadow-xl" src={product.image} alt="image description" />
             <div className="items-start w-full">
-                <div className="flex justify-between items-center p-4">
+                    <div className="justify-between flex p-1 sm:p-2">
                     <h1 className="text-xl font-semibold">{product.name}</h1>
                     <button
                         className="rounded-full bg-gray-300 p-2 hover:bg-white ml-auto"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(date ,index)}
                     >
                         <FaTrashAlt className="text-red-500" />
                     </button>
-                </div>
 
-                <div className="grid grid-cols-2">
+                    </div>
+                <div className="sm:grid sm:grid-cols-2 p-1 sm:p-2 ">
                     <div className="flex justify-center">
                         <input
                             type="number"
@@ -26,14 +26,14 @@ const ProductShoppingCard = ({ product, index,handleDelete, handleQuantityChange
                             value={product.quantity}
                             onChange={(e) => handleQuantityChange(e, index)}
                             aria-describedby="helper-text-explanation"
-                            className="mx-4 w-20 h-10 z-20 bg-transparent my-2 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block p-2"
+                            className="mx-4 w-full h-10 bg-transparent my-2 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block p-2"
                             placeholder="ilość"
                             required
-                        />
+                            />
                     </div>
                     <div className="justify-center flex items-center">
-                        <p className="text-lg font-semibold px-4">
-                            Cena: {(product.price * product.quantity).toFixed(2)} zł
+                        <p className="text-base font-semibold px-4">
+                            {(product.price * product.quantity).toFixed(2)} zł
                         </p>
                     </div>
                 </div>

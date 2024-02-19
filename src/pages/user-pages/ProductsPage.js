@@ -169,7 +169,7 @@ const ProductsPage = () => {
                                         {product.availableQuantity > 0 ? (
                                                 <div className="flex items-center">
                                                     <IoMdCheckmarkCircleOutline className=" bottom-2 right-2 text-green-600 text-xl" />
-                                                    <span className="text-sm sm:text-md font-sans font-bold text-red-600">Produkt dostępny</span>
+                                                    <span className="text-sm sm:text-md font-sans font-bold text-green-600">Produkt dostępny</span>
                                                 </div>
                                         ) : (
                                             <div className="flex items-center">
