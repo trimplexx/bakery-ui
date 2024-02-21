@@ -8,6 +8,8 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import CustomPagination from "../../components/common/CustomPagination";
 import SearchInput from "../../components/common/SearchInput";
 import apiAdmin from "../../utils/apiAdmin";
+import CustomConfirmModal from "../../components/common/CustomConfirmModal";
+import apiUser from "../../utils/apiUser";
 
 registerLocale('pl', pl);
 
@@ -17,6 +19,9 @@ const AdminOrders = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [paginationNumber, setPaginationNumber] = useState(null);
     const [searchTerm, setSearchTerm] = useState(null);
+    const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+    const [orderId, setOrderId] = useState(null);
+    const [newStatus, setNewStatus] = useState(null);
 
     useEffect(() => {
         let isoDate = selectedDate.toISOString();
@@ -35,22 +40,9 @@ const AdminOrders = () => {
     }, [currentPage, searchTerm, selectedDate]);
 
     const handleCheckboxChange = async (orderId, newStatus) => {
-        const confirmed = window.confirm("Czy na pewno chcesz oznaczyć to zamówienie jako zrealizowane?");
-
-        if (confirmed) {
-                await apiAdmin.changeOrderStatus(orderId, errorNotify, successNotify);
-
-                const updatedOrders = orders.map(order => {
-                    if (order.orderId === orderId) {
-                        return {
-                            ...order,
-                            status: newStatus
-                        };
-                    }
-                    return order;
-                });
-                setOrders(updatedOrders);
-        }
+        setOrderId(orderId);
+        setNewStatus(newStatus);
+        setIsConfirmModalVisible(true);
     };
 
     const handlePageChange = async (page) => {
@@ -63,6 +55,27 @@ const AdminOrders = () => {
     const handleSearchInputChange = (searchTerm) => {
         setSearchTerm(searchTerm);
     };
+
+    const handleConfirm = async () => {
+        await apiAdmin.changeOrderStatus(orderId, errorNotify, successNotify);
+
+        const updatedOrders = orders.map(order => {
+            if (order.orderId === orderId) {
+                return {
+                    ...order,
+                    status: newStatus
+                };
+            }
+            return order;
+        });
+        setOrders(updatedOrders);
+        setIsConfirmModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsConfirmModalVisible(false);
+    };
+
 
     return (
         <>
@@ -125,6 +138,12 @@ const AdminOrders = () => {
                     </tbody>
                 </table>
             </div>
+            <CustomConfirmModal
+                visible={isConfirmModalVisible}
+                message="Czy na pewno chcesz oznaczyć to zamówienie jako zrealizowane?"
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
+            />
             <div className="w-full flex justify-center relative bottom-0 py-4">
                 <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange} initialPage={currentPage}/>
             </div>

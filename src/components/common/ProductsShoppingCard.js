@@ -1,7 +1,7 @@
 import React from 'react';
 import {FaTrashAlt} from "react-icons/fa";
 
-const ProductShoppingCard = ({ product, index, date,handleDelete, handleQuantityChange }) => {
+const ProductShoppingCard = ({ product, index, date, handleDelete, handleQuantityChange }) => {
     return (
         <div key={index} className="flex sm:mx-4 bg-gray-300 rounded mb-4">
             <img className="w-40 h-auto rounded-lg shadow-xl" src={product.image} alt="image description" />
@@ -10,7 +10,7 @@ const ProductShoppingCard = ({ product, index, date,handleDelete, handleQuantity
                     <h1 className="text-xl font-semibold">{product.name}</h1>
                     <button
                         className="rounded-full bg-gray-300 p-2 hover:bg-white ml-auto"
-                        onClick={() => handleDelete(date ,index)}
+                        onClick={() => handleDelete(index, date)}
                     >
                         <FaTrashAlt className="text-red-500" />
                     </button>
@@ -22,9 +22,9 @@ const ProductShoppingCard = ({ product, index, date,handleDelete, handleQuantity
                             type="number"
                             id={`quantity-${index}`}
                             step="1"
-                            min="0"
+                            min="1"
                             value={product.quantity}
-                            onChange={(e) => handleQuantityChange(e, index)}
+                            onChange={(e) => handleQuantityChange(e, index, date)}
                             aria-describedby="helper-text-explanation"
                             className="mx-4 w-full h-10 bg-transparent my-2 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block p-2"
                             placeholder="ilość"

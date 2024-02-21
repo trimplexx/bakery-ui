@@ -8,8 +8,12 @@ import useAuth from "../../hooks/useAuth";
 import {FaLock} from "react-icons/fa";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import apiUser from "../../utils/apiUser";
+import OrderConfirmModal from "../../components/admin/OrderConfirmModal";
+import CustomConfirmModal from "../../components/common/CustomConfirmModal";
+import apiCommon from "../../utils/apiCommon";
 
 const OrderSumaryPage = () => {
+    const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const {
         productData,
         storedDates,
@@ -37,9 +41,25 @@ const OrderSumaryPage = () => {
         } else {
             console.error('Brak tokenu w localStorage');
         }
+
+        // Wczytaj wybraną opcję z localStorage
+        const storedOption = localStorage.getItem('selectedOption');
+        if (storedOption) {
+            const foundOption = storedDates.find(option => option.value === storedOption);
+            if (foundOption) {
+                handleSelectChange(foundOption);
+            }
+        }
     }, [isLoggedIn]);
 
     const handleOrder = async () => {
+        const termsChecked = document.getElementById('terms').checked;
+
+        if (!termsChecked) {
+            errorNotify('Proszę zaakceptować Regulamin oraz Politykę prywatności.');
+            return;
+        }
+
         if (!Array.isArray(productData) || productData.length === 0) {
             errorNotify('Koszyk jest pusty. Dodaj produkty przed złożeniem zamówienia.');
             return;
@@ -69,14 +89,20 @@ const OrderSumaryPage = () => {
         }
         // Sprawdzanie czy jezeli użytkownik nie jest zalogowany nie podał numeru telefonu, który jest przypisany do konta.
         if (!phoneCheck) {
-            const dateTime = selectedOption;
-            const productsToSend = productData.map(product => ({
-                name: product.name, quantity: product.quantity,
-            }));
-
-            await apiUser.userMakeOrder(productsToSend, dateTime, 1, phoneValue, successNotify, errorNotify);
-
+            setIsConfirmModalVisible(true);
         }
+    };
+    const handleConfirm = async () => {
+        const dateTime = selectedOption;
+        const productsToSend = productData.map(product => ({
+            name: product.name, quantity: product.quantity,
+        }));
+        await apiUser.userMakeOrder(productsToSend, dateTime, 1, document.getElementById('phone').value, successNotify, errorNotify);
+        setIsConfirmModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsConfirmModalVisible(false);
     };
 
     return (<div
@@ -101,6 +127,7 @@ const OrderSumaryPage = () => {
                                             key={index}
                                             product={product}
                                             index={index}
+                                            date={selectedOption}
                                             handleQuantityChange={handleQuantityChange}
                                             handleDelete={handleDelete}
                                         />))}
@@ -128,7 +155,7 @@ const OrderSumaryPage = () => {
                                     <p className="text-lg font-sans p-4 md:pt-4">{selectedOption}</p>
                                 </div>
                             </div>
-                            <div className="flex px-2 mt-6">
+                            <div className="flex px-2 my-6">
                                         <span
                                             className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-200 border border-gray-300 rounded">
                                             <span className="fi fi-pl mr-2"></span> +48
@@ -151,6 +178,12 @@ const OrderSumaryPage = () => {
                                         Numer telefonu
                                     </label>
                                 </div>
+
+                            </div>
+                            <div className="flex items-center px-2">
+                                <input id="terms" type="checkbox" value="" className=" cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]" required />
+                                <label htmlFor="terms" className="cursor-pointer ml-1 text-sm font-medium text-gray-900 ">*Akceptuję Regulamin oraz Politykę prywatności. </label>
+                                <span className="cursor-pointer ml-1 text-sm font-medium text-[#fda329] hover:text-[#8b8a8a]">(Link)</span>
                             </div>
                             <div className="h-full flex justify-center my-4 items-end">
                                 <div className="mt-6">
@@ -159,12 +192,19 @@ const OrderSumaryPage = () => {
                                         className="text-lg text-black bg-yellow-orange-200 hover:bg-yellow-orange-300 focus:outline-none focus:ring-4 focus:ring-yellow-orange-300 font-medium rounded-full px-5 py-2.5 flex justify-center items-center"
                                         onClick={handleOrder}
                                     >
+
                                         Zamów <IoCashOutline className="text-xl ml-2"/>
                                     </button>
+                                    <CustomConfirmModal
+                                        visible={isConfirmModalVisible}
+                                        message={`Czy na pewno chcesz złożyć podane zamówienie z obowiązkiem zapłaty oraz 
+                                                    odbioru w lokalu w dniu ${localStorage.getItem('selectedOption')}.`}
+                                        onConfirm={handleConfirm}
+                                        onCancel={handleCancel}
+                                    />
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>)}
         </div>);

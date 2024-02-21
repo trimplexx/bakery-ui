@@ -32,6 +32,14 @@ const ShoppingCard = ({ isOpen, onClose }) => {
         } else {
             controls.start('closed');
         }
+        // Wczytaj wybraną opcję z localStorage
+        const storedOption = localStorage.getItem('selectedOption');
+        if (storedOption) {
+            const foundOption = storedDates.find(option => option.value === storedOption);
+            if (foundOption) {
+                handleSelectChange(foundOption);
+            }
+        }
     }, [isOpen, controls]);
 
     useEffect(() => {

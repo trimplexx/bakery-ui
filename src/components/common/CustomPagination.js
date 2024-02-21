@@ -32,10 +32,17 @@ const CustomPagination = ({ paginationNumber, onPageChange, initialPage }) => {
     if (currentPage >= 4 && currentPage <= paginationNumber - 3) {
         visiblePages = [1, ...pages.slice(currentPage - 2, currentPage + 1), paginationNumber];
     } else if (currentPage < 4) {
-        visiblePages = pages.slice(0, 4).concat([paginationNumber]);
+        visiblePages = pages.slice(0, 4);
+        if (visiblePages.indexOf(paginationNumber) === -1) {
+            visiblePages.push(paginationNumber);
+        }
     } else {
-        visiblePages = [1].concat(pages.slice(paginationNumber - 4, paginationNumber));
+        visiblePages = [1];
+        if (visiblePages.indexOf(pages.slice(paginationNumber - 4, paginationNumber)[0]) === -1) {
+            visiblePages = visiblePages.concat(pages.slice(paginationNumber - 4, paginationNumber));
+        }
     }
+
 
     return (
         <ul className="inline-flex">

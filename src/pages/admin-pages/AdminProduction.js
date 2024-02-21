@@ -54,6 +54,7 @@ const AdminProduction = () => {
     const SaveChanges = async () => {
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
+        console.log(selectedDate)
         await apiAdmin.updateProductsAvailability(productsList, dateOnly, successNotify, errorNotify);
     };
 

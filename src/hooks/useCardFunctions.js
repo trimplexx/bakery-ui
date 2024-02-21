@@ -1,4 +1,4 @@
-import { useProductsData } from "../hooks/useProductsData";
+import { useProductsData } from "./useProductsData";
 import {useEffect, useState} from "react";
 import apiUser from "../utils/apiUser";
 import {errorNotify} from "../helpers/ToastNotifications";
@@ -24,6 +24,9 @@ export const useOrderFunctions = () => {
         setSelectedOption(selectedOption.value);
         const selectedDate = selectedOption.value;
 
+        // Zapisz wybraną opcję do localStorage
+        localStorage.setItem('selectedOption', selectedOption.value);
+
         const selectedProductData = JSON.parse(localStorage.getItem(selectedDate));
 
         if (selectedProductData) {
@@ -36,7 +39,9 @@ export const useOrderFunctions = () => {
 
         await apiUser.fetchProductsAvailability(selectedDate, productsInfo, setProductData, errorNotify);
     };
-    const handleQuantityChange = (e, index) => {
+
+
+    const handleQuantityChange = (e, index, date) => {
         const newQuantity = parseInt(e.target.value, 10);
         const maxQuantity = productData[index].maxAvailableQuantity;
 
@@ -52,8 +57,7 @@ export const useOrderFunctions = () => {
 
         // Sprawdzenie, czy index mieści się w zakresie storedDates
         if (index >= 0 && index < storedDates.length) {
-            const cartKey = `${storedDates[index].value}`;
-
+            const cartKey = date;
             let cartItems = JSON.parse(localStorage.getItem(cartKey)) || [];
 
             const existingProductIndex = cartItems.findIndex(item => item.name === updatedProductData[index].name);
@@ -70,10 +74,8 @@ export const useOrderFunctions = () => {
         }
     };
 
-
-    const handleDelete = (date,indexToDelete) => {
-        console.log(date)
-        const cartKey = `${date}`;
+    const handleDelete = (indexToDelete,date) => {
+        const cartKey = date;
         let cartItems = JSON.parse(localStorage.getItem(cartKey)) || [];
 
         // Usunięcie produktu z localStorage na podstawie indexToDelete

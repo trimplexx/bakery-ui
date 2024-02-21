@@ -39,6 +39,13 @@ const ProductsPage = () => {
     };
 
     useEffect(() => {
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (selectedDate < today) {
+            setSelectedDate(new Date(today));
+        }
+
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0,10);
         let categoryNumber = null;
