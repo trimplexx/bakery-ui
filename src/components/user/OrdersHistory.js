@@ -1,12 +1,18 @@
 import React, {useEffect, useState} from "react";
-import {errorNotify} from "../../helpers/ToastNotifications";
+import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import apiUser from "../../utils/apiUser";
 import OrdersTable from "../common/OrdersHistoryTabele";
+import apiCommon from "../../utils/apiCommon";
+import LoadingComponent from "../common/LoadingComponent";
+import CustomConfirmModal from "../common/CustomConfirmModal";
 
 const OrdersHistory = () => {
     const [paginationNumber, setPaginationNumber] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [orders, setOrders] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+    const [orderId, setOrderId] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -20,31 +26,54 @@ const OrdersHistory = () => {
             };
 
             const getUserOrdersHistoryList = async () => {
-                await apiUser.getUserOrdersHistoryList(currentPage-1, phoneNumber, setOrders, errorNotify);
+                await apiUser.getUserOrdersHistoryList(currentPage - 1, phoneNumber, setOrders, errorNotify);
             };
-
-            getOfOrdersPagination();
-            getUserOrdersHistoryList();
+            Promise.all([getOfOrdersPagination(), getUserOrdersHistoryList()]).then(() => {
+                setIsLoading(false);
+            });
         } else {
-            console.error('Brak tokenu w localStorage');
+            errorNotify('Brak tokenu w localStorage');
         }
-    }, [currentPage]);
+    }, [currentPage, isLoading]);
 
+    const handleCancelOrder = async (orderId) => {
+        setOrderId(orderId)
+        setIsConfirmModalVisible(true);
+
+    };
+
+    const handleConfirm = async () => {
+        Promise.all([apiCommon.cancelOrder(orderId, errorNotify, successNotify)]).then(() => {
+            setIsLoading(true);
+            setIsConfirmModalVisible(false);
+        });
+    };
+
+    const handleCancel = () => {
+        setIsConfirmModalVisible(false);
+    };
 
     const handlePageChange = async (page) => {
         setCurrentPage(page);
     };
 
-    return (
-        <>
+    return (<div>
+            {isLoading ? <LoadingComponent/> : <div>
                 <OrdersTable
                     orders={orders}
+                    handleCancelOrder={handleCancelOrder}
                     paginationNumber={paginationNumber}
                     handlePageChange={handlePageChange}
                     currentPage={currentPage}
                 />
-        </>
-    );
+                <CustomConfirmModal
+                    visible={isConfirmModalVisible}
+                    message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}
+                    onConfirm={handleConfirm}
+                    onCancel={handleCancel}
+                />
+            </div>}
+        </div>);
 
 };
 

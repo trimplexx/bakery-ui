@@ -46,7 +46,6 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
                 ...prevState,
                 image: backgroundImage
             }));
-            console.log(backgroundImage, ":Fota");
         }
         await onSubmit(formData);
     };

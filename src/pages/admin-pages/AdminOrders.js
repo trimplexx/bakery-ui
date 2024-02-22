@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {registerLocale} from 'react-datepicker';
 import pl from 'date-fns/locale/pl';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -9,7 +9,11 @@ import CustomPagination from "../../components/common/CustomPagination";
 import SearchInput from "../../components/common/SearchInput";
 import apiAdmin from "../../utils/apiAdmin";
 import CustomConfirmModal from "../../components/common/CustomConfirmModal";
-import apiUser from "../../utils/apiUser";
+import LoadingComponent from "../../components/common/LoadingComponent";
+import MotionButton from "../../components/common/MotionButton";
+import { isBefore, endOfDay } from 'date-fns';
+import apiCommon from "../../utils/apiCommon";
+import {VscError} from "react-icons/vsc";
 
 registerLocale('pl', pl);
 
@@ -22,8 +26,10 @@ const AdminOrders = () => {
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const [orderId, setOrderId] = useState(null);
     const [newStatus, setNewStatus] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSecConfirmModalVisible, setIsSecConfirmModalVisible] = useState(false);
 
-    useEffect(() => {
+    const loadingElements = () => {
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
 
@@ -35,9 +41,19 @@ const AdminOrders = () => {
             await apiAdmin.fetchOrdersList(currentPage - 1, dateOnly, searchTerm, setOrders, errorNotify);
         };
 
-        fetchOrdersPaginationNumber();
-        fetchOrdersList();
-    }, [currentPage, searchTerm, selectedDate]);
+        Promise.all([fetchOrdersPaginationNumber(), fetchOrdersList()]).then(() => {
+            setIsLoading(false);
+        });
+    }
+
+    useEffect(() => {
+        loadingElements()
+    }, [currentPage, searchTerm, selectedDate, newStatus]);
+
+    useEffect(() => {
+        setIsLoading(true);
+        loadingElements()
+    }, []);
 
     const handleCheckboxChange = async (orderId, newStatus) => {
         setOrderId(orderId);
@@ -62,8 +78,7 @@ const AdminOrders = () => {
         const updatedOrders = orders.map(order => {
             if (order.orderId === orderId) {
                 return {
-                    ...order,
-                    status: newStatus
+                    ...order, status: newStatus
                 };
             }
             return order;
@@ -76,79 +91,118 @@ const AdminOrders = () => {
         setIsConfirmModalVisible(false);
     };
 
+    const handleCancelOrder = async (orderId) => {
+        setOrderId(orderId)
+        setIsSecConfirmModalVisible(true);
+    };
 
-    return (
-        <>
-            <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
-                <div className="h-14 z-40 md:col-span-2 xl:col-span-1">
-                    <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white" minDate={null}/>
-                </div>
-                <div className="pb-2 md:col-start-4 xl:col-start-3 md:col-span-3 xl:col-span-3">
-                    <SearchInput text="Wyszukaj numer telefonu..." onChange={handleSearchInputChange} />
-                </div>
+    const handleOrderConfirm = async () => {
+        Promise.all([apiCommon.cancelOrder(orderId, errorNotify, successNotify)]).then(() => {
+            setIsLoading(true);
+            setIsSecConfirmModalVisible(false);
+            loadingElements();
+        });
+    };
+
+    const handleOrderCancel = () => {
+       setIsSecConfirmModalVisible(false);
+    };
+
+    return (<div>
+        {isLoading ? <LoadingComponent/> : <div>
+        <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
+            <div className="h-14 z-40 md:col-span-2 xl:col-span-1">
+                <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white"
+                                  minDate={null}/>
             </div>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" className="px-6 py-3">
-                            Numer telefonu
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Produkty
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Suma
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            <div className="flex justify-center">Zrealizowane
-                            </div>
+            <div className="pb-2 md:col-start-4 xl:col-start-3 md:col-span-3 xl:col-span-3">
+                <SearchInput text="Wyszukaj numer telefonu..." onChange={handleSearchInputChange}/>
+            </div>
+        </div>
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" className="px-6 py-3">
+                        Numer telefonu
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        Produkty
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        Suma
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        <div className="flex justify-center">Zrealizowane
+                        </div>
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        <div className="flex justify-center">Anuluj
+                        </div>
 
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {orders.map((order, index) => (
-                        <tr key={index}
-                            className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                            <th className="px-6 py-4">{order.phone || 'Brak numeru'}</th>
-                            <td className="px-6 py-4">
-                                {order.orderedProducts.map((product, idx) => (
-                                    <span key={idx}>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {orders.map((order, index) => (<tr key={index}
+                                                   className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <th className="px-6 py-4">{order.phone || 'Brak numeru'}</th>
+                        <td className="px-6 py-4">
+                            {order.orderedProducts.map((product, idx) => (<span key={idx}>
                     {product.productName} x{product.productQuantity}
-                                        {idx !== order.orderedProducts.length - 1 && ', '}
-                </span>
-                                ))}
-                            </td>
-                            <td className="px-6 py-4">{order.orderTotal} zł</td>
-                            <td className="px-6 py-4">
-                                <div className="justify-center flex">
-                                    <input
-                                        type="checkbox"
-                                        id={`complete_${index}`}
-                                        className="cursor-pointer w-6 h-6 disabled:bg-green-600 disabled:cursor-not-allowed text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-600"
-                                        checked={order.status === 2}
-                                        onChange={() => handleCheckboxChange(order.orderId, order.status === 2 ? 1 : 2)}
-                                        disabled={order.status === 2}
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
+                                    {idx !== order.orderedProducts.length - 1 && ', '}
+                </span>))}
+                        </td>
+                        <td className="px-6 py-4">{order.orderTotal} zł</td>
+                        <td className="px-6 py-4">
+                            <div className="justify-center flex">
+                                {order.status !== 3 ? <input
+                                    type="checkbox"
+                                    id={`complete_${index}`}
+                                    title="Zamówienie zostało oznaczone jako zrealizowane."
+                                    className="cursor-pointer w-6 h-6 disabled:bg-green-600 disabled:cursor-not-allowed text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-600"
+                                    checked={order.status === 2}
+                                    onChange={() => handleCheckboxChange(order.orderId, order.status === 2 ? 1 : 2)}
+                                    disabled={order.status === 2}
+                                /> :
+                                    <VscError className="text-red-500 text-3xl cursor-not-allowed" title="Zamówienie anulowane"/>}
+                            </div>
+                        </td>
+                    <td className="px-1 sm:px-6 py-3">
+                        <div className="flex justify-center items-center">
+                            {order.status === 2 ? <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienie zostało odebrane"></MotionButton> :
+                                order.status === 1 ? <MotionButton onClick={() => handleCancelOrder(order.orderId)} color={isBefore(endOfDay(selectedDate), new Date()) ? "gray-400" : "red-600"} text="Anuluj zamówienie" disabled={isBefore(endOfDay(selectedDate), new Date())}></MotionButton> :
+                                    <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienie zostało już anulowane"></MotionButton>
+                            }
+                        </div>
+
+                    </td>
+                    </tr>))}
+                </tbody>
+            </table>
+        </div>
+        <CustomConfirmModal
+            visible={isConfirmModalVisible}
+            message="Czy na pewno chcesz oznaczyć to zamówienie jako zrealizowane?"
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+        />
             <CustomConfirmModal
-                visible={isConfirmModalVisible}
-                message="Czy na pewno chcesz oznaczyć to zamówienie jako zrealizowane?"
-                onConfirm={handleConfirm}
-                onCancel={handleCancel}
+                visible={isSecConfirmModalVisible}
+                message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}
+                onConfirm={handleOrderConfirm}
+                onCancel={handleOrderCancel}
             />
-            <div className="w-full flex justify-center relative bottom-0 py-4">
-                <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange} initialPage={currentPage}/>
-            </div>
-        </>
-    );
-};
+        <div className="w-full flex justify-center relative bottom-0 py-4">
+            <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}
+                              initialPage={currentPage}/>
+        </div>
+            </div>}
+</div>
+
+)
+
+}
+
 
 export default AdminOrders;

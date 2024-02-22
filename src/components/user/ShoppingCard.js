@@ -98,7 +98,7 @@ const ShoppingCard = ({ isOpen, onClose }) => {
                 <div className="p-6">
                     <Select
                         options={storedDates}
-                        value={storedDates.find(option => option.value === selectedOption)}
+                        value={selectedOption ? storedDates.find(option => option.value === selectedOption) : null}
                         styles={customDropdownStyles}
                         onChange={handleSelectChange}
                         noOptionsMessage={() => "Brak dostępnych koszyków."}

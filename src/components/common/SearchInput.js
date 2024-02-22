@@ -3,7 +3,6 @@ import React from 'react';
 const SearchInput = ({ text, onChange }) => {
     const handleInputChange = (event) => {
         onChange(event.target.value);
-
     };
 
     return (
@@ -25,11 +24,6 @@ const SearchInput = ({ text, onChange }) => {
                     onChange={handleInputChange}
                     required
                 />
-                <button
-                    className="text-white absolute end-2.5 bottom-2.5 bg-yellow-400 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2"
-                >
-                    Wyszukaj
-                </button>
             </div>
         </>
     );

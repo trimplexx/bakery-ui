@@ -3,7 +3,7 @@ import { SocialIcon } from 'react-social-icons';
 
 const Footer = () => {
     return (
-        <footer className="bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 text-gray-700 py-8 mt-auto">
+        <footer className="bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 text-gray-700 py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between">
                 <div className="mb-4 md:mb-0">
                     <h3 className="text-lg font-semibold mb-2">Kontakt</h3>

@@ -8,6 +8,7 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import OrderConfirmModal from "../../components/admin/OrderConfirmModal";
 import apiCommon from "../../utils/apiCommon";
 import apiAdmin from "../../utils/apiAdmin";
+import LoadingComponent from "../../components/common/LoadingComponent";
 
 const AdminMakeOrder = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -18,14 +19,16 @@ const AdminMakeOrder = () => {
     const [options, setOptions] = useState([]);
     const [productsList, setProductsList] = useState([]);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        setIsLoading(true);
         const fetchProductsToSelect = async () => {
             await apiAdmin.fetchProductsToSelect(setOptions, errorNotify);
         };
-        fetchProductsToSelect();
-        getLocalStorageItems();
+        Promise.all([fetchProductsToSelect(), getLocalStorageItems()]).then(() => {
+            setIsLoading(false);
+        });
     }, []);
 
     const getLocalStorageItems = () => {
@@ -34,9 +37,7 @@ const AdminMakeOrder = () => {
         if (existingList) {
             const productList = JSON.parse(existingList);
             setProductsList(productList);
-        }
-        else
-            setProductsList([]);
+        } else setProductsList([]);
     }
 
     const handleAddQuantityChange = (newQuantity) => {
@@ -94,17 +95,14 @@ const AdminMakeOrder = () => {
             await apiCommon.fetchMaximumProductQuantity(dateOnly, option.value, setMaxProductQuantity, errorNotify);
         };
         fetchMaxSelectedProductQuantity();
-        console.log(maxProductQuantity)
         if (maxProductQuantity !== null) {
             if (selectedQuantity > maxProductQuantity) {
                 setSelectedQuantity(maxProductQuantity);
             }
         }
-        if(maxProductQuantity === undefined) {
+        if (maxProductQuantity === undefined) {
             setMaxProductQuantity(0);
-        }
-        else if(maxProductQuantity === 0 )
-        {
+        } else if (maxProductQuantity === 0) {
             errorNotify("Dostępna ilość produktu " + option.label + " w podanym dniu wynosi 0")
         }
         setSelectedQuantity("0");
@@ -120,7 +118,7 @@ const AdminMakeOrder = () => {
     const handleMakeOrderAsRealized = async () => {
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        await apiCommon.makeOrder(productsList, dateOnly,2,null, successNotify, errorNotify);
+        await apiCommon.makeOrder(productsList, dateOnly, 2, null, successNotify, errorNotify);
         getLocalStorageItems();
     };
 
@@ -141,10 +139,12 @@ const AdminMakeOrder = () => {
     };
 
 
-    return (<>
+    return (<div>
+        {isLoading ? <LoadingComponent/> : <div>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 <div className="h-14 z-50">
-                    <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white" minDate={new Date()}/>
+                    <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white"
+                                      minDate={new Date()}/>
                 </div>
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
@@ -194,32 +194,32 @@ const AdminMakeOrder = () => {
                         </td>
                     </tr>
                     {productsList.map((product, index) => (<tr
-                            key={index}
-                            className={`${index % 2 === 0 ? 'even:bg-gray-50 even:dark:bg-gray-800' : 'odd:bg-white odd:dark:bg-gray-900'} border-b dark:border-gray-700`}
-                        >
-                            <th scope="row" className="py-2 font-bold text-lg whitespace-nowrap">
-                                <div className="px-6">
-                                    {product.name}
-                                </div>
-                            </th>
-                            <td className="px-6 py-4">
-                                <BasicInput
-                                    id={`quantity-${product.index}`}
-                                    type="number"
-                                    label="Zmień ilość"
-                                    value={product.quantity}
-                                    onChange={(e) => handleEditQuantityChange(index, e.target.value)}
-                                />
-                            </td>
-                            <td className="flex justify-center py-6">
-                                <button
-                                    className="rounded-full bg-white p-2 hover:bg-red-200 mr-1"
-                                    onClick={handleDeleteFromList}
-                                >
-                                    <FaTrashAlt className="text-red-500 text-3xl"/>
-                                </button>
-                            </td>
-                        </tr>))}
+                        key={index}
+                        className={`${index % 2 === 0 ? 'even:bg-gray-50 even:dark:bg-gray-800' : 'odd:bg-white odd:dark:bg-gray-900'} border-b dark:border-gray-700`}
+                    >
+                        <th scope="row" className="py-2 font-bold text-lg whitespace-nowrap">
+                            <div className="px-6">
+                                {product.name}
+                            </div>
+                        </th>
+                        <td className="px-6 py-4">
+                            <BasicInput
+                                id={`quantity-${product.index}`}
+                                type="number"
+                                label="Zmień ilość"
+                                value={product.quantity}
+                                onChange={(e) => handleEditQuantityChange(index, e.target.value)}
+                            />
+                        </td>
+                        <td className="flex justify-center py-6">
+                            <button
+                                className="rounded-full bg-white p-2 hover:bg-red-200 mr-1"
+                                onClick={handleDeleteFromList}
+                            >
+                                <FaTrashAlt className="text-red-500 text-3xl"/>
+                            </button>
+                        </td>
+                    </tr>))}
                     </tbody>
                 </table>
             </div>
@@ -243,6 +243,7 @@ const AdminMakeOrder = () => {
                     Zamów jako zrelizowane
                 </button>
             </div>
-        </>);
+        </div>}
+    </div>);
 };
 export default AdminMakeOrder;

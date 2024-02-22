@@ -72,7 +72,7 @@ const AboutPage = () => {
     };
 
     return (
-        <div className="h-full bg-gradient-to-b from-[#EBEBEB] via-gray-300 to-[#EBEBEB] relative">
+        <div className="h-full bg-gradient-to-b from-[#EBEBEB] via-gray-300 to-[#EBEBEB] relative flex-grow py-12">
             <div className="lg:flex block">
                 <div className="lg:w-1/3 px-4 w-full ">
                     <div className="px-4 pb-4">

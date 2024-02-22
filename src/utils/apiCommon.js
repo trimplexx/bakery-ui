@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {connectionUrlString} from "./props";
 import handleApiError from './apiUtils';
+import {successNotify} from "../helpers/ToastNotifications";
 
 const apiCommon = {
     verifyToken: async (setIsAdmin, setIsLoggedIn, errorNotify) => {
@@ -49,6 +50,68 @@ const apiCommon = {
             setMaxQuantity(0);
         }
     },
+    cancelOrder: async (orderId, errorNotify, successNotify, newStatus) => {
+        try {
+            const response = await axios.post(connectionUrlString + 'api/Ordering/cancelOrder', {}, {
+                headers: {
+                    orderId : orderId
+                }
+            });
+            successNotify(response.data);
+            newStatus = 3;
+        } catch (error) {
+            handleApiError(error, errorNotify);
+        }
+    },
+    forgotPassword: async (data, setIsLoading, onClose, successNotify, errorNotify) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(connectionUrlString + 'api/ForgotPassword/forgotPassword', {}, {
+                headers: {
+                    email: data.email
+                }
+            });
+            setIsLoading(false);
+            onClose();
+            successNotify(response.data);
+        } catch (error) {
+            setIsLoading(false);
+            handleApiError(error, errorNotify);
+        }
+    },
+    resetPassword: async (data, token, setIsLoading, navigate, successNotify, errorNotify) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.put(connectionUrlString + 'api/ForgotPassword/resetPassword', {
+                token
+            }, {
+                headers: {
+                    password: data.password
+                }
+            });
+            setIsLoading(false);
+            navigate("/");
+            successNotify(response.data);
+        } catch (error) {
+            setIsLoading(false);
+            handleApiError(error, errorNotify);
+        }
+    },
+    verifyForgotToken: async (token, setIsLoading, navigate, errorNotify) => {
+        setIsLoading(true);
+        try {
+            await axios.post(connectionUrlString + 'api/ForgotPassword/tokenVerification', {
+                token
+            });
+            setIsLoading(false);
+        } catch (error) {
+            navigate("/");
+            handleApiError(error, errorNotify);
+        }
+    },
+
+
+
 };
 
 export default apiCommon;

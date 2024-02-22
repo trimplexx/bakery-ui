@@ -10,6 +10,7 @@ import useAuth from "../../hooks/useAuth";
 import useToastStorage from "../../hooks/useToastStorage";
 import ShoppingCard from "./ShoppingCard";
 import UserModal from "./UserModal";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 export const UserNavMenu = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -33,6 +34,14 @@ export const UserNavMenu = () => {
 
     const handleCartIconClick = () => {
         setSidebarOpen(true);
+    };
+
+    const handleForgotClick = () => {
+        if (isLoggedIn) {
+            setUserModalOpen(true);
+        } else {
+            setModalOpen('forgot');
+        }
     };
 
 
@@ -90,12 +99,16 @@ export const UserNavMenu = () => {
         </nav>
         <ShoppingCard isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         {!isLoggedIn && modalOpen === 'login' &&
-            <LoginModal isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={handleRegisterClick}/>}
+            <LoginModal isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={handleRegisterClick} onForgotPasswordClick={handleForgotClick}/>}
         {!isLoggedIn && modalOpen === 'register' &&
             <RegistrationModal isOpen={true} onClose={() => setModalOpen(null)} onLoginClick={handleLoginClick}/>}
+        {!isLoggedIn && modalOpen === 'forgot' &&
+            <ForgotPasswordModal isOpen={true} onClose={() => setModalOpen(null)} onLoginClick={handleLoginClick}/>}
+
         {isLoggedIn && userModalOpen && (
             <UserModal isOpen={true} onClose={() => setUserModalOpen(false)} />
         )}
+
         <Outlet/>
     </>);
 };

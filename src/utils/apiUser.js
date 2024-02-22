@@ -5,7 +5,6 @@ import handleApiError from './apiUtils';
 const apiUser = {
     register: async (data, successNotify, errorNotify, onLoginClick, setIsLoading) => {
         try {
-            console.log(data)
             await axios.post(connectionUrlString + "api/Auth/register", data);
             successNotify('Pomyślnie zarejestrowano, potwierdź swój adres email aby się zalogować!');
 

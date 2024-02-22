@@ -8,6 +8,7 @@ import useAuth from "../../hooks/useAuth";
 import LoginModal from "../../components/user/LoginModal";
 import RegistrationModal from "../../components/user/RegistrationModal";
 import {jwtDecode} from "jwt-decode";
+import ForgotPasswordModal from "../../components/user/ForgotPasswordModal";
 
 const HomePage = () => {
     const sliderRef = useRef(null);
@@ -34,6 +35,14 @@ const HomePage = () => {
             setUserModalOpen(true);
         } else {
             setModalOpen('register');
+        }
+    };
+
+    const handleForgotClick = () => {
+        if (isLoggedIn) {
+            setUserModalOpen(true);
+        } else {
+            setModalOpen('forgot');
         }
     };
 
@@ -143,9 +152,11 @@ const HomePage = () => {
                         </Fade>
                     </div>
                     {!isLoggedIn && modalOpen === 'login' &&
-                        <LoginModal isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={handleRegisterClick}/>}
+                        <LoginModal isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={handleRegisterClick} onForgotPasswordClick={handleForgotClick}/>}
                     {!isLoggedIn && modalOpen === 'register' &&
                         <RegistrationModal isOpen={true} onClose={() => setModalOpen(null)} onLoginClick={handleLoginClick}/>}
+                    {!isLoggedIn && modalOpen === 'forgot' &&
+                        <ForgotPasswordModal isOpen={true} onClose={() => setModalOpen(null)} onForgotClick={handleForgotClick}/>}
                 </div>
             </div>
 

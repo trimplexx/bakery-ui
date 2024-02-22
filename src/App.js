@@ -19,6 +19,7 @@ import SingleProductPage from "./pages/user-pages/SingleProductPage";
 import OrderSumaryPage from "./pages/user-pages/OrderSumaryPage";
 import Footer from "./components/user/Footer";
 import HomePage from "./pages/user-pages/HomePage";
+import ForgotPasswordPage from "./pages/user-pages/ForgotPasswordPage";
 
 function App() {
     const { isAdmin } = useAuth();
@@ -54,6 +55,7 @@ function App() {
                         <Route path="produkty" element={<ProductsPage/>}/>
                         <Route path="produkt/:productId" element={<SingleProductPage />} />
                         <Route path="podsumowanie" element={<OrderSumaryPage />} />
+                        <Route path="odzyskiwanie-hasla/:token" element={<ForgotPasswordPage />} />
                     </Route>
                     {isAdmin && (<Route path="admin/*" element={<AdminPage/>}/>)}
                     <Route path="*" element={<NoPage/>}/>

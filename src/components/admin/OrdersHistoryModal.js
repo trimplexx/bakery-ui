@@ -13,7 +13,6 @@ const OrdersHistoryModal = ({onClose, phone}) => {
 
     useEffect(() => {
         const formatedPhone = phone.slice(3);
-        console.log(formatedPhone);
             const getOfOrdersPagination = async () => {
                 await apiUser.getOfOrdersPagination(formatedPhone, setPaginationNumber, errorNotify);
             };
@@ -21,10 +20,8 @@ const OrdersHistoryModal = ({onClose, phone}) => {
             const getUserOrdersHistoryList = async () => {
                 await apiUser.getUserOrdersHistoryList(currentPage-1, formatedPhone, setOrders, errorNotify);
             };
-
             getOfOrdersPagination();
             getUserOrdersHistoryList();
-
     }, [currentPage]);
 
 
@@ -43,7 +40,6 @@ const OrdersHistoryModal = ({onClose, phone}) => {
                         currentPage={currentPage}
                     />
                 </div>
-
             </AnimatedModal>
         </div>
     );

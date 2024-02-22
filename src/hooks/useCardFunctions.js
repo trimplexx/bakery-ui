@@ -84,9 +84,13 @@ export const useOrderFunctions = () => {
         if (cartItems.length === 0) {
             // Jeśli koszyk jest pusty, usuń powiązane pole z localStorage
             localStorage.removeItem(cartKey);
+            localStorage.removeItem("selectedOption");
             const updatedStoredDates = [...storedDates];
             updatedStoredDates.splice(indexToDelete, 1);
             setStoredDates(updatedStoredDates);
+
+            // Ustawienie selectedOption na wartość domyślną
+            setSelectedOption(null); // lub inna wartość domyślna
         } else {
             localStorage.setItem(cartKey, JSON.stringify(cartItems));
         }
@@ -95,6 +99,7 @@ export const useOrderFunctions = () => {
         const updatedProductData = productData.filter((_, index) => index !== indexToDelete);
         setProductData(updatedProductData);
     };
+
 
 
     const calculateTotalPrice = () => {

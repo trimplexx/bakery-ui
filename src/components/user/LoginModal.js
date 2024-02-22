@@ -19,7 +19,7 @@ const buttonVariants = {
     }
 }
 
-const LoginModal = ({onClose, onRegisterClick}) => {
+const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
     useCloseOnEsc(onClose);
     const { register, handleSubmit} = useForm();
     const [showPassword, setShowPassword] = useState(false);
@@ -83,7 +83,7 @@ const LoginModal = ({onClose, onRegisterClick}) => {
                                     Pokaż hasło
                                 </label>
                             </div>
-                            <span className="justify-self-end cursor-pointer hover:text-yellow-400 text-sm">Zapomniałeś hasła?</span>
+                            <span className="justify-self-end cursor-pointer hover:text-yellow-400 text-sm" onClick={onForgotPasswordClick}>Zapomniałeś hasła?</span>
                         </div>
                         <SubmitButton isLoading={isLoading} text="Zaloguj się" />
                     </div>

@@ -49,7 +49,6 @@ const ChangePassword = () => {
             return;
         }
         const { confirmNewPassword, ...passwordData } = data;
-        console.log(passwordData)
         await apiUser.userChangePassword(passwordData, setIsLoading, successNotify, errorNotify)
     };
 

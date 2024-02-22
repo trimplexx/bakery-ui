@@ -18,8 +18,9 @@ const ContactPage = () => {
     const [open, setOpen] = useState(false);
 
     return (
-        <div className="h-full bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-5 flex justify-center">
-            <div className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl sm:grid sm:grid-cols-5 gap-4">
+        <div className=" bg-gradient-to-b from-[#F5F5F5] h-full via-gray-300 to-[#F5F5F5] p-10 px-10 xl:px-24 2xl:px-40 justify-center flex flex-grow">
+
+        <div className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl sm:grid sm:grid-cols-5 gap-4">
                 <Fade left>
                 <div className="mt-8 text-gray-800">
                     <h2 className="text-2xl mb-2" style={{fontFamily:'Lucida Console, serif' }}>Kontakt</h2>

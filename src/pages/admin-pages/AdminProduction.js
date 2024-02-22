@@ -5,12 +5,15 @@ import BasicInput from "../../components/common/BasicInput";
 import CustomDatePicker from "../../components/common/CustomDataPicker";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import apiAdmin from "../../utils/apiAdmin";
+import LoadingComponent from "../../components/common/LoadingComponent";
+import apiUser from "../../utils/apiUser";
 
 const AdminProduction = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [secSelectedDate, secSetSelectedDate] = useState(new Date());
     const [productsList, setProductsList] = useState([]);
     const [productsToCopy, setProductsToCopy] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleQuantityChange = (productId, newQuantity) => {
         setProductsList(prevProducts =>
@@ -21,31 +24,45 @@ const AdminProduction = () => {
             )
         );
     };
-
-    useEffect(() => {
+    const loadingElements = () => {
         var isoDate = selectedDate.toISOString();
         var dateOnly = isoDate.slice(0,10);
         setProductsToCopy(null);
         const getProductsQuantity = async () => {
-            await apiAdmin.getProductsQuantity(dateOnly, setProductsList,errorNotify);
+            await apiAdmin.getProductsQuantity(dateOnly, setProductsList, errorNotify);
         };
 
-        getProductsQuantity();
+        getProductsQuantity().then(r => setIsLoading(false));
+    }
+
+    useEffect(() => {
+        setIsLoading(true);
+        loadingElements();
+    }, []);
+
+    useEffect(() => {
+        loadingElements();
     }, [selectedDate]);
+
 
     const copyFromThisDate = () => {
         let isoDate = secSelectedDate.toISOString();
         let dateOnly = isoDate.slice(0,10);
+        let orderedQuantities = [];
 
         const getProductsQuantity = async () => {
-            await apiAdmin.getProductsQuantity(dateOnly, setProductsToCopy,errorNotify);
+            await apiAdmin.getProductsQuantity(dateOnly, setProductsToCopy, errorNotify);
         };
-        const setProductsToCopy = (products) => {
-            const updatedProducts = products.map(product => ({
-                ...product,
-                orderedQuantity: 0,
-            }));
 
+        const setProductsToCopy = (products) => {
+            productsList.forEach(product => {
+                orderedQuantities.push(product.orderedQuantity);
+            });
+
+            const updatedProducts = products.map((product, index) => ({
+                ...product,
+                orderedQuantity: orderedQuantities[index]
+            }));
             setProductsList(updatedProducts);
         };
         getProductsQuantity();
@@ -54,12 +71,13 @@ const AdminProduction = () => {
     const SaveChanges = async () => {
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        console.log(selectedDate)
         await apiAdmin.updateProductsAvailability(productsList, dateOnly, successNotify, errorNotify);
     };
 
     return(
-    <>
+        <div>
+            {isLoading ? <LoadingComponent/> :
+                <div>
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
             <div className="h-14 z-40">
                 <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white" minDate={new Date()}/>
@@ -115,7 +133,8 @@ const AdminProduction = () => {
                 </tbody>
             </table>
         </div>
-            </>
+            </div>}
+        </div>
         );
 };
 

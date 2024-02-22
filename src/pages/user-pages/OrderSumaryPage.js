@@ -50,7 +50,7 @@ const OrderSumaryPage = () => {
                 handleSelectChange(foundOption);
             }
         }
-    }, [isLoggedIn]);
+    }, [storedDates]);
 
     const handleOrder = async () => {
         const termsChecked = document.getElementById('terms').checked;
@@ -111,7 +111,7 @@ const OrderSumaryPage = () => {
                     <div className="p-4 w-full lg:w-96">
                         <Select
                             options={storedDates}
-                            value={storedDates.find(option => option.value === selectedOption)}
+                            value={selectedOption ? storedDates.find(option => option.value === selectedOption) : null}
                             styles={customDropdownStyles}
                             onChange={handleSelectChange}
                             noOptionsMessage={() => "Brak dostępnych koszyków."}

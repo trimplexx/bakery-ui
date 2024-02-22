@@ -1,21 +1,20 @@
 import {GiConfirmed} from "react-icons/gi";
 import {VscError} from "react-icons/vsc";
-import { LuTimerReset } from "react-icons/lu";
+import {LuTimerReset} from "react-icons/lu";
 import CustomPagination from "./CustomPagination";
 import React from "react";
 import MotionButton from "./MotionButton";
+import {endOfDay, isBefore, parse} from "date-fns";
 
-const OrdersTable = ({ orders, paginationNumber, handlePageChange, currentPage }) => {
+const OrdersTable = ({orders, paginationNumber, handlePageChange, currentPage, handleCancelOrder}) => {
     if (orders.length === 0) {
-        return (
-            <div className="py-4">
-                <p className="text-center text-gray-500 dark:text-gray-400 px-40 py-10 text-2xl font-bold">Brak zamówień</p>
-            </div>
-        );
+        return (<div className="py-4">
+                <p className="text-center text-gray-500 dark:text-gray-400 px-40 py-10 text-2xl font-bold">Brak
+                    zamówień</p>
+            </div>);
     }
 
-    return (
-        <div className="p-2 sm:mx-4">
+    return (<div className="p-2 sm:mx-4">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
@@ -39,44 +38,48 @@ const OrdersTable = ({ orders, paginationNumber, handlePageChange, currentPage }
                     </tr>
                     </thead>
                     <tbody>
-                    {orders.map((order, index) => (
-                        <tr key={index}
-                            className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    {orders.map((order, index) => (<tr key={index}
+                                                       className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             <td className="px-1 sm:px-6 py-3">{order.formattedOrderDate}</td>
                             <td className="px-1 sm:px-6 py-3">
-                                {order.orderedProducts.map((product, idx) => (
-                                    <span key={idx}>
+                                {order.orderedProducts.map((product, idx) => (<span key={idx}>
                     {product.productName} x{product.productQuantity}
                                         {idx !== order.orderedProducts.length - 1 && ', '}
-                </span>
-                                ))}
+                </span>))}
                             </td>
                             <td className="px-1 sm:px-6 py-3">{order.orderTotal} zł</td>
                             <td className="px-1 sm:px-6 py-3">
                                 <div className="flex justify-center items-center">
-                                    {order.status === 2 ?
-                                        <GiConfirmed className="text-green-500 text-3xl" title="Zamówienie zrealizowane" /> :
-                                        order.status === 1 ?
-                                            <LuTimerReset  className="text-yellow-400 text-3xl" title="Zamówienie oczekujące na odebranie" /> :
-                                            <VscError className="text-red-500 text-3xl" title="Zamówienie anulowane" />}
+                                    {order.status === 2 ? <GiConfirmed className="text-green-500 text-3xl"
+                                                                       title="Zamówienie zrealizowane"/> : order.status === 1 ?
+                                        <LuTimerReset className="text-yellow-400 text-3xl"
+                                                      title="Zamówienie oczekujące na odebranie"/> :
+                                        <VscError className="text-red-500 text-3xl" title="Zamówienie anulowane"/>}
                                 </div>
                             </td>
                             <td className="px-1 sm:px-6 py-3">
                                 <div className="flex justify-center items-center">
-                                    {order.status === 2 ? <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienie zostało odebrane"></MotionButton> :
-                                        order.status === 1 ? <MotionButton color="red-600" text="Anuluj zamówienie"></MotionButton> :
-                                            <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienie zostało już anulowane"></MotionButton> }
+                                    {order.status === 2 ?
+                                        <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true}
+                                                      disabledText="Zamówienie zostało odebrane"></MotionButton> : order.status === 1 ?
+                                            <MotionButton onClick={() => handleCancelOrder(order.orderId)}
+                                                          color={isBefore(endOfDay(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())), new Date()) ? "gray-400" : "red-600"}
+                                                          text="Anuluj zamówienie"
+                                                          disabled={isBefore(endOfDay(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())), new Date())}
+                                                          disabledText="Zamówienie zostało już anulowane"></MotionButton> :
+                                            <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true}
+                                                          disabledText="Zamówienie zostało już anulowane"></MotionButton>}
                                 </div>
                             </td>
-                        </tr>
-                    ))}
+                        </tr>))}
                     </tbody>
                 </table>
             </div>
+
             <div className="w-full flex justify-center relative bottom-0">
-                <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange} initialPage={currentPage} />
+                <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}
+                                  initialPage={currentPage}/>
             </div>
-        </div>
-    );
+        </div>);
 }
-export  default OrdersTable;
+export default OrdersTable;
