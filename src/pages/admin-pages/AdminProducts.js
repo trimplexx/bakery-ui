@@ -25,6 +25,7 @@ const AdminProducts = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [deletedProductId, setDeletedProductId] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingDelete, setIsLoadingDelete] = useState(false);
     const [productId, setProductId] = useState(null);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
 
@@ -99,8 +100,10 @@ const AdminProducts = () => {
         setIsConfirmModalVisible(true);
     };
     const handleConfirm = async () => {
+        setIsLoadingDelete(true);
         await apiAdmin.deleteProduct(productId, successNotify, errorNotify);
         setDeletedProductId(productId);
+        setIsLoadingDelete(false);
         setProductId(null);
         setIsConfirmModalVisible(false);
     };
@@ -177,6 +180,7 @@ const AdminProducts = () => {
                 message={`Czy na pewno chcesz usunąć ten produkt?`}
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
+                isLoading={isLoadingDelete}
             />
             <div className="w-full flex justify-center relative bottom-0 py-4">
                 <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}

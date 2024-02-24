@@ -5,6 +5,7 @@ import CustomPagination from "./CustomPagination";
 import React from "react";
 import MotionButton from "./MotionButton";
 import {endOfDay, isBefore, parse} from "date-fns";
+import {BsCalendar2DateFill} from "react-icons/bs";
 
 const OrdersTable = ({orders, paginationNumber, handlePageChange, currentPage, handleCancelOrder}) => {
     if (orders.length === 0) {
@@ -48,29 +49,34 @@ const OrdersTable = ({orders, paginationNumber, handlePageChange, currentPage, h
                 </span>))}
                             </td>
                             <td className="px-1 sm:px-6 py-3">{order.orderTotal} zł</td>
-                            <td className="px-1 sm:px-6 py-3">
-                                <div className="flex justify-center items-center">
-                                    {order.status === 2 ? <GiConfirmed className="text-green-500 text-3xl"
-                                                                       title="Zamówienie zrealizowane"/> : order.status === 1 ?
-                                        <LuTimerReset className="text-yellow-400 text-3xl"
-                                                      title="Zamówienie oczekujące na odebranie"/> :
+                        <td className="px-1 sm:px-6 py-3">
+                            <div className="flex justify-center items-center">
+                                {order.status === 2 ? <GiConfirmed className="text-green-500 text-3xl"
+                                                                   title="Zamówienie zrealizowane"/> :
+                                    order.status === 1 ?
+                                        isBefore(endOfDay(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())), new Date()) ?
+                                            <BsCalendar2DateFill className="text-red-500 text-3xl" title="Zamówienie przedawnione"/> :
+                                            <LuTimerReset className="text-yellow-400 text-3xl"
+                                                          title="Zamówienie oczekujące na odebranie"/> :
                                         <VscError className="text-red-500 text-3xl" title="Zamówienie anulowane"/>}
-                                </div>
-                            </td>
-                            <td className="px-1 sm:px-6 py-3">
-                                <div className="flex justify-center items-center">
-                                    {order.status === 2 ?
-                                        <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true}
-                                                      disabledText="Zamówienie zostało odebrane"></MotionButton> : order.status === 1 ?
-                                            <MotionButton onClick={() => handleCancelOrder(order.orderId)}
-                                                          color={isBefore(endOfDay(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())), new Date()) ? "gray-400" : "red-600"}
-                                                          text="Anuluj zamówienie"
-                                                          disabled={isBefore(endOfDay(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())), new Date())}
-                                                          disabledText="Zamówienie zostało już anulowane"></MotionButton> :
+                            </div>
+                        </td>
+                        <td className="px-1 sm:px-6 py-3">
+                            <div className="flex justify-center items-center">
+                                {order.status === 2 ?
+                                    <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true}
+                                                  disabledText="Zamówienie zostało odebrane"></MotionButton> :
+                                    order.status === 1 ?
+                                        isBefore(endOfDay(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())), new Date()) ?
                                             <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true}
-                                                          disabledText="Zamówienie zostało już anulowane"></MotionButton>}
-                                </div>
-                            </td>
+                                                          disabledText="Zamówienie jest przedawnione"></MotionButton> :
+                                            <MotionButton onClick={() => handleCancelOrder(order.orderId)}
+                                                          color="red-600"
+                                                          text="Anuluj zamówienie"></MotionButton> :
+                                        <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true}
+                                                      disabledText="Zamówienie zostało już anulowane"></MotionButton>}
+                            </div>
+                        </td>
                         </tr>))}
                     </tbody>
                 </table>

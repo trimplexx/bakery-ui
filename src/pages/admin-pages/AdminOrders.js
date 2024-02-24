@@ -27,6 +27,9 @@ const AdminOrders = () => {
     const [orderId, setOrderId] = useState(null);
     const [newStatus, setNewStatus] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingRealized, setIsLoadingRealized] = useState(false);
+    const [isLoadingCancel, setIsLoadingCancel] = useState(false);
+
     const [isSecConfirmModalVisible, setIsSecConfirmModalVisible] = useState(false);
 
     const loadingElements = () => {
@@ -73,18 +76,22 @@ const AdminOrders = () => {
     };
 
     const handleConfirm = async () => {
-        await apiAdmin.changeOrderStatus(orderId, errorNotify, successNotify);
-
-        const updatedOrders = orders.map(order => {
-            if (order.orderId === orderId) {
-                return {
-                    ...order, status: newStatus
-                };
-            }
-            return order;
+        setIsLoadingRealized(true);
+        await apiAdmin.changeOrderStatus(orderId, errorNotify, successNotify).then(()=>
+        {
+            const updatedOrders = orders.map(order => {
+                if (order.orderId === orderId) {
+                    return {
+                        ...order, status: newStatus
+                    };
+                }
+                return order;
+            });
+            setOrders(updatedOrders);
+            setIsLoadingRealized(false);
+            setIsConfirmModalVisible(false);
         });
-        setOrders(updatedOrders);
-        setIsConfirmModalVisible(false);
+
     };
 
     const handleCancel = () => {
@@ -97,8 +104,9 @@ const AdminOrders = () => {
     };
 
     const handleOrderConfirm = async () => {
+        setIsLoadingCancel(true);
         Promise.all([apiCommon.cancelOrder(orderId, errorNotify, successNotify)]).then(() => {
-            setIsLoading(true);
+            setIsLoadingCancel(false);
             setIsSecConfirmModalVisible(false);
             loadingElements();
         });
@@ -186,12 +194,14 @@ const AdminOrders = () => {
             message="Czy na pewno chcesz oznaczyć to zamówienie jako zrealizowane?"
             onConfirm={handleConfirm}
             onCancel={handleCancel}
+            isLoading={isLoadingRealized}
         />
             <CustomConfirmModal
                 visible={isSecConfirmModalVisible}
                 message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}
                 onConfirm={handleOrderConfirm}
                 onCancel={handleOrderCancel}
+                isLoading={isLoadingCancel}
             />
         <div className="w-full flex justify-center relative bottom-0 py-4">
             <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}

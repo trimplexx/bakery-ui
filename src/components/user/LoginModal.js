@@ -49,7 +49,7 @@ const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
         <AnimatedModal onClose={onClose}>
             <div className="grid grid-cols-1 sm:grid-cols-2 w-auto h-auto overflow-auto max-h-screen bg-white rounded-lg divide-x-2 divide-gray-300">
                 <div>
-                <form className="p-7" onSubmit={handleSubmit(onSubmit)}>
+                <form className="p-7" onSubmit={handleSubmit(onSubmit)} noValidate>
                     <h1 className="mb-8 text-4xl text-center max-w-lg font-[lucida-console] leading-loose text-[#fda329]">
                         Zaloguj się
                     </h1>

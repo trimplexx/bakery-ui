@@ -9,6 +9,7 @@ import OrderConfirmModal from "../../components/admin/OrderConfirmModal";
 import apiCommon from "../../utils/apiCommon";
 import apiAdmin from "../../utils/apiAdmin";
 import LoadingComponent from "../../components/common/LoadingComponent";
+import MotionButton from "../../components/common/MotionButton";
 
 const AdminMakeOrder = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -20,6 +21,8 @@ const AdminMakeOrder = () => {
     const [productsList, setProductsList] = useState([]);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingAsRealized, setIsLoadingAsRealized] = useState(false);
+    const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -64,7 +67,6 @@ const AdminMakeOrder = () => {
             localStorage.setItem('productList', JSON.stringify(updatedProductList));
         }
     };
-
 
     const addToLocalStorage = () => {
         if (selectedOption !== null && selectedQuantity !== undefined && selectedQuantity !== '' && selectedQuantity !== "0") {
@@ -116,23 +118,32 @@ const AdminMakeOrder = () => {
     };
 
     const handleMakeOrderAsRealized = async () => {
+        setIsLoadingAsRealized(true);
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        await apiCommon.makeOrder(productsList, dateOnly, 2, null, successNotify, errorNotify);
-        getLocalStorageItems();
+        await apiCommon.makeOrder(productsList, dateOnly, 2, null, successNotify, errorNotify).then(() => {
+            getLocalStorageItems();
+            setIsLoadingAsRealized(false);
+        });
     };
+
 
     const handleMakeOrder = () => {
         setIsConfirmModalVisible(true);
     };
 
-    const handleConfirm = async () => {
+    const handleConfirm = () => {
+        setIsLoadingConfirm(true);
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        await apiCommon.makeOrder(productsList, dateOnly, 1, phoneNumber, successNotify, errorNotify);
-        setIsConfirmModalVisible(false);
-        getLocalStorageItems();
+        apiCommon.makeOrder(productsList, dateOnly, 1, phoneNumber, successNotify, errorNotify)
+            .then(() => {
+                setIsLoadingConfirm(false);
+                setIsConfirmModalVisible(false);
+                getLocalStorageItems();
+            })
     };
+
 
     const handleCancel = () => {
         setIsConfirmModalVisible(false);
@@ -223,12 +234,12 @@ const AdminMakeOrder = () => {
                     </tbody>
                 </table>
             </div>
-            <div className="flex justify-end py-4">
-                <button type="button"
-                        onClick={handleMakeOrder}
-                        className="focus:outline-none text-white bg-green-600 hover:bg-green-600 focus:ring-4 focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
-                    Zamów
-                </button>
+            <div className="flex justify-end p-4 gap-4">
+                <MotionButton
+                    text="Zamów"
+                    color="green-600"
+                    onClick={handleMakeOrder}
+                />
                 <OrderConfirmModal
                     visible={isConfirmModalVisible}
                     message="Czy na pewno chcesz zrealizować zamówienie?"
@@ -236,12 +247,14 @@ const AdminMakeOrder = () => {
                     onCancel={handleCancel}
                     phoneNumber={phoneNumber}
                     setPhoneNumber={setPhoneNumber}
+                    isLoading={isLoadingConfirm}
                 />
-                <button type="button"
-                        onClick={handleMakeOrderAsRealized}
-                        className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-400 focus:ring-4 focus:ring-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
-                    Zamów jako zrelizowane
-                </button>
+                <MotionButton
+                    text="Zamów jako zrelizowane"
+                    color="yellow-400"
+                    onClick={handleMakeOrderAsRealized}
+                    isLoading={isLoadingAsRealized}
+                />
             </div>
         </div>}
     </div>);

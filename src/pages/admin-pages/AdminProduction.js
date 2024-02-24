@@ -7,6 +7,7 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import apiAdmin from "../../utils/apiAdmin";
 import LoadingComponent from "../../components/common/LoadingComponent";
 import apiUser from "../../utils/apiUser";
+import MotionButton from "../../components/common/MotionButton";
 
 const AdminProduction = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -14,6 +15,8 @@ const AdminProduction = () => {
     const [productsList, setProductsList] = useState([]);
     const [productsToCopy, setProductsToCopy] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingCopy, setIsLoadingCopy] = useState(false);
+    const [isLoadingSave, setIsLoadingSave] = useState(false);
 
     const handleQuantityChange = (productId, newQuantity) => {
         setProductsList(prevProducts =>
@@ -44,8 +47,8 @@ const AdminProduction = () => {
         loadingElements();
     }, [selectedDate]);
 
-
     const copyFromThisDate = () => {
+        setIsLoadingCopy(true);
         let isoDate = secSelectedDate.toISOString();
         let dateOnly = isoDate.slice(0,10);
         let orderedQuantities = [];
@@ -65,15 +68,20 @@ const AdminProduction = () => {
             }));
             setProductsList(updatedProducts);
         };
-        getProductsQuantity();
+
+        getProductsQuantity().then(() => {
+            setIsLoadingCopy(false);
+        });
     };
 
     const SaveChanges = async () => {
+        setIsLoadingSave(true);
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        await apiAdmin.updateProductsAvailability(productsList, dateOnly, successNotify, errorNotify);
+        await apiAdmin.updateProductsAvailability(productsList, dateOnly, successNotify, errorNotify).then(() => {
+            setIsLoadingSave(false);
+        });
     };
-
     return(
         <div>
             {isLoading ? <LoadingComponent/> :
@@ -85,8 +93,19 @@ const AdminProduction = () => {
             <div className="lg:col-start-3 h-14 z-10">
                 <CustomDatePicker selectedDate={secSelectedDate} setSelectedDate={secSetSelectedDate} color="white" minDate={null}/>
             </div>
-            <button type="button" onClick={copyFromThisDate} className=" w-full h-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Skopiuj z wybranego dnia</button>
-            <button type="button" onClick={SaveChanges} className="h-full w-full focus:outline-none text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Zapisz wybrany dzień</button>
+            <MotionButton
+                text="Skopiuj z wybranego dnia"
+                color="yellow-400"
+                onClick={copyFromThisDate}
+                isLoading={isLoadingCopy}
+            />
+
+            <MotionButton
+                text="Zapisz wybrany dzień"
+                color="green-600"
+                onClick={SaveChanges}
+                isLoading={isLoadingSave}
+            />
         </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

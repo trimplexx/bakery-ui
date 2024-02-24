@@ -10,11 +10,13 @@ const OrdersHistory = () => {
     const [paginationNumber, setPaginationNumber] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [orders, setOrders] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingButton, setIsLoadingButton] = useState(true);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const [orderId, setOrderId] = useState(null);
 
     useEffect(() => {
+        setIsLoading(true);
         const token = localStorage.getItem('token');
         if (token) {
             const base64Url = token.split('.')[1];
@@ -43,8 +45,11 @@ const OrdersHistory = () => {
     };
 
     const handleConfirm = async () => {
+        setIsLoadingButton(true);
+
         Promise.all([apiCommon.cancelOrder(orderId, errorNotify, successNotify)]).then(() => {
-            setIsLoading(true);
+            setIsLoading(false);
+            setIsLoadingButton(false);
             setIsConfirmModalVisible(false);
         });
     };
@@ -71,6 +76,7 @@ const OrdersHistory = () => {
                     message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}
                     onConfirm={handleConfirm}
                     onCancel={handleCancel}
+                    isLoading={isLoadingButton}
                 />
             </div>}
         </div>);

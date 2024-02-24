@@ -22,6 +22,7 @@ const AdminUsers = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [paginationNumber, setPaginationNumber] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingDelete, setIsLoadingDelete] = useState(false);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const [userId, setUserId] = useState(null);
 
@@ -73,9 +74,15 @@ const AdminUsers = () => {
         setIsConfirmModalVisible(true);
     };
     const handleConfirm = async () => {
-        await apiAdmin.deleteUser(userId, successNotify, errorNotify);
-        setUserId(null)
-        setIsConfirmModalVisible(false);
+        setIsLoadingDelete(true);
+        await apiAdmin.deleteUser(userId, successNotify, errorNotify)
+            .then(()=>{
+                setUserId(null)
+                setIsLoadingDelete(false);
+                setIsConfirmModalVisible(false);
+                window.location.reload();
+            });
+
     };
 
     const handleCancel = () => {
@@ -168,6 +175,7 @@ const AdminUsers = () => {
                 message={`Czy na pewno chcesz usunąć tego użytkownika?`}
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
+                isLoading={isLoadingDelete}
             />
             <div className="w-full flex justify-center relative bottom-0 py-4">
                 <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}

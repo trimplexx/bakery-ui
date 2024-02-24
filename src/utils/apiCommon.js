@@ -107,11 +107,24 @@ const apiCommon = {
         } catch (error) {
             navigate("/");
             handleApiError(error, errorNotify);
+            setIsLoading(false);
         }
     },
-
-
-
+    verifyUser: async (token, setIsLoading, navigate, errorNotify, successNotify) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(connectionUrlString + 'api/UserVerify/emailVerification', {
+                token
+            });
+            navigate("/");
+            successNotify(response.data);
+            setIsLoading(false);
+        } catch (error) {
+            navigate("/");
+            handleApiError(error, errorNotify);
+            setIsLoading(false);
+        }
+    },
 };
 
 export default apiCommon;

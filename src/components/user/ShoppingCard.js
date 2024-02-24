@@ -6,6 +6,7 @@ import { IoCashOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import ProductShoppingCard from "../common/ProductsShoppingCard";
 import { useOrderFunctions } from "../../hooks/useCardFunctions";
+import {FadeLoader} from "react-spinners";
 
 const ShoppingCard = ({ isOpen, onClose }) => {
     const sidebarRef = useRef(null);
@@ -19,6 +20,7 @@ const ShoppingCard = ({ isOpen, onClose }) => {
         handleQuantityChange,
         handleDelete,
         calculateTotalPrice,
+        isLoading
     } = useOrderFunctions();
 
     const sidebarVariants = {
@@ -105,26 +107,34 @@ const ShoppingCard = ({ isOpen, onClose }) => {
                         placeholder="Wybierz koszyk z produktami."
                     />
                 </div>
-                {Array.isArray(productData) && productData.length > 0 ? (
-                    <div className="overflow-y-auto flex-grow" >
-                        {productData.map((product, index) => (
-                            <ProductShoppingCard
-                                key={index}
-                                product={product}
-                                index={index}
-                                date={selectedOption}
-                                handleQuantityChange={handleQuantityChange}
-                                handleDelete={handleDelete}
-                            />
-                        ))}
-                    </div>
-
-                ) : (
-                    <div className="flex-grow items-center mx-4 bg-gray-300 rounded mb-4 justify-center">
-                        <div className="p-4 items-center justify-center flex text-lg">
-                            Koszyk jest pusty wybierz date.
+                {isLoading ? (
+                    <div className="flex-grow items-center mx-4 h-full bg-gray-300 rounded mb-4 justify-center">
+                        <div className="p-4 flex-col items-center justify-center h-full flex text-lg">
+                                <FadeLoader color="#eab308" />
+                                <p className="text-yellow-400 text-2xl font-bold mt-4">Ładowanie...</p>
                         </div>
                     </div>
+                ) : (
+                    Array.isArray(productData) && productData.length > 0 ? (
+                        <div className="overflow-y-auto flex-grow" >
+                            {productData.map((product, index) => (
+                                <ProductShoppingCard
+                                    key={index}
+                                    product={product}
+                                    index={index}
+                                    date={selectedOption}
+                                    handleQuantityChange={handleQuantityChange}
+                                    handleDelete={handleDelete}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="flex-grow items-center mx-4 bg-gray-300 rounded mb-4 justify-center">
+                            <div className="p-4 items-center justify-center flex text-lg">
+                                Koszyk jest pusty wybierz date.
+                            </div>
+                        </div>
+                    )
                 )}
                 <div className="bottom-0 grid grid-cols-2  w-full p-2 bg-[#F5F5F5] items-center">
                     <p className="text-lg sm:text-xl font-medium text-gray-900 mb-2">Suma: {calculateTotalPrice()} zł</p>

@@ -7,6 +7,7 @@ export const useOrderFunctions = () => {
     const [productData, setProductData] = useProductsData();
     const [storedDates, setStoredDates] = useState([]);
     const [selectedOption, setSelectedOption] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const loadStoredDates = () => {
@@ -16,11 +17,13 @@ export const useOrderFunctions = () => {
         };
 
         loadStoredDates();
+        setIsLoading(false);
 
     }, [JSON.stringify(localStorage), setProductData]);
 
 
     const handleSelectChange = async (selectedOption) => {
+        setIsLoading(true);
         setSelectedOption(selectedOption.value);
         const selectedDate = selectedOption.value;
 
@@ -38,6 +41,7 @@ export const useOrderFunctions = () => {
         }));
 
         await apiUser.fetchProductsAvailability(selectedDate, productsInfo, setProductData, errorNotify);
+        setIsLoading(false);
     };
 
 
@@ -127,5 +131,6 @@ export const useOrderFunctions = () => {
         handleQuantityChange,
         handleDelete,
         calculateTotalPrice,
+        isLoading
     };
 };
