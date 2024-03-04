@@ -16,7 +16,13 @@ const AddNewProductModal = ({onClose}) => {
         const formData = new FormData();
 
         for (const key in data) {
-            if (Object.prototype.hasOwnProperty.call(data, key)) {
+            if (Array.isArray(data[key])) {
+                data[key].forEach((value, index) => {
+                    formData.append(`${key}[${index}]`, value);
+                });
+            } else if (data[key] instanceof File) {
+                formData.append(key, data[key], data[key].name);
+            } else {
                 formData.append(key, data[key]);
             }
         }

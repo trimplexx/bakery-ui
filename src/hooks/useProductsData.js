@@ -6,7 +6,7 @@ export const useProductsData = () => {
         price: '',
         weight: '',
         image: null,
-        selectedOption: null,
+        categories: [],
         kj: '',
         kcal: '',
         fat: '',

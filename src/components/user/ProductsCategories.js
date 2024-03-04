@@ -1,23 +1,22 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { motion } from "framer-motion";
+import apiUser from "../../utils/apiUser";
+import {errorNotify} from "../../helpers/ToastNotifications";
 
-const ProductsCategories = ({ selectedCategory, handleCategorySelection }) => {
+const ProductsCategories = ({ selectedCategories, handleCategorySelection }) => {
+    const [categoriesMap, setCategoriesMap] = useState({});
+
     const getCategoryButtonClass = (category) => {
         return `hover:text-white border-2 h-full focus:outline-none border-yellow-orange-400 ${
-            selectedCategory === category
-                ? "hover:bg-white hover:text-yellow-orange-400 bg-yellow-orange-400 text-white"
+            selectedCategories.includes(category)
+                ? "hover:bg-yellow-orange-200 hover:text-yellow-orange-400 bg-yellow-orange-400 text-white"
                 : "hover:bg-yellow-orange-400 text-yellow-orange-400"
         } font-medium rounded-lg text-md px-4 py-2 text-center whitespace-nowrap mr-4`;
     };
 
-    const categoriesMap = {
-        'Chleby': 1,
-        'Bułki': 2,
-        'Przekąski słodkie': 3,
-        'Przekąski słone': 4,
-        'Bezglutenowe': 5,
-        'Bez cukru': 6
-    };
+    useEffect(() => {
+        apiUser.fetchProductCategories(setCategoriesMap, null, errorNotify);
+    }, []);
 
     const buttonVariants = {
         hidden: { x: 100, opacity: 0 },

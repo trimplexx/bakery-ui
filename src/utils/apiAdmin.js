@@ -22,14 +22,16 @@ const apiAdmin = {
             handleApiError(error, errorNotify);
         }
     },
-    fetchProductCategories: async (setOptions, errorNotify) => {
+    fetchProductCategories: async (setOptions, categoryIds, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminProducts/productsCategories');
+            const response = await axios.get(connectionUrlString + 'api/AdminProducts/productsCategories',
+                {
+                    headers: {
+                        categoryIds : categoryIds
+                    }
+                });
             const categories = response.data;
-
-
-            const allOption = { value: null, label: 'Wszystkie' };
-            const newOptions = [allOption, ...categories.map(category => ({
+            const newOptions = [...categories.map(category => ({
                 value: category.categoryId,
                 label: category.name
             }))];
@@ -77,11 +79,11 @@ const apiAdmin = {
             handleApiError(error, errorNotify);
         }
     },
-    fetchProductsList: async (offset, category, searchTerm, setProducts, errorNotify) => {
+    fetchProductsList: async (offset, categories, searchTerm, setProducts, errorNotify) => {
         try {
             const response = await axios.post(connectionUrlString + 'api/AdminProducts/productsList', {
                 offset: offset,
-                category: category,
+                categories: categories,
                 searchTerm: searchTerm
             });
             setProducts(response.data);
@@ -89,13 +91,13 @@ const apiAdmin = {
             handleApiError(error, errorNotify);
         }
     },
-    fetchProductsPaginationNumber: async (searchTerm, category, setPaginationNumber, errorNotify) => {
+    fetchProductsPaginationNumber: async (searchTerm, categories, setPaginationNumber, errorNotify) => {
         try {
             const response = await axios.get(connectionUrlString + 'api/AdminProducts/numberOfProducts',
                 {
                     headers: {
                         searchTerm: searchTerm,
-                        category: category
+                        categories: categories
                     }
                 });
             setPaginationNumber(response.data);

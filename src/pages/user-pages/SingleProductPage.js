@@ -11,6 +11,7 @@ import LoadingComponent from "../../components/common/LoadingComponent";
 import axios from "axios";
 import {connectionUrlString} from "../../utils/props";
 import handleApiError from "../../utils/apiUtils";
+import apiUser from "../../utils/apiUser";
 
 
 const SingleProductPage = () => {
@@ -20,6 +21,7 @@ const SingleProductPage = () => {
     const [quantity, setQuantity] = useState(1);
     const [maxProductQuantity, setMaxProductQuantity] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [productCategories, setProductCategories] = useState([]);
     const navigate = useNavigate();
 
     const loadingElements = () => {
@@ -32,7 +34,8 @@ const SingleProductPage = () => {
                         'ProductId': productId
                     }
                 });
-                setProductData(response.data)
+                setProductData(response.data);
+                await apiUser.fetchProductCategories(setProductCategories, response.data.categories, errorNotify);
             } catch (error) {
                 handleApiError(error, errorNotify);
                 navigate("/");
@@ -98,11 +101,17 @@ const SingleProductPage = () => {
                 {productData && (<div className="bg-gray-200 w-full max-w-8xl p-6 rounded-2xl">
                         <div className="grid lg:grid-cols-2 gap-5 mb-4">
                             <img className="rounded-lg shadow-xl" src={productData.image} alt="image description"/>
-                            <div>
+                            <div className="flex flex-col">
                                 <h1 className="text-4xl font-semibold mb-4">{productData.name}</h1>
-                                <p className="text-lg mb-6"><strong>Cena: </strong>{productData.price} zł</p>
+                                <p className="text-lg"><strong>Cena: </strong>{productData.price} zł</p>
+                                <div className="flex flex-wrap my-4">
+                                    {Object.keys(productCategories).map(category => (
+                                        <span key={category} className="border-2 border-gray-400 rounded-full px-4 py-2 m-1">{category}</span>
+                                    ))}
+                                </div>
                                 <p className="text-lg text-gray-700 mb-6">{productData.description}</p>
-                                <div className="grid lg:grid-cols-2">
+
+                                <div className="grid sm:grid-cols-2 mt-auto">
                                     <div className="h-12 z-20 my-2">
                                         <CustomDatePicker minDate={new Date()}
                                                           selectedDate={selectedDate}

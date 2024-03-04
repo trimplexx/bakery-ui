@@ -22,7 +22,6 @@ const EditProductModal = ({onClose, productId}) => {
 
         const imageFile = await createImageFileFromImageUrl(productsData.image, productsData.name, errorNotify);
         const formData = new FormData();
-
         for (const key in productsData) {
             if (Object.prototype.hasOwnProperty.call(productsData, key)) {
                 if (key === 'image') {

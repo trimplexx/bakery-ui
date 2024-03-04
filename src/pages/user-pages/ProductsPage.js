@@ -22,7 +22,7 @@ const ProductsPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedCategories, setSelectedCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [paginationNumber, setPaginationNumber] = useState(null);
     const searchButtonColor = isSearchOpen ? "text-green-400" : "";
@@ -30,10 +30,11 @@ const ProductsPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const [categoriesMap, setCategoriesMap] = useState({});
 
-    const categoriesMap = {
-        'Chleby': 1, 'Bułki': 2, 'Przekąski słodkie': 3, 'Przekąski słone': 4, 'Bezglutenowe': 5, 'Bez cukru': 6
-    };
+    useEffect(() => {
+        apiUser.fetchProductCategories(setCategoriesMap, null, errorNotify);
+    }, []);
 
     const loadingElements = () => {
         let today = new Date();
@@ -45,16 +46,15 @@ const ProductsPage = () => {
 
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
-        let categoryNumber = null;
-        if (selectedCategory !== null && categoriesMap[selectedCategory] !== undefined) {
-            categoryNumber = categoriesMap[selectedCategory];
+        let categoryNumbers = null;
+        if (selectedCategories !== null && selectedCategories.length > 0) {
+            categoryNumbers = selectedCategories.map(category => categoriesMap[category]);
         }
         const fetchProductsPaginationNumber = async () => {
-            await apiAdmin.fetchProductsPaginationNumber(searchTerm, categoryNumber, setPaginationNumber, errorNotify);
+            await apiAdmin.fetchProductsPaginationNumber(searchTerm, categoryNumbers, setPaginationNumber, errorNotify);
         };
-
         const fetchUserProductsList = async () => {
-            await apiUser.fetchUserProductsList(dateOnly, currentPage - 1, categoryNumber, searchTerm, setProducts, errorNotify);
+            await apiUser.fetchUserProductsList(dateOnly, currentPage - 1, categoryNumbers, searchTerm, setProducts, errorNotify);
         };
 
         Promise.all([fetchProductsPaginationNumber(), fetchUserProductsList()]).then(() => {
@@ -65,7 +65,9 @@ const ProductsPage = () => {
     useEffect(() => {
         setIsLoading(true);
         loadingElements();
-    }, [selectedCategory]);
+    }, [selectedCategories, categoriesMap]);
+
+
 
     useEffect(() => {
         loadingElements();
@@ -80,10 +82,10 @@ const ProductsPage = () => {
     };
 
     const handleCategorySelection = (category) => {
-        if (selectedCategory === category) {
-            setSelectedCategory(null);
+        if (selectedCategories.includes(category)) {
+            setSelectedCategories(selectedCategories.filter(c => c !== category));
         } else {
-            setSelectedCategory(category);
+            setSelectedCategories([...selectedCategories, category]);
         }
     };
 
@@ -145,7 +147,7 @@ const ProductsPage = () => {
                     </div>
                     <div className="h-12 justify-end flex items-center md:col-span-8 pr-4 relative my-2">
                         {isCategoryOpen ? (<ProductsCategories handleCategorySelection={handleCategorySelection}
-                                                               selectedCategory={selectedCategory}/>) : null}
+                                                               selectedCategories={selectedCategories}/>) : null}
                         <AnimatedIconButton handleIconClick={handleCategoryClick} Icon={TbCategory}
                                             color={categoryButtonColor}/>
                     </div>

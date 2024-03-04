@@ -34,7 +34,9 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
     };
 
     const submitForm = async (formData) => {
-        formData.category = selectedOption.value;
+        const categories = selectedOption ? selectedOption.map(option => option.value) : null;
+        formData.categories = categories;
+
         if (backgroundImage) {
             const imageFile = await createImageFileFromImageUrl(backgroundImage, formData.name, errorNotify);
             if (imageFile) {
@@ -50,13 +52,15 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
         await onSubmit(formData);
     };
 
-    const handleChange = (option) => {
-        setSelectedOption(option);
+    const handleChange = (options) => {
+        setSelectedOption(options);
+        const categories = options.map(option => option.value);
         setProductsData(prevState => ({
             ...prevState,
-            category: option.value
+            categories: categories
         }));
     };
+
 
     const handleFileChange = (event) => {
         if (event.target.files.length > 0) {
@@ -71,7 +75,7 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
 
     useEffect(() => {
         const fetchData = async () => {
-            await apiAdmin.fetchProductCategories(setOptions, errorNotify);
+            await apiAdmin.fetchProductCategories(setOptions,null, errorNotify);
         };
         fetchData();
 
@@ -80,9 +84,11 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
     useEffect(() => {
         if (productsData && options.length > 0) {
             setBackgroundImage(productsData.image);
-            const foundCategory = options.find(option => option.value === productsData.category);
-            if (foundCategory) {
-                setSelectedOption(foundCategory);
+            const foundCategories = productsData.categories.map(category =>
+                options.find(option => option.value === category)
+            ).filter(Boolean);
+            if (foundCategories.length > 0) {
+                setSelectedOption(foundCategories);
             }
         }
     }, [productsData, options, setBackgroundImage, setSelectedOption]);
@@ -135,6 +141,7 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
                         </div>
                         <div className="relative mt-4">
                             <Select
+                                isMulti
                                 value={selectedOption}
                                 onChange={handleChange}
                                 options={options}

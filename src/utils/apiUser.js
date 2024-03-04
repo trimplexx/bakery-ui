@@ -28,7 +28,7 @@ const apiUser = {
     }, fetchUserProductsList: async (dateTime, offset, category, searchTerm, setProducts, errorNotify) => {
         try {
             const response = await axios.post(connectionUrlString + 'api/Products/productsList', {
-                offset: offset, category: category, searchTerm: searchTerm
+                offset: offset, categories: category , searchTerm: searchTerm
             }, {
                 headers: {
                     dateTime: dateTime
@@ -38,7 +38,27 @@ const apiUser = {
         } catch (error) {
             handleApiError(error, errorNotify);
         }
-    }, fetchProductsAvailability: async (dateTime, data, setProductsAvailability, errorNotify) => {
+    },
+    fetchProductCategories: async (setOptions, categoryIds, errorNotify) => {
+        try {
+            const response = await axios.get(connectionUrlString + 'api/AdminProducts/productsCategories',
+                {
+                    headers: {
+                        categoryIds : categoryIds
+                    }
+                });
+            const categories = response.data;
+            const newOptions = {};
+            categories.forEach(category => {
+                newOptions[category.name] = category.categoryId;
+            });
+
+            setOptions(newOptions);
+        } catch (error) {
+            handleApiError(error, errorNotify);
+        }
+    },
+    fetchProductsAvailability: async (dateTime, data, setProductsAvailability, errorNotify) => {
         try {
 
             const response = await axios.post(connectionUrlString + 'api/Products/singleProduct', data, {

@@ -11,7 +11,6 @@ import CustomPagination from "../../components/common/CustomPagination";
 import apiAdmin from "../../utils/apiAdmin";
 import LoadingComponent from "../../components/common/LoadingComponent";
 import CustomConfirmModal from "../../components/common/CustomConfirmModal";
-import apiUser from "../../utils/apiUser";
 
 const AdminProducts = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -31,16 +30,17 @@ const AdminProducts = () => {
 
     const loadingElements = () => {
         const fetchCategories = async () => {
-            await apiAdmin.fetchProductCategories(setOptions, errorNotify);
+            await apiAdmin.fetchProductCategories(setOptions,null, errorNotify);
         };
 
+        const categories = selectedOption ? selectedOption.map(option => option.value) : null;
 
         if (selectedOption !== null) {
             const fetchProductsPaginationNumber = async () => {
-                await apiAdmin.fetchProductsPaginationNumber(searchTerm, selectedOption.value, setPaginationNumber, errorNotify);
+                await apiAdmin.fetchProductsPaginationNumber(searchTerm, categories, setPaginationNumber, errorNotify);
             };
             const fetchProductsList = async () => {
-                await apiAdmin.fetchProductsList(currentPage - 1, selectedOption.value, searchTerm, setProducts, errorNotify);
+                await apiAdmin.fetchProductsList(currentPage - 1, categories, searchTerm, setProducts, errorNotify);
             };
 
             Promise.all([fetchCategories(), fetchProductsPaginationNumber(), fetchProductsList()]).then(() => {
@@ -126,6 +126,7 @@ const AdminProducts = () => {
             <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
                 <div className="md:col-span-2 xl:col-span-1">
                     <Select
+                        isMulti
                         value={selectedOption}
                         onChange={handleChange}
                         options={options}
