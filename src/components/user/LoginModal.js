@@ -9,15 +9,6 @@ import {useForm} from "react-hook-form";
 import apiUser from "../../utils/apiUser";
 import MotionButton from "../common/MotionButton";
 import LoginModalList from "../common/LoginModalList";
-const buttonVariants = {
-    hover: {
-        scale: 0.95,
-        transition: {
-            duration: 0.3,
-            yoyo: Infinity
-        }
-    }
-}
 
 const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
     useCloseOnEsc(onClose);
@@ -28,6 +19,11 @@ const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
         email: '',
         password: ''
     });
+
+    const handleGmailLogin = async () => {
+        setIsLoading(true);
+        await apiUser.handleGmailLogin(errorNotify, setIsLoading);
+    }
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -94,8 +90,7 @@ const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
                         <div className="h-0.5 bg-gray-300 w-20"></div>
                     </div>
                     <div className="flex flex-col justify-center items-center space-y-4 p-7">
-                        <MotionButton color="blue-700" text="Zaloguj przez Facebook"></MotionButton>
-                        <MotionButton color="red-600" text="Zaloguj przez Gmail"></MotionButton>
+                        <MotionButton color="red-600" onClick={handleGmailLogin} text="Zaloguj przez Gmail"></MotionButton>
                     </div>
                 </div>
                 <div className="p-7 sm:p-10">

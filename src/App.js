@@ -10,7 +10,7 @@ import AdminHome from "./pages/admin-pages/AdminHome";
 import {AdminMavMenu} from "./components/admin/AdminNavMenu";
 import AdminProducts from "./pages/admin-pages/AdminProducts";
 import AdminOrders from "./pages/admin-pages/AdminOrders";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import useAuth from "./hooks/useAuth";
 import AdminUsers from "./pages/admin-pages/AdminUsers";
 import AdminProduction from "./pages/admin-pages/AdminProduction";
@@ -21,10 +21,10 @@ import Footer from "./components/user/Footer";
 import HomePage from "./pages/user-pages/HomePage";
 import ForgotPasswordPage from "./pages/user-pages/ForgotPasswordPage";
 import UserVerifyPage from "./pages/user-pages/UserVerifyPage";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
     const { isAdmin } = useAuth();
-    const isAdminPath = window.location.pathname.startsWith('/admin/');
 
     const AdminPage = () => {
         return (
@@ -46,6 +46,7 @@ function App() {
     };
 
     return (
+        <GoogleOAuthProvider clientId="824270257624-0jigvqicugf6m675mtq3knaktmsgds8p.apps.googleusercontent.com">
         <div className="flex flex-col min-h-screen">
             <BrowserRouter>
                 <Routes>
@@ -62,7 +63,7 @@ function App() {
                     {isAdmin && (<Route path="admin/*" element={<AdminPage/>}/>)}
                     <Route path="*" element={<NoPage/>}/>
                 </Routes>
-                {!isAdminPath && <Footer />}
+                <Footer/>
             </BrowserRouter>
             <ToastContainer
                 position="top-center"
@@ -78,6 +79,7 @@ function App() {
                 limit={2}
             />
         </div>
+        </GoogleOAuthProvider>
     );
 }
 

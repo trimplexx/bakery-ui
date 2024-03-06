@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { SocialIcon } from 'react-social-icons';
+import {useLocation} from "react-router-dom";
 
 const Footer = () => {
+    const [isAdminPath, setIsAdminPath] = useState()
+    const location = useLocation();
+
+    useEffect(() => {
+        setIsAdminPath(location.pathname.startsWith("/admin/"))
+    }, [location]);
+
+
     return (
+        <>{!isAdminPath ?
         <footer className="bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 text-gray-700 py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between">
                 <div className="mb-4 md:mb-0">
@@ -35,7 +45,8 @@ const Footer = () => {
             <div className="mt-8 text-center p-2">
                 <p>&copy; 2023 Eggcellent Bakery. Wszelkie prawa zastrzeżone.</p>
             </div>
-        </footer>
+        </footer> : null}
+        </>
     );
 };
 

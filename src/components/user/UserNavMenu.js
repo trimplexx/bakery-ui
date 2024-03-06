@@ -91,9 +91,9 @@ export const UserNavMenu = () => {
                 </li>
 
                 {isAdmin && (<li className="admin-icon">
-                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><a href="/admin/home"
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink to="/admin/home"
                                                                                              className={`icon ${menuOpen ? 'icon-open' : ''}`}>
-                        <FaToolbox/> </a></motion.div>
+                        <FaToolbox/> </NavLink></motion.div>
                 </li>)}
             </ul>
         </nav>

@@ -7,7 +7,6 @@ import apiAdmin from "../../utils/apiAdmin";
 import LoadingComponent from "../common/LoadingComponent";
 
 const EditData = () => {
-    const [userId, setUserId] = useState(false);
     const {register, handleSubmit, setValue} = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState({
@@ -22,7 +21,6 @@ const EditData = () => {
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             const decodedToken = JSON.parse(atob(base64));
             const userIdFromToken = decodedToken.UserId;
-            setUserId(userIdFromToken);
             setValue('userId', userIdFromToken);
 
             const fetchData = async () => {
@@ -76,13 +74,13 @@ const EditData = () => {
                             value={userData.email}
                             onChange={(e) => handleInputChange('email', e.target.value)}
                             maxLength="50"
-                            className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-gray-400 rounded-lg border-1 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#fda329] peer cursor-not-allowed"
+                            className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-gray-300 rounded-lg border-1 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#fda329] peer cursor-not-allowed"
                             placeholder=" "
                             disabled
                         />
                         <label
                             htmlFor="email"
-                            className="absolute text-sm text-black duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-400 rounded-2xl px-2 peer-focus:px-2 peer-focus:text-gray-800 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                            className="absolute text-sm text-black duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-300 rounded-2xl px-2 peer-focus:px-2 peer-focus:text-gray-800 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                         >
                             Email
                         </label>

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {connectionUrlString} from "./props";
 import handleApiError from './apiUtils';
+import {errorNotify} from "../helpers/ToastNotifications";
 
 const apiUser = {
     register: async (data, successNotify, errorNotify, onLoginClick, setIsLoading) => {
@@ -128,7 +129,15 @@ const apiUser = {
             handleApiError(error, errorNotify);
         }
     },
-
+    handleGmailLogin: async (errorNotify, setIsLoading) =>{
+        try{
+            const response = await  axios.get(connectionUrlString + "api/Auth/gmailLogin");
+            window.location.href = response.data;
+            setIsLoading(false);
+        }catch (error){
+            handleApiError(error, errorNotify);
+        }
+    }
 }
 
 export default apiUser;

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {connectionUrlString} from "./props";
 import handleApiError from './apiUtils';
-import {successNotify} from "../helpers/ToastNotifications";
 
 const apiCommon = {
     verifyToken: async (setIsAdmin, setIsLoggedIn, errorNotify) => {

@@ -36,7 +36,7 @@ const OrdersHistory = () => {
         } else {
             errorNotify('Brak tokenu w localStorage');
         }
-    }, [currentPage, isLoading]);
+    }, [currentPage]);
 
     const handleCancelOrder = async (orderId) => {
         setOrderId(orderId)
@@ -63,7 +63,7 @@ const OrdersHistory = () => {
     };
 
     return (<div>
-            {isLoading ? <LoadingComponent/> : <div>
+            {isLoading ? <LoadingComponent/> : <div className="min-h-[450px]">
                 <OrdersTable
                     orders={orders}
                     handleCancelOrder={handleCancelOrder}
