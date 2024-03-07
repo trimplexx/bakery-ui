@@ -15,14 +15,15 @@ const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
     const { register, handleSubmit} = useForm();
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingGmail, setIsLoadingGmail] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
 
     const handleGmailLogin = async () => {
-        setIsLoading(true);
-        await apiUser.handleGmailLogin(errorNotify, setIsLoading);
+        setIsLoadingGmail(true);
+        await apiUser.handleGmailLogin(errorNotify, isLoadingGmail);
     }
 
     const toggleShowPassword = () => {
@@ -90,7 +91,7 @@ const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
                         <div className="h-0.5 bg-gray-300 w-20"></div>
                     </div>
                     <div className="flex flex-col justify-center items-center space-y-4 p-7">
-                        <MotionButton color="red-600" onClick={handleGmailLogin} text="Zaloguj przez Gmail"></MotionButton>
+                        <MotionButton color="red-600" isLoading={isLoadingGmail} onClick={handleGmailLogin} text="Zaloguj przez Gmail"></MotionButton>
                     </div>
                 </div>
                 <div className="p-7 sm:p-10">

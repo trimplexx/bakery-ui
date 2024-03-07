@@ -36,8 +36,8 @@ const AdminUsers = () => {
         setIsModalClosed(true);
     };
 
-    const handleOpenHistoryModal = (phone) => {
-        setHistoryUserPhone(phone);
+    const handleOpenHistoryModal = (userId) => {
+        setHistoryUserPhone(userId);
         setIsHistoryModalClosed(false);
     };
 
@@ -147,10 +147,10 @@ const AdminUsers = () => {
                                 {user.email}
                             </td>
                             <td className="px-6 py-4">
-                                <span onClick={() => handleOpenHistoryModal(user.phone)}
+                                <span onClick={() => handleOpenHistoryModal(user.userId)}
                                       className="font-medium text-yellow-400 no-underline hover:underline cursor-pointer">Historia</span>
-                                {historyUserPhone === user.phone && (
-                                    <OrdersHistoryModal phone={user.phone} onClose={handleCloseHistoryModal}/>)}
+                                {historyUserPhone === user.userId && (
+                                    <OrdersHistoryModal userId={user.userId} onClose={handleCloseHistoryModal}/>)}
                             </td>
                             <td className="px-6 py-4">
                                 <span onClick={() => handleOpenEditModal(user.userId)}

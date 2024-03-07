@@ -106,25 +106,39 @@ const apiUser = {
         } finally {
             setIsLoading(false);
         }
-    }, getOfOrdersPagination: async (phone, setPaginationNumber, errorNotify) => {
+    }, getOfOrdersPagination: async (userId, setPaginationNumber, errorNotify) => {
         try {
             const response = await axios.get(connectionUrlString + 'api/UserPanel/numberOfOrders', {
                 headers: {
-                    phone: phone
+                    userId: userId
                 }
             });
             setPaginationNumber(response.data)
         } catch (error) {
             handleApiError(error, errorNotify);
         }
-    }, getUserOrdersHistoryList: async (offset, phone, setOrders, errorNotify) => {
+    },
+    getUserOrdersHistoryList: async (offset, userId, setOrders, errorNotify) => {
         try {
             const response = await axios.get(connectionUrlString + 'api/UserPanel/userOrdersHistoryList', {
                 headers: {
-                    offset: offset, phone: phone
+                    offset: offset, userId: userId
                 }
             });
             setOrders(response.data)
+        } catch (error) {
+            handleApiError(error, errorNotify);
+        }
+    },
+    checkIfUserGotPassword: async (userId, setIsGotPassword, errorNotify) => {
+        try {
+            const response = await axios.get(connectionUrlString + 'api/UserPanel/checkIfPassword', {
+                headers: {
+                    userId: userId
+                }
+            });
+            setIsGotPassword(response.data);
+
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -137,7 +151,27 @@ const apiUser = {
         }catch (error){
             handleApiError(error, errorNotify);
         }
-    }
+    },
+    gmailSession: async (token, setIsLoading, navigate, errorNotify, successNotify) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(connectionUrlString + 'api/UserVerify/verifyToken', {
+                token
+            });
+            if(response.status === 200)
+            {
+                localStorage.setItem('token', token);
+                localStorage.setItem('successNotifyStorage', 'Poprawnie zalogowano');
+                navigate("/");
+                window.location.reload(true);
+                setIsLoading(false);
+            }
+        } catch (error) {
+            navigate("/");
+            handleApiError(error, errorNotify);
+            setIsLoading(false);
+        }
+    },
 }
 
 export default apiUser;

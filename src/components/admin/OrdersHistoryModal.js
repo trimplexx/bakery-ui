@@ -8,7 +8,7 @@ import apiCommon from "../../utils/apiCommon";
 import CustomConfirmModal from "../common/CustomConfirmModal";
 import LoadingComponent from "../common/LoadingComponent";
 
-const OrdersHistoryModal = ({onClose, phone}) => {
+const OrdersHistoryModal = ({onClose, userId}) => {
     useCloseOnEsc(onClose);
     const [paginationNumber, setPaginationNumber] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,13 +19,12 @@ const OrdersHistoryModal = ({onClose, phone}) => {
     const [orderId, setOrderId] = useState(null);
 
     useEffect(() => {
-        const formatedPhone = phone.slice(3);
             const getOfOrdersPagination = async () => {
-                await apiUser.getOfOrdersPagination(formatedPhone, setPaginationNumber, errorNotify);
+                await apiUser.getOfOrdersPagination(userId, setPaginationNumber, errorNotify);
             };
 
             const getUserOrdersHistoryList = async () => {
-                await apiUser.getUserOrdersHistoryList(currentPage-1, formatedPhone, setOrders, errorNotify);
+                await apiUser.getUserOrdersHistoryList(currentPage-1, userId, setOrders, errorNotify);
             };
         Promise.all([getOfOrdersPagination(), getUserOrdersHistoryList()]).then(() => {
             setIsLoading(false);

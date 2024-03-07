@@ -22,13 +22,14 @@ const OrdersHistory = () => {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             const decodedToken = JSON.parse(atob(base64));
-            const phoneNumber = decodedToken.Phone.toString();
+            const userId = decodedToken.UserId.toString();
+
             const getOfOrdersPagination = async () => {
-                await apiUser.getOfOrdersPagination(phoneNumber, setPaginationNumber, errorNotify);
+                await apiUser.getOfOrdersPagination(userId, setPaginationNumber, errorNotify);
             };
 
             const getUserOrdersHistoryList = async () => {
-                await apiUser.getUserOrdersHistoryList(currentPage - 1, phoneNumber, setOrders, errorNotify);
+                await apiUser.getUserOrdersHistoryList(currentPage - 1, userId, setOrders, errorNotify);
             };
             Promise.all([getOfOrdersPagination(), getUserOrdersHistoryList()]).then(() => {
                 setIsLoading(false);

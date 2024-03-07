@@ -5,13 +5,15 @@ import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import EditData from "./EditData";
 import ChangePassword from "./ChangePassword";
 import OrdersHistory from "./OrdersHistory";
+import apiUser from "../../utils/apiUser";
+import {errorNotify} from "../../helpers/ToastNotifications";
 
 const UserModal = ({ onClose }) => {
     useCloseOnEsc(onClose);
-
     const [showChangePassword, setShowChangePassword] = useState(false);
     const [showEditData, setShowEditData] = useState(true); // Domyślnie ustawione na true
     const [showOrdersHistory, setShowOrdersHistory] = useState(false); // Dodany stan dla komponentu OrdersHistory
+    const [isGotPassword, setIsGotPassword] = useState(true);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -38,10 +40,24 @@ const UserModal = ({ onClose }) => {
     };
 
     useEffect(() => {
-        // Resetowanie stanów przy zamknięciu modala
-        setShowChangePassword(false);
-        setShowEditData(true);
-        setShowOrdersHistory(false);
+        const fetchData = async () => {
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const decodedToken = JSON.parse(atob(base64));
+                const userIdFromToken = decodedToken.UserId;
+                await apiUser.checkIfUserGotPassword(userIdFromToken, setIsGotPassword, errorNotify)
+            }
+
+            // Resetowanie stanów przy zamknięciu modala
+            setShowChangePassword(false);
+            setShowEditData(true);
+            setShowOrdersHistory(false);
+        };
+
+        fetchData();
     }, [onClose]);
 
 
@@ -57,8 +73,10 @@ const UserModal = ({ onClose }) => {
                             Zmień dane
                         </button>
                         <button
-                            className={`text-center rounded-t-xl p-2  sm:p-4  sm:text-lg sm:mr-4 font-bold text-gray-900 ${showChangePassword ? 'bg-white' : 'hover:bg-white'} focus:outline-none focus:ring-0`}
+                            className={`text-center rounded-t-xl p-2  sm:p-4  sm:text-lg sm:mr-4 font-bold text-gray-900 ${!isGotPassword ? 'cursor-not-allowed' : (showChangePassword ? 'bg-white' : 'hover:bg-white')}  focus:outline-none focus:ring-0`}
                             onClick={openChangePassword}
+                            disabled={!isGotPassword}
+                            title={!isGotPassword ? "Zalogowano poprzez Gmail, nie można zmienić hasła." : ""}
                         >
                             Zmień hasło
                         </button>
