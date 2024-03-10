@@ -1,4 +1,4 @@
-import { useProductsData } from "./useProductsData";
+import {useProductsData} from "./useProductsData";
 import {useEffect, useState} from "react";
 import apiUser from "../utils/apiUser";
 import {errorNotify} from "../helpers/ToastNotifications";
@@ -13,7 +13,7 @@ export const useOrderFunctions = () => {
         const loadStoredDates = () => {
             const storedKeys = Object.keys(localStorage);
             const dateKeys = storedKeys.filter(key => /^\d{4}-\d{2}-\d{2}$/.test(key));
-            setStoredDates(dateKeys.map(key => ({ value: key, label: key })));
+            setStoredDates(dateKeys.map(key => ({value: key, label: key})));
         };
 
         loadStoredDates();
@@ -34,13 +34,12 @@ export const useOrderFunctions = () => {
 
         if (selectedProductData) {
             setProductData(selectedProductData);
-        }
-        const productsInfo = selectedProductData.map(product => ({
-            name: product.name,
-            quantity: product.quantity
-        }));
+            const productsInfo = selectedProductData.map(product => ({
+                name: product.name, quantity: product.quantity
+            }));
 
-        await apiUser.fetchProductsAvailability(selectedDate, productsInfo, setProductData, errorNotify);
+            await apiUser.fetchProductsAvailability(selectedDate, productsInfo, setProductData, errorNotify);
+        }
         setIsLoading(false);
     };
 
@@ -55,7 +54,7 @@ export const useOrderFunctions = () => {
         }
 
         const updatedProductData = [...productData];
-        updatedProductData[index] = { ...updatedProductData[index], quantity: updatedQuantity };
+        updatedProductData[index] = {...updatedProductData[index], quantity: updatedQuantity};
 
         setProductData(updatedProductData);
 
@@ -70,15 +69,14 @@ export const useOrderFunctions = () => {
                 cartItems[existingProductIndex].quantity = updatedQuantity; // Zaktualizowano na updatedQuantity
             } else {
                 cartItems.push({
-                    name: updatedProductData[index].name,
-                    quantity: updatedQuantity, // Zaktualizowano na updatedQuantity
+                    name: updatedProductData[index].name, quantity: updatedQuantity, // Zaktualizowano na updatedQuantity
                 });
             }
             localStorage.setItem(cartKey, JSON.stringify(cartItems));
         }
     };
 
-    const handleDelete = (indexToDelete,date) => {
+    const handleDelete = (indexToDelete, date) => {
         const cartKey = date;
         let cartItems = JSON.parse(localStorage.getItem(cartKey)) || [];
 
@@ -103,7 +101,6 @@ export const useOrderFunctions = () => {
         const updatedProductData = productData.filter((_, index) => index !== indexToDelete);
         setProductData(updatedProductData);
     };
-
 
 
     const calculateTotalPrice = () => {

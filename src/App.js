@@ -10,7 +10,7 @@ import AdminHome from "./pages/admin-pages/AdminHome";
 import {AdminMavMenu} from "./components/admin/AdminNavMenu";
 import AdminProducts from "./pages/admin-pages/AdminProducts";
 import AdminOrders from "./pages/admin-pages/AdminOrders";
-import React from "react";
+import React, {useEffect} from "react";
 import useAuth from "./hooks/useAuth";
 import AdminUsers from "./pages/admin-pages/AdminUsers";
 import AdminProduction from "./pages/admin-pages/AdminProduction";
@@ -25,6 +25,20 @@ import GmailLoginSession from "./pages/user-pages/GmailLoginSession";
 
 function App() {
     const { isAdmin } = useAuth();
+    useEffect(() => {
+        // Czyszczenie przedawnionych koszyków.
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const dateKey = new Date(key);
+
+            if (dateKey < today) {
+                localStorage.removeItem(key);
+            }
+        }
+    }, []);
 
     const AdminPage = () => {
         return (

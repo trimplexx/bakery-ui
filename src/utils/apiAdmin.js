@@ -5,18 +5,23 @@ import handleApiError from './apiUtils';
 const apiAdmin = {
     fetchSingleUser: async (userId, setUserData, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminUser/singleUser', {
-                headers: {
-                    'UserId': userId
-                }
-            });
-            const userDataFromAPI = response.data;
-            setUserData({
-                firstName: userDataFromAPI.first_name,
-                lastName: userDataFromAPI.last_name,
-                phone: userDataFromAPI.phone,
-                email: userDataFromAPI.email
-            });
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await axios.get(connectionUrlString + 'api/AdminUser/singleUser', {
+                    headers: {
+                        'UserId': userId,
+                        token: token
+                    }
+                });
+                const userDataFromAPI = response.data;
+                setUserData({
+                    firstName: userDataFromAPI.first_name,
+                    lastName: userDataFromAPI.last_name,
+                    phone: userDataFromAPI.phone,
+                    email: userDataFromAPI.email
+                });
+            }
+
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -42,9 +47,17 @@ const apiAdmin = {
     },
     addProduct: async ( formData, successNotify, errorNotify, onClose, setIsLoading) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/AdminProducts/addProduct', formData);
-            successNotify(response.data.message);
-            onClose();
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.post(connectionUrlString + 'api/AdminProducts/addProduct', formData, {
+                    headers: {
+                        token: token
+                    }
+                });
+                successNotify(response.data.message);
+                onClose();
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         } finally {
@@ -53,13 +66,18 @@ const apiAdmin = {
     },
     editProduct: async ( formData, productId, successNotify, errorNotify, onClose, setIsLoading) => {
         try {
-            const response = await axios.put(connectionUrlString + 'api/AdminProducts/editProduct', formData, {
-                headers: {
-                    productId : productId
-                }
-            });
-            successNotify(response.data.message);
-            onClose();
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.put(connectionUrlString + 'api/AdminProducts/editProduct', formData, {
+                    headers: {
+                        productId : productId,
+                        token: token
+                    }
+                });
+                successNotify(response.data.message);
+                onClose();
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         } finally {
@@ -73,7 +91,7 @@ const apiAdmin = {
                     'ProductId': productId
                 }
             });
-            setProductsData(response.data)
+            setProductsData(response.data);
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -106,23 +124,38 @@ const apiAdmin = {
     },
     deleteProduct: async (productId, successNotify, errorNotify) => {
         try {
-            const response = await axios.delete(connectionUrlString + 'api/AdminProducts/deleteProduct', {
-                headers: {
-                    productId: productId
-                }
-            });
-            successNotify(response.data);
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.delete(connectionUrlString + 'api/AdminProducts/deleteProduct', {
+                    headers: {
+                        productId: productId,
+                        token: token
+                    }
+                });
+                successNotify(response.data);
+            }
+
         } catch (error) {
             handleApiError(error, errorNotify);
         }
     },
     fetchUsersList: async (offset, searchTerm, setUsers, errorNotify) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/AdminUser/usersList', {
-                searchTerm : searchTerm,
-                offset : offset
-            });
-            setUsers(response.data);
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.post(connectionUrlString + 'api/AdminUser/usersList', {
+                    searchTerm : searchTerm,
+                    offset : offset
+                }, {
+                        headers: {
+                                token: token
+                            }
+                    });
+                setUsers(response.data);
+            }
+
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -137,8 +170,16 @@ const apiAdmin = {
     },
     adminChangeUserData: async (data, setIsLoading, errorNotify, successNotify) => {
         try {
-            const response = await axios.put(connectionUrlString + 'api/AdminUser/editUser', data);
-            successNotify(response.data);
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await axios.put(connectionUrlString + 'api/AdminUser/editUser', data,
+                    {
+                        headers: {
+                            token: token
+                        }
+                    });
+                successNotify(response.data);
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -148,12 +189,16 @@ const apiAdmin = {
     },
     deleteUser: async (userId, successNotify, errorNotify) => {
         try {
-            const response = await axios.delete(connectionUrlString + 'api/AdminUser/deleteUser', {
-                headers: {
-                    userId: userId
-                }
-            });
-            successNotify(response.data);
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await axios.delete(connectionUrlString + 'api/AdminUser/deleteUser', {
+                    headers: {
+                        userId: userId,
+                        token: token
+                    }
+                });
+                successNotify(response.data);
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -172,12 +217,17 @@ const apiAdmin = {
     },
     updateProductsAvailability: async ( products, dateTime, successNotify, errorNotify) => {
         try {
-            const response = await axios.put(connectionUrlString + 'api/AdminProduction/updateProductsAvailability', products, {
-                headers: {
-                    'DateTime': dateTime
-                }
-            });
-            successNotify(response.data);
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.put(connectionUrlString + 'api/AdminProduction/updateProductsAvailability', products, {
+                    headers: {
+                        'DateTime': dateTime,
+                        token: token
+                    }
+                });
+                successNotify(response.data);
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -196,15 +246,19 @@ const apiAdmin = {
     },
     fetchOrdersList: async (offset, dateTime, phone, setUsers, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminOrders/ordersList', {
-                headers:{
-                    offset: offset,
-                    dateTime: dateTime,
-                    phone: phone
-                }
-
-            });
-            setUsers(response.data);
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.get(connectionUrlString + 'api/AdminOrders/ordersList', {
+                    headers:{
+                        offset: offset,
+                        dateTime: dateTime,
+                        phone: phone,
+                        token: token
+                    }
+                });
+                setUsers(response.data);
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -222,43 +276,87 @@ const apiAdmin = {
     },
     changeOrderStatus: async (orderId, errorNotify, successNotify) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/AdminOrders/changeOrderStatus', null,{
-                headers:{
-                    orderId: orderId
-                }});
-            successNotify(response.data);
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.post(connectionUrlString + 'api/AdminOrders/changeOrderStatus', null,{
+                    headers:{
+                        orderId: orderId,
+                        token: token
+                    }});
+                successNotify(response.data);
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         }
     },
     fetchLastDaysSalary: async (setLastDaysSalary, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/lastDaysSalary')
-            setLastDaysSalary(response.data);
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.get(connectionUrlString + 'api/AdminMainPage/lastDaysSalary',
+                    {
+                        headers : {
+                            token: token
+                        }
+                    })
+                setLastDaysSalary(response.data);
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         }
     },
     fetchProductsLeft: async (setProductsLeft, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/productsLeft')
-            setProductsLeft(response.data);
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.get(connectionUrlString + 'api/AdminMainPage/productsLeft',
+                    {
+                        headers: {
+                            token: token
+                        }
+                    })
+                setProductsLeft(response.data);
+            }
+
         } catch (error) {
             handleApiError(error, errorNotify);
         }
     },
     fetchUnfulfilledOrders: async (setUnfulfilledOrders, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/unfulfilledOrders')
-            setUnfulfilledOrders(response.data);
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.get(connectionUrlString + 'api/AdminMainPage/unfulfilledOrders',
+                    {
+                        headers:{
+                            token: token
+                        }
+                    })
+                setUnfulfilledOrders(response.data);
+            }
+
         } catch (error) {
             handleApiError(error, errorNotify);
         }
     },
     fetchNumberOfOrders: async (setNumberOfOrders, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminMainPage/numberOfOrders')
-            setNumberOfOrders(response.data);
+            const token = localStorage.getItem('token');
+            if(token)
+            {
+                const response = await axios.get(connectionUrlString + 'api/AdminMainPage/numberOfOrders',
+                    {
+                        headers:{
+                            token: token
+                        }
+                    })
+                setNumberOfOrders(response.data);
+            }
+
         } catch (error) {
             handleApiError(error, errorNotify);
         }

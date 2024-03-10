@@ -29,6 +29,7 @@ const ShoppingCard = ({ isOpen, onClose }) => {
     };
 
     useEffect(() => {
+
         if (isOpen) {
             controls.start('open');
         } else {

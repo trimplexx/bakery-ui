@@ -59,15 +59,10 @@ const AdminUsers = () => {
             setIsLoading(false);
         });
     }
-
-    useEffect(() => {
-        loadingElements();
-    }, [currentPage, isModalClosed, searchTerm]);
-
     useEffect(() => {
         setIsLoading(true);
         loadingElements();
-    }, [currentPage]);
+    }, [isModalClosed, searchTerm]);
 
     const handleDeleteUser = async (userId) => {
         setUserId(userId);

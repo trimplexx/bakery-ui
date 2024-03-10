@@ -99,8 +99,15 @@ const apiUser = {
         }
     }, userChangePassword: async (data, setIsLoading, successNotify, errorNotify) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/UserPanel/changePassword', data);
-            successNotify(response.data)
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await axios.post(connectionUrlString + 'api/UserPanel/changePassword', data, {
+                    headers: {
+                        token : token
+                    }
+                });
+                successNotify(response.data)
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         } finally {
@@ -108,37 +115,50 @@ const apiUser = {
         }
     }, getOfOrdersPagination: async (userId, setPaginationNumber, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/UserPanel/numberOfOrders', {
-                headers: {
-                    userId: userId
-                }
-            });
-            setPaginationNumber(response.data)
+
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await axios.get(connectionUrlString + 'api/UserPanel/numberOfOrders', {
+                    headers: {
+                        userId: userId,
+                        token: token
+                    }
+                });
+                setPaginationNumber(response.data)
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         }
     },
     getUserOrdersHistoryList: async (offset, userId, setOrders, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/UserPanel/userOrdersHistoryList', {
-                headers: {
-                    offset: offset, userId: userId
-                }
-            });
-            setOrders(response.data)
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await axios.get(connectionUrlString + 'api/UserPanel/userOrdersHistoryList', {
+                    headers: {
+                        offset: offset,
+                        userId: userId,
+                        token: token
+                    }
+                });
+                setOrders(response.data)
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         }
     },
     checkIfUserGotPassword: async (userId, setIsGotPassword, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/UserPanel/checkIfPassword', {
-                headers: {
-                    userId: userId
-                }
-            });
-            setIsGotPassword(response.data);
-
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await axios.get(connectionUrlString + 'api/UserPanel/checkIfPassword', {
+                    headers: {
+                        userId: userId,
+                        token: token
+                    }
+                });
+                setIsGotPassword(response.data);
+            }
         } catch (error) {
             handleApiError(error, errorNotify);
         }
@@ -150,6 +170,7 @@ const apiUser = {
             setIsLoading(false);
         }catch (error){
             handleApiError(error, errorNotify);
+            setIsLoading(false);
         }
     },
     gmailSession: async (token, setIsLoading, navigate, errorNotify, successNotify) => {

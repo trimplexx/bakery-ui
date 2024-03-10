@@ -37,19 +37,18 @@ const OrderSumaryPage = () => {
             const decodedToken = JSON.parse(atob(base64));
 
             document.getElementById('phone').value = decodedToken.Phone;
-        } else {
-            console.error('Brak tokenu w localStorage');
         }
 
         // Wczytaj wybraną opcję z localStorage
         const storedOption = localStorage.getItem('selectedOption');
+
         if (storedOption) {
             const foundOption = storedDates.find(option => option.value === storedOption);
             if (foundOption) {
                 handleSelectChange(foundOption);
             }
         }
-    }, []);
+    }, [storedDates]);
 
     const handleOrder = async () => {
         const termsChecked = document.getElementById('terms').checked;

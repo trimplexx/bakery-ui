@@ -4,17 +4,23 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import {useProductsData} from "../../hooks/useProductsData";
 import createImageFileFromImageUrl from "../../helpers/CreateImageFileFromImageUrl";
 import apiAdmin from "../../utils/apiAdmin";
+import LoadingComponent from "../common/LoadingComponent";
 
 const EditProductModal = ({onClose, productId}) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingProduct, setIsLoadingProduct] = useState(true);
     const [productsData, setProductData] = useProductsData();
 
 
     useEffect(() => {
+
         const fetchData = async () => {
             await apiAdmin.fetchSingleProduct(productId, setProductData, errorNotify);
         };
-        fetchData();
+
+        Promise.all([fetchData()]).then(() => {
+            setIsLoadingProduct(false);
+        });
     }, [productId, setProductData]);
 
     const onSubmit = async () => {
@@ -43,7 +49,8 @@ const EditProductModal = ({onClose, productId}) => {
         );
     }
 
-    return (<>
+    return (<div>
+        {isLoadingProduct ? <LoadingComponent/> :
             <ProductModal
                 isLoading={isLoading}
                 onClose={onClose}
@@ -51,8 +58,8 @@ const EditProductModal = ({onClose, productId}) => {
                 productsData={productsData}
                 setProductsData={setProductData}
                 text="Edytuj produkt"
-            />
-        </>);
+            />}
+        </div>);
 };
 
 export default EditProductModal;
