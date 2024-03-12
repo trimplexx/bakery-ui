@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
-import {errorNotify} from '../../helpers/ToastNotifications';
+import {errorNotify, successNotify} from '../../helpers/ToastNotifications';
 import {useProductsData} from '../../hooks/useProductsData';
 import CustomDatePicker from "../../components/common/CustomDataPicker";
 import {FaShoppingCart} from "react-icons/fa";
@@ -9,19 +9,28 @@ import apiAdmin from "../../utils/apiAdmin";
 import apiCommon from "../../utils/apiCommon";
 import LoadingComponent from "../../components/common/LoadingComponent";
 import axios from "axios";
-import {connectionUrlString} from "../../utils/props";
+import {connectionUrlString, notFoundImage} from "../../utils/props";
 import handleApiError from "../../utils/apiUtils";
 import apiUser from "../../utils/apiUser";
+import {LocalStorageCheck} from "../../helpers/LocalStorageCheck";
+import {MdError} from "react-icons/md";
+import {CustomAlert} from "../../components/common/CustomAlert";
+import {CiImageOff} from "react-icons/ci";
 
 
 const SingleProductPage = () => {
     const {productId} = useParams();
+    const [productQuantityInfo, setQuantityProductInfo] = useState();
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
+    const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [productData, setProductData] = useProductsData();
     const [quantity, setQuantity] = useState(1);
     const [maxProductQuantity, setMaxProductQuantity] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [productCategories, setProductCategories] = useState([]);
+    const now = new Date();
+    const minDate = (now.getHours() < 15 || (now.getHours() === 15 && now.getMinutes() < 45)) ? now : new Date(now.setDate(now.getDate() + 1));
     const navigate = useNavigate();
 
     const loadingElements = () => {
@@ -43,7 +52,7 @@ const SingleProductPage = () => {
         };
 
         const fetchMaxSelectedProductQuantity = async () => {
-            await apiCommon.fetchMaximumProductQuantity(dateOnly, productId, setMaxProductQuantity, errorNotify);
+            await apiCommon.fetchMaximumProductQuantity(dateOnly, productId, setMaxProductQuantity, setQuantityProductInfo, setIsErrorVisible, setIsInfoVisible);
         };
         if (maxProductQuantity === 0) {
             setQuantity(0);
@@ -54,6 +63,7 @@ const SingleProductPage = () => {
         });
     }
     useEffect(() => {
+        LocalStorageCheck();
         setIsLoading(true);
         loadingElements();
     }, []);
@@ -90,9 +100,16 @@ const SingleProductPage = () => {
                     name: productData.name, quantity: quantity,
                 });
             }
-
             localStorage.setItem(cartKey, JSON.stringify(cartItems));
+            successNotify("Pomyślnie dodano do koszyka.")
         }
+    };
+
+    const handleErrorClose = () => {
+        setIsErrorVisible(false);
+    };
+    const handleInfoClose = () => {
+        setIsInfoVisible(false);
     };
 
     return (<div>
@@ -100,7 +117,8 @@ const SingleProductPage = () => {
                 className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-10 px-10 xl:px-24 2xl:px-40 justify-center flex">
                 {productData && (<div className="bg-gray-200 w-full max-w-8xl p-6 rounded-2xl">
                         <div className="grid lg:grid-cols-2 gap-5 mb-4">
-                            <img className="rounded-lg shadow-xl" src={productData.image} alt="image description"/>
+                            {productData.image ? <img className="rounded-lg shadow-xl" src={productData.image} alt="image description"/> :
+                                <img className="rounded-lg shadow-xl" src={notFoundImage} alt="image description"/> }
                             <div className="flex flex-col">
                                 <h1 className="text-4xl font-semibold mb-4">{productData.name}</h1>
                                 <p className="text-lg"><strong>Cena: </strong>{productData.price} zł</p>
@@ -112,8 +130,17 @@ const SingleProductPage = () => {
                                 <p className="text-lg text-gray-700 mb-6">{productData.description}</p>
 
                                 <div className="grid sm:grid-cols-2 mt-auto">
+                                    <div className="col-span-2 w-full">
+                                        {isErrorVisible && !isInfoVisible ?
+                                            <CustomAlert isVisible={isErrorVisible} type="error" info={productQuantityInfo} handleClose={handleErrorClose} />
+                                            : null}
+                                        {isInfoVisible && !isErrorVisible ?
+                                            <CustomAlert isVisible={isInfoVisible} type="info" info={productQuantityInfo} handleClose={handleInfoClose} />
+                                            : null}
+                                    </div>
+
                                     <div className="h-12 z-20 my-2">
-                                        <CustomDatePicker minDate={new Date()}
+                                        <CustomDatePicker minDate={minDate}
                                                           selectedDate={selectedDate}
                                                           setSelectedDate={setSelectedDate}
                                                           color="gray-200"

@@ -1,13 +1,15 @@
 import {useProductsData} from "./useProductsData";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import apiUser from "../utils/apiUser";
 import {errorNotify} from "../helpers/ToastNotifications";
+import {ShoppingCardContext} from "../helpers/ShoppingCardState";
 
 export const useOrderFunctions = () => {
     const [productData, setProductData] = useProductsData();
     const [storedDates, setStoredDates] = useState([]);
     const [selectedOption, setSelectedOption] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const {isCardChange} = useContext(ShoppingCardContext);
 
     useEffect(() => {
         const loadStoredDates = () => {
@@ -19,7 +21,7 @@ export const useOrderFunctions = () => {
         loadStoredDates();
         setIsLoading(false);
 
-    }, [JSON.stringify(localStorage), setProductData]);
+    }, [setProductData, selectedOption,isCardChange]);
 
 
     const handleSelectChange = async (selectedOption) => {

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, {useRef, useEffect, useState, useContext} from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import Select from "react-select";
 import { customDropdownStyles } from "../../styles/customDropdownStyles";
@@ -7,15 +7,19 @@ import { NavLink } from "react-router-dom";
 import ProductShoppingCard from "../common/ProductsShoppingCard";
 import { useOrderFunctions } from "../../hooks/useCardFunctions";
 import {FadeLoader} from "react-spinners";
+import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
 
 const ShoppingCard = ({ isOpen, onClose }) => {
     const sidebarRef = useRef(null);
     const controls = useAnimation();
     const [maxHeight, setMaxHeight] = useState(0);
+    const {setIsCardChange, isCardChange} = useContext(ShoppingCardContext);
     const {
         productData,
+        setProductData,
         storedDates,
         selectedOption,
+        setSelectedOption,
         handleSelectChange,
         handleQuantityChange,
         handleDelete,
@@ -29,6 +33,10 @@ const ShoppingCard = ({ isOpen, onClose }) => {
     };
 
     useEffect(() => {
+        if(isCardChange === false)
+            setIsCardChange(true)
+        else
+            setIsCardChange(false)
 
         if (isOpen) {
             controls.start('open');
@@ -43,7 +51,11 @@ const ShoppingCard = ({ isOpen, onClose }) => {
                 handleSelectChange(foundOption);
             }
         }
-    }, [isOpen, controls]);
+        else {
+            setProductData(null);
+            setSelectedOption(null);
+        }
+    }, [isOpen, controls, selectedOption]);
 
     useEffect(() => {
         if (sidebarRef.current) {
@@ -130,7 +142,7 @@ const ShoppingCard = ({ isOpen, onClose }) => {
                             ))}
                         </div>
                     ) : (
-                        <div className="flex-grow items-center mx-4 bg-gray-300 rounded mb-4 justify-center">
+                        <div className="flex-grow items-center mx-4 bg-gray-200 rounded mb-4 justify-center">
                             <div className="p-4 items-center justify-center flex text-lg">
                                 Koszyk jest pusty wybierz date.
                             </div>

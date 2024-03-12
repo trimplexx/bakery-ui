@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import Select from "react-select";
 import {customDropdownStyles} from "../../styles/customDropdownStyles";
 import {IoCashOutline} from "react-icons/io5";
@@ -10,13 +10,18 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import apiUser from "../../utils/apiUser";
 import CustomConfirmModal from "../../components/common/CustomConfirmModal";
 import {FadeLoader} from "react-spinners";
+import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
 
 const OrderSumaryPage = () => {
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+    const {isCardChange} = useContext(ShoppingCardContext);
+    const phoneRef = useRef(null);
     const {
         productData,
+        setProductData,
         storedDates,
         selectedOption,
+        setSelectedOption,
         handleSelectChange,
         handleQuantityChange,
         handleDelete,
@@ -35,8 +40,7 @@ const OrderSumaryPage = () => {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             const decodedToken = JSON.parse(atob(base64));
-
-            document.getElementById('phone').value = decodedToken.Phone;
+            phoneRef.current = decodedToken.Phone;
         }
 
         // Wczytaj wybraną opcję z localStorage
@@ -47,8 +51,11 @@ const OrderSumaryPage = () => {
             if (foundOption) {
                 handleSelectChange(foundOption);
             }
+        } else {
+            setSelectedOption(null);
+            setProductData(null);
         }
-    }, [storedDates]);
+    }, [storedDates, isCardChange]);
 
     const handleOrder = async () => {
         const termsChecked = document.getElementById('terms').checked;
@@ -108,9 +115,8 @@ const OrderSumaryPage = () => {
         setIsConfirmModalVisible(false);
     };
 
-    return (<div
-        className=" h-full bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-5 sm:p-10 xl:p-16 2xl:p-20 flex justify-center">
-        {productData && (<div className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl">
+    return (<div className=" h-full bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-5 sm:p-10 xl:p-16 2xl:p-20 flex justify-center">
+        <div className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl">
             <div className="p-4 w-full lg:w-96">
                 <Select
                     options={storedDates}
@@ -175,6 +181,7 @@ const OrderSumaryPage = () => {
                                 className={`block px-2.5 pb-2.5 pt-4 w-full text-sm ${isUserLoggedIn ? 'text-gray-700 opacity-50' : 'text-gray-900'} bg-transparent rounded-lg border-1 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer ${isUserLoggedIn ? 'pointer-events-none' : ''}`}
                                 placeholder=" "
                                 maxLength="9"
+                                value={phoneRef.current}
                                 disabled={isUserLoggedIn}
                             />
                             {isUserLoggedIn && (<FaLock
@@ -220,7 +227,7 @@ const OrderSumaryPage = () => {
                     </div>
                 </div>
             </div>
-        </div>)}
+        </div>
     </div>);
 };
 

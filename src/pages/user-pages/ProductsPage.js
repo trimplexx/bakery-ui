@@ -17,6 +17,7 @@ import {Fade} from "react-reveal";
 import apiAdmin from "../../utils/apiAdmin";
 import apiCommon from "../../utils/apiCommon";
 import LoadingComponent from "../../components/common/LoadingComponent";
+import {LocalStorageCheck} from "../../helpers/LocalStorageCheck";
 
 const ProductsPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -31,19 +32,16 @@ const ProductsPage = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [categoriesMap, setCategoriesMap] = useState({});
+    const now = new Date();
+    const minDate = (now.getHours() < 15 || (now.getHours() === 15 && now.getMinutes() < 45)) ? now : new Date(now.setDate(now.getDate() + 1));
+
 
     useEffect(() => {
+        LocalStorageCheck();
         apiUser.fetchProductCategories(setCategoriesMap, null, errorNotify);
     }, []);
 
     const loadingElements = () => {
-        let today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        if (selectedDate < today) {
-            setSelectedDate(new Date(today));
-        }
-
         let isoDate = selectedDate.toISOString();
         let dateOnly = isoDate.slice(0, 10);
         let categoryNumbers = null;
@@ -66,8 +64,6 @@ const ProductsPage = () => {
         setIsLoading(true);
         loadingElements();
     }, [selectedCategories, categoriesMap]);
-
-
 
     useEffect(() => {
         loadingElements();
@@ -121,7 +117,7 @@ const ProductsPage = () => {
                 }
                 localStorage.setItem(cartKey, JSON.stringify(cartItems));
             }
-        }, errorNotify);
+        }, errorNotify, null, null);
     };
 
     return (<div
@@ -131,7 +127,7 @@ const ProductsPage = () => {
                 <div className="w-auto p-4 grid grid-cols-1 md:grid-cols-8">
                     <div className="h-12 z-20 my-2 md:col-span-2">
                         <CustomDatePicker
-                            minDate={new Date()}
+                            minDate={minDate}
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                             color="[#EBEBEB]"

@@ -9,6 +9,7 @@ import {useForm} from "react-hook-form";
 import apiUser from "../../utils/apiUser";
 import MotionButton from "../common/MotionButton";
 import LoginModalList from "../common/LoginModalList";
+import {FaGoogle} from "react-icons/fa";
 
 const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
     useCloseOnEsc(onClose);
@@ -91,7 +92,7 @@ const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
                         <div className="h-0.5 bg-gray-300 w-20"></div>
                     </div>
                     <div className="flex flex-col justify-center items-center space-y-4 p-7">
-                        <MotionButton color="red-600" isLoading={isLoadingGmail} onClick={handleGmailLogin} text="Zaloguj przez Gmail <FcGoogle />"></MotionButton>
+                        <MotionButton color="red-600" isLoading={isLoadingGmail} onClick={handleGmailLogin} text="Zaloguj przez Gmail" icon={<FaGoogle />}></MotionButton>
                     </div>
                 </div>
                 <div className="p-7 sm:p-10">

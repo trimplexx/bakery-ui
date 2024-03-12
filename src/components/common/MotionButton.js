@@ -10,10 +10,10 @@ const buttonVariants = {
     }
 }
 
-const MotionButton = ({ text, color, onClick, disabled, disabledText, isLoading }) => (
+const MotionButton = ({ text, icon, color, onClick, disabled, disabledText, isLoading }) => (
     !isLoading ? (
         <motion.button
-            className={`w-full py-2 rounded-md border-none text-white ${color === 'black' ? 'bg-black' : `bg-${color}`} focus:outline-none focus:ring-2 focus:ring-${color} ${disabled ? 'cursor-not-allowed' : ''}`}
+            className={`flex justify-center items-center w-full p-2 gap-4 rounded-md border-none text-white ${color === 'black' ? 'bg-black' : `bg-${color}`} focus:outline-none focus:ring-2 focus:ring-${color} ${disabled ? 'cursor-not-allowed' : ''}`}
             type="submit"
             variants={buttonVariants}
             onClick={onClick}
@@ -21,7 +21,7 @@ const MotionButton = ({ text, color, onClick, disabled, disabledText, isLoading 
             disabled={disabled}
             title={disabled ? disabledText : ""}
         >
-            {text}
+            {icon} {text}
         </motion.button>
     ) : (
         <motion.button

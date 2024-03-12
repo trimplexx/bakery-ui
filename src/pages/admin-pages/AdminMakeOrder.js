@@ -94,7 +94,7 @@ const AdminMakeOrder = () => {
         var isoDate = selectedDate.toISOString();
         var dateOnly = isoDate.slice(0, 10);
         const fetchMaxSelectedProductQuantity = async () => {
-            await apiCommon.fetchMaximumProductQuantity(dateOnly, option.value, setMaxProductQuantity, errorNotify);
+            await apiCommon.fetchMaximumProductQuantity(dateOnly, option.value, setMaxProductQuantity, errorNotify, null, null);
         };
         fetchMaxSelectedProductQuantity();
         if (maxProductQuantity !== null) {
@@ -107,7 +107,6 @@ const AdminMakeOrder = () => {
         } else if (maxProductQuantity === 0) {
             errorNotify("Dostępna ilość produktu " + option.label + " w podanym dniu wynosi 0")
         }
-        setSelectedQuantity("0");
     };
 
     const handleDeleteFromList = (index) => {

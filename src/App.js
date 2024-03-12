@@ -22,6 +22,7 @@ import HomePage from "./pages/user-pages/HomePage";
 import ForgotPasswordPage from "./pages/user-pages/ForgotPasswordPage";
 import UserVerifyPage from "./pages/user-pages/UserVerifyPage";
 import GmailLoginSession from "./pages/user-pages/GmailLoginSession";
+import ShoppingCardState from "./helpers/ShoppingCardState";
 
 function App() {
     const { isAdmin } = useAuth();
@@ -29,6 +30,7 @@ function App() {
         // Czyszczenie przedawnionych koszyków.
         const today = new Date();
         today.setHours(0, 0, 0, 0);
+        today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
 
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
@@ -61,6 +63,7 @@ function App() {
 
     return (
         <div className="flex flex-col min-h-screen">
+            <ShoppingCardState>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<UserNavMenu/>}>
@@ -92,6 +95,7 @@ function App() {
                 theme="light"
                 limit={2}
             />
+            </ShoppingCardState>
         </div>
     );
 }

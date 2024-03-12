@@ -35,7 +35,7 @@ const apiCommon = {
             handleApiError(error, errorNotify);
         }
     },
-    fetchMaximumProductQuantity: async (dateTime, productId, setMaxQuantity, errorNotify) => {
+    fetchMaximumProductQuantity: async (dateTime, productId, setMaxQuantity, setQuantityProductInfo, setIsErrorVisible, setIsInfoVisible) => {
         try {
             const response = await axios.get(connectionUrlString + 'api/Ordering/productQuantityLeft', {
                 params: {
@@ -43,9 +43,24 @@ const apiCommon = {
                     dateTime: dateTime
                 }
             });
+            if(setIsInfoVisible != null && setIsErrorVisible != null)
+            {
+                setIsInfoVisible(true);
+                setIsErrorVisible(false);
+                setQuantityProductInfo("Dostępność produktu na dzień: " + dateTime + " wynosi: " + response.data);
+            }
             setMaxQuantity(response.data);
         } catch (error) {
-            handleApiError(error, errorNotify);
+            if(setIsInfoVisible != null && setIsErrorVisible != null)
+            {
+                setIsInfoVisible(false);
+                setIsErrorVisible(true);
+            }
+            if (error.response && error.response.data && error.response.data.error) {
+                setQuantityProductInfo(error.response.data.error);
+            } else {
+                setQuantityProductInfo('Brak informacji o dostępnej ilości produktu.');
+            }
             setMaxQuantity(0);
         }
     },

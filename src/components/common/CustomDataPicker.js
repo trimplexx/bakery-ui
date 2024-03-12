@@ -8,6 +8,7 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, color, text, minDate 
     const dynamicClassName = `absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 origin-[0] bg-${color} px-2 peer-focus:px-2 peer-focus:text-[#fda329] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`;
 
     const saveDateToLocalStorage = (date) => {
+        date.setHours(8, 0, 0, 0);
         date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
         localStorage.setItem('selectedDate', date.toISOString());
     };
