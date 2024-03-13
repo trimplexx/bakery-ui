@@ -11,10 +11,12 @@ import apiUser from "../../utils/apiUser";
 import CustomConfirmModal from "../../components/common/CustomConfirmModal";
 import {FadeLoader} from "react-spinners";
 import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
+import {useCleanLocalStorage} from "../../hooks/useCleanLocalStorage";
 
 const OrderSumaryPage = () => {
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const {isCardChange} = useContext(ShoppingCardContext);
+    useCleanLocalStorage();
     const phoneRef = useRef(null);
     const {
         productData,

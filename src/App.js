@@ -23,24 +23,11 @@ import ForgotPasswordPage from "./pages/user-pages/ForgotPasswordPage";
 import UserVerifyPage from "./pages/user-pages/UserVerifyPage";
 import GmailLoginSession from "./pages/user-pages/GmailLoginSession";
 import ShoppingCardState from "./helpers/ShoppingCardState";
+import {useCleanLocalStorage} from "./hooks/useCleanLocalStorage";
 
 function App() {
     const { isAdmin } = useAuth();
-    useEffect(() => {
-        // Czyszczenie przedawnionych koszyków.
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
-
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            const dateKey = new Date(key);
-
-            if (dateKey < today) {
-                localStorage.removeItem(key);
-            }
-        }
-    }, []);
+    useCleanLocalStorage();
 
     const AdminPage = () => {
         return (
@@ -76,9 +63,10 @@ function App() {
                         <Route path="odzyskiwanie-hasla/:token" element={<ForgotPasswordPage />} />
                         <Route path="weryfikacja/:token" element={<UserVerifyPage />} />
                         <Route path="gmail-session/:token" element={<GmailLoginSession />} />
+                        <Route path="*" element={<NoPage/>}/>
                     </Route>
                     {isAdmin && (<Route path="admin/*" element={<AdminPage/>}/>)}
-                    <Route path="*" element={<NoPage/>}/>
+
                 </Routes>
                 <Footer/>
             </BrowserRouter>

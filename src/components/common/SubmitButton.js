@@ -10,7 +10,7 @@ const SubmitButton = ({ isLoading, text }) => {
             <motion.button
                 className="w-full py-2 rounded-md border-none text-white bg-yellow-400"
                 disabled
-                type="button"
+                type="submit"
             >
                 {isLoading ? (
                     <div role="status">

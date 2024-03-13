@@ -8,10 +8,12 @@ import ProductShoppingCard from "../common/ProductsShoppingCard";
 import { useOrderFunctions } from "../../hooks/useCardFunctions";
 import {FadeLoader} from "react-spinners";
 import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
+import {useCleanLocalStorage} from "../../hooks/useCleanLocalStorage";
 
 const ShoppingCard = ({ isOpen, onClose }) => {
     const sidebarRef = useRef(null);
     const controls = useAnimation();
+    useCleanLocalStorage();
     const [maxHeight, setMaxHeight] = useState(0);
     const {setIsCardChange, isCardChange} = useContext(ShoppingCardContext);
     const {
