@@ -14,8 +14,7 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const token = localStorage.getItem('token');
         const refreshToken = localStorage.getItem('refreshToken');
-        if(token !== null)
-        {
+
             // Handle response errors here
             if (error.response && error.response.status >= 400) {
                 try {
@@ -30,7 +29,6 @@ axiosInstance.interceptors.response.use(
                 }
             }
             return Promise.reject(error);
-        }
     }
 );
 
