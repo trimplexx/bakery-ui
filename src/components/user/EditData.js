@@ -64,7 +64,7 @@ const EditData = () => {
                                             className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-300 border border-gray-400 rounded">
                                             <span className="fi fi-pl mr-2"></span> +48
                                         </span>
-                        <EditInput register={register} id="phone" label="Numer telefonu" maxLength="9" type="text"
+                        <EditInput register={register} id="phone" label="Numer telefonu" maxLength="9" minLength="9" type="text"
                                    value={userData.phone} onChange={(e) => handleInputChange('phone', e.target.value)}/>
                     </div>
                     <div className="relative flex-grow">
@@ -77,6 +77,7 @@ const EditData = () => {
                             className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-gray-300 rounded-lg border-1 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#fda329] peer cursor-not-allowed"
                             placeholder=" "
                             disabled
+                            title="Nie można zmieniać adresu email"
                         />
                         <label
                             htmlFor="email"
@@ -85,6 +86,7 @@ const EditData = () => {
                             Email
                         </label>
                     </div>
+
                 </div>
 
                 <div className=" md:col-start-2 md:col-span-3 w-full mt-10">

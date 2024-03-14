@@ -6,8 +6,6 @@ export const useCleanLocalStorage = () => {
         // Czyszczenie przedawnionych koszyków.
         const today = new Date();
         today.setHours(15, 45, 0, 0);
-        console.log(today);
-
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
             const dateKey = new Date(key);

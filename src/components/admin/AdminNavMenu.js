@@ -8,7 +8,7 @@ import {ImExit} from "react-icons/im";
 import AdminNavLink from "./AdminNavigationLink";
 import useAuth from "../../hooks/useAuth";
 
-export const AdminMavMenu = () => {
+export const AdminNavMenu = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     useAuth();
 
@@ -37,8 +37,8 @@ export const AdminMavMenu = () => {
                             </svg>
                         </button>
                         <div className="flex ml-2 md:mr-24">
-                            <img src={bakeryLogo} alt="a" className="w-[60px] h-[60px] mr-6"/>
-                            <span className="self-center text-xl text-amber-800 font-semibold ">Admin Panel</span>
+                            <img src={bakeryLogo} alt="a" className="w-[80px] h-[60px] mr-6"/>
+                            <span className="self-center text-3xl text-yellow-orange-400 font-[lucida-console] font-bold">Admin Panel</span>
                         </div>
                     </div>
                 </div>

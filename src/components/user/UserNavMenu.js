@@ -56,7 +56,7 @@ export const UserNavMenu = () => {
     return (<>
         <nav id="navbar"><Link to="/">
             <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><img src={bakeryLogo} alt="a"
-                                                                                       className="w-28 h-28"/>
+                                                                                       className="w-42 h-32 p-2"/>
             </motion.div>
         </Link>
             <motion.div className="toggle_btn" onClick={() => setMenuOpen(!menuOpen)} variants={toggleVariants}

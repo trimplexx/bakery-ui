@@ -6,7 +6,7 @@ import FormInput from "../../components/common/FormInput";
 import SubmitButton from "../../components/common/SubmitButton";
 import {useForm} from "react-hook-form";
 import apiUser from "../../utils/apiUser";
-import {errorNotify} from "../../helpers/ToastNotifications";
+import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 
 const ContactPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +21,7 @@ const ContactPage = () => {
 
     const onSubmit = async (data) => {
         setIsLoading(true);
-        await apiUser.login(data, setIsLoading, errorNotify);
+        await apiUser.contactForm(data, setIsLoading, errorNotify, successNotify);
     };
     const handleInputChange = (field, value) => {
         setFormData(prevData => ({
@@ -37,8 +37,7 @@ const ContactPage = () => {
                     <div className=" text-gray-800 p-2">
                         <h2 className="text-2xl mb-2 text-[lucida-console]"
                             style={{fontFamily: 'Lucida Console, serif'}}>Kontakt</h2>
-                        <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>Eggcellent
-                            Bakery</p>
+                        <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}> <strong> Trzeba Chleba</strong></p>
                         <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
                             <strong>Adres:</strong> ul. Przykładowa 123, Miasto</p>
                         <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
@@ -79,7 +78,7 @@ const ContactPage = () => {
                         Skontaktuj się z nami
                     </h1>
                     </div>
-                    <p className="text-gray-700 py-1 mb-4" style={{fontFamily: 'Lucida Console, serif'}}>Zauważyłeś
+                    <p className="text-gray-700 py-1 mb-4" style={{fontFamily:'Lucida Console, serif' }}>Zauważyłeś
                         jakiś problem na naszej stronie, bądź masz jakieś pytanie? Wypełnij formularz swoimi danymi oraz
                         wiadomością, którą chcesz do nas dostarczyć, a my odezwiemy się w wiadomości mailowej tak szybko
                         jak to będzie możliwe.</p>

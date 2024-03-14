@@ -72,26 +72,31 @@ const RegistrationModal = ({ onClose, onLoginClick }) => {
                         <span className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded">
                         <span className="fi fi-pl mr-2"></span> +48
                     </span>
-                        <FormInput register={register} id="phone" label="Numer telefonu" type="text" maxLength="9" onChange={(e) => handleInputChange('phone', e.target.value)}/>
+                        <FormInput register={register} id="phone" label="Numer telefonu" type="text" maxLength="9" minLength="9" onChange={(e) => handleInputChange('phone', e.target.value)}/>
                     </div>
                     <FormInput register={register} id="email" label="Email" type="email" maxLength="50" onChange={(e) => handleInputChange('email', e.target.value)}/>
                     <FormInput register={register} id="password" label="Hasło" type={showPassword ? "text" : "password"} maxLength="20" onChange={(e) => handleInputChange('password', e.target.value)}/>
                     <FormInput register={register} id="repeatPassword" label="Powtórz hasło" type={showPassword ? "text" : "password"} maxLength="20" onChange={(e) => handleInputChange('repeatPassword', e.target.value)}/>
                     <div className="flex items-center mb-4">
                         <input type="checkbox" id="show-password" onClick={toggleShowPassword} value="" className="cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]" />
-                        <label htmlFor="show-password" className="cursor-pointer ml-2 text-sm font-medium text-gray-900">Pokaż hasło</label>
+                        <label htmlFor="show-password" className="cursor-pointer ml-2 font-medium text-gray-900">Pokaż hasło</label>
                     </div>
-                    <div className="flex-auto items-start mb-4">
+                    <div className="flex-auto items-start">
                         <div className="flex items-center h-5">
                             <input id="terms" type="checkbox" value="" className=" cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]" required />
-                            <label htmlFor="terms" className="cursor-pointer ml-2 text-sm font-medium text-gray-900 ">*Akceptuję Regulamin oraz Politykę prywatności. </label>
-                            <span className="cursor-pointer ml-2 text-sm font-medium text-[#fda329] hover:text-[#8b8a8a]">(Link)</span>
+                            <label htmlFor="terms" className="cursor-pointer ml-2 font-medium text-gray-900 ">
+                                * Akceptuję
+                                <span className="text-gray-500 hover:text-yellow-400 "> Regulamin </span>
+                                oraz
+                                <span className="text-gray-500 hover:text-yellow-400 "> Politykę prywatności </span>.
+                            </label>
+
                         </div>
                     </div>
                    <SubmitButton isLoading={isLoading} text="Zarejestruj się"/>
                 </div>
                 <div className="flex space-x-1 justify-end ">
-                    <p> Posiadasz konto? </p> <span className="cursor-pointer hover:text-yellow-400" onClick={onLoginClick}> Przejdź do logowania.  </span>
+                    <p> Posiadasz konto? </p> <span className="cursor-pointer hover:text-yellow-400 text-gray-500" onClick={onLoginClick}> Przejdź do logowania.  </span>
                 </div>
             </form>
         </AnimatedModal>

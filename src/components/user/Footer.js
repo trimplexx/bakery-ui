@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { SocialIcon } from 'react-social-icons';
-import {useLocation} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 
 const Footer = () => {
     const [isAdminPath, setIsAdminPath] = useState()
@@ -25,14 +25,14 @@ const Footer = () => {
                 <div className="mb-4 md:mb-0">
                     <h3 className="text-lg font-semibold mb-2">Informacje prawne</h3>
                     <ul>
-                        <li className="py-1"><a className="hover:text-[#FEA831]" href="/polityka-prywatnosci">Polityka prywatności</a></li>
-                        <li className="py-1"><a className="hover:text-[#FEA831]" href="/regulamin">Regulamin</a></li>
+                        <li className="py-1"><NavLink className="hover:text-[#FEA831]" to="/polityka-prywatnosci">Polityka prywatności</NavLink></li>
+                        <li className="py-1"><NavLink className="hover:text-[#FEA831]" to="/regulamin">Regulamin</NavLink></li>
                     </ul>
                 </div>
 
                 <div className="mb-4 md:mb-0">
                     <h3 className="text-lg font-semibold mb-2">Najczęstsze pytania</h3>
-                    <a className="hover:text-[#FEA831]" href="/faq">FAQ</a>
+                    <NavLink className="hover:text-[#FEA831]" to="/faq">FAQ</NavLink>
                 </div>
 
                 <div className="flex items-center">

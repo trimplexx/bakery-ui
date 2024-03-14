@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EditInput = ({ register, id, label, type, value, onChange, maxLength, disabled }) => {
+const EditInput = ({ register, id, label, type, value, onChange, maxLength, disabled, minLength }) => {
 
     const handleInputChange = (e) => {
         let inputValue = e.target.value;
@@ -24,6 +24,7 @@ const EditInput = ({ register, id, label, type, value, onChange, maxLength, disa
                 value={value}
                 onChange={handleInputChange}
                 maxLength={maxLength}
+                minLength={minLength}
                 className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#fda329] peer`}
                 placeholder=" "
                 style={inputStyle}

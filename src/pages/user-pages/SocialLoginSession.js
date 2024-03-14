@@ -5,14 +5,14 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import apiCommon from "../../utils/apiCommon";
 import apiUser from "../../utils/apiUser";
 
-const GmailLoginSession = () => {
+const SocialLoginSession = () => {
     const {token} = useParams();
+    const {refreshToken} = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-
-        apiUser.gmailSession(token, setIsLoading, navigate, errorNotify, successNotify);
+        apiUser.socialSession(token, refreshToken, setIsLoading, navigate, errorNotify, successNotify);
     }, [token]);
 
 
@@ -25,4 +25,4 @@ const GmailLoginSession = () => {
     </div>);
 };
 
-export default GmailLoginSession;
+export default SocialLoginSession;

@@ -3,23 +3,6 @@ import {connectionUrlString} from "./props";
 import handleApiError from './apiUtils';
 
 const apiCommon = {
-    verifyToken: async (setIsAdmin, setIsLoggedIn, errorNotify) => {
-        try {
-            const token = localStorage.getItem('token');
-            if (token) {
-                const response = await axios.post(connectionUrlString + 'api/UserVerify/verifyToken', {
-                    token
-                });
-                setIsAdmin(response.data === 2);
-                setIsLoggedIn(true);
-            }
-        } catch (error) {
-            localStorage.removeItem('token');
-            localStorage.setItem('errorNotifyStorage', 'Nastąpiło wylogowanie!');
-            window.location.reload(true);
-            setIsLoggedIn(false);
-        }
-    },
     makeOrder: async (products, dateTime, status, phone, successNotify, errorNotify) => {
         try {
             const response = await axios.post(connectionUrlString + 'api/Ordering/makeOrder', products, {

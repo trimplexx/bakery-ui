@@ -6,10 +6,13 @@ import React from "react";
 import MotionButton from "./MotionButton";
 import {endOfDay, isBefore, parse} from "date-fns";
 import {BsCalendar2DateFill} from "react-icons/bs";
+import {CustomAlert} from "./CustomAlert";
 
-const OrdersTable = ({orders, paginationNumber, handlePageChange, currentPage, handleCancelOrder}) => {
+const OrdersTable = ({orders, paginationNumber, handlePageChange, currentPage, handleCancelOrder, isErrorVisible, errorMessage, handleErrorClose}) => {
+
     if (orders.length === 0) {
         return (<div className="py-4">
+            {isErrorVisible ? <CustomAlert isVisible={isErrorVisible} type="error" info={errorMessage} handleClose={handleErrorClose} /> : null}
                 <p className="text-center text-gray-500 dark:text-gray-400 px-40 py-10 text-2xl font-bold">Brak
                     zamówień</p>
             </div>);

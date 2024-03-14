@@ -14,6 +14,8 @@ const OrdersHistory = () => {
     const [isLoadingButton, setIsLoadingButton] = useState(true);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const [orderId, setOrderId] = useState(null);
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         setIsLoading(true);
@@ -25,15 +27,17 @@ const OrdersHistory = () => {
             const userId = decodedToken.UserId.toString();
 
             const getOfOrdersPagination = async () => {
-                await apiUser.getOfOrdersPagination(userId, setPaginationNumber, errorNotify);
+                await apiUser.getOfOrdersPagination(userId, setPaginationNumber, setErrorMessage, setIsErrorVisible);
             };
 
+
             const getUserOrdersHistoryList = async () => {
-                await apiUser.getUserOrdersHistoryList(currentPage - 1, userId, setOrders, errorNotify);
+                await apiUser.getUserOrdersHistoryList(currentPage - 1, userId, setOrders, setErrorMessage, setIsErrorVisible);
             };
             Promise.all([getOfOrdersPagination(), getUserOrdersHistoryList()]).then(() => {
                 setIsLoading(false);
             });
+
         } else {
             errorNotify('Brak tokenu w localStorage');
         }
@@ -63,6 +67,10 @@ const OrdersHistory = () => {
         setCurrentPage(page);
     };
 
+    const handleErrorClose = () => {
+        setIsErrorVisible(false);
+    };
+
     return (<div>
             {isLoading ? <LoadingComponent/> : <div className="min-h-[450px]">
                 <OrdersTable
@@ -71,6 +79,9 @@ const OrdersHistory = () => {
                     paginationNumber={paginationNumber}
                     handlePageChange={handlePageChange}
                     currentPage={currentPage}
+                    isErrorVisible={isErrorVisible}
+                    errorMessage={errorMessage}
+                    handleErrorClose={handleErrorClose}
                 />
                 <CustomConfirmModal
                     visible={isConfirmModalVisible}

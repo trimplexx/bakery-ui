@@ -123,7 +123,7 @@ const ProductsPage = () => {
     return (<div
         className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] py-10 xl:px-24 2xl:px-64 justify-center flex flex-grow">
         {isLoading ? <LoadingComponent/> :
-            <div className="border-2 h-full rounded shadow-lg bg-[#EBEBEB] max-w-7xl">
+            <div className="border-2 h-full rounded shadow-lg bg-[#EBEBEB] w-full mx-4 md:w-3/4 max-w-7xl">
                 <div className="w-auto p-4 grid grid-cols-1 md:grid-cols-8">
                     <div className="h-12 z-20 my-2 md:col-span-2">
                         <CustomDatePicker

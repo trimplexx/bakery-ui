@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios, {interceptors} from 'axios';
 import {connectionUrlString} from "./props";
 import handleApiError from './apiUtils';
-import {errorNotify} from "../helpers/ToastNotifications";
+import {errorNotify, successNotify} from "../helpers/ToastNotifications";
+import axiosInstance from "./interceptor";
 
 const apiUser = {
     register: async (data, successNotify, errorNotify, onLoginClick, setIsLoading) => {
@@ -15,10 +16,12 @@ const apiUser = {
         } finally {
             setIsLoading(false);
         }
-    }, login: async (data, setIsLoading, errorNotify) => {
+    },
+    login: async (data, setIsLoading, errorNotify) => {
         try {
             const response = await axios.post(connectionUrlString + 'api/Auth/login', data);
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('refreshToken', response.data.refreshTokenAsString);
             localStorage.setItem('successNotifyStorage', 'Poprawnie zalogowano');
             window.location.reload(true);
         } catch (error) {
@@ -26,9 +29,21 @@ const apiUser = {
         } finally {
             setIsLoading(false);
         }
-    }, fetchUserProductsList: async (dateTime, offset, category, searchTerm, setProducts, errorNotify) => {
+    },
+    contactForm: async (data, setIsLoading, errorNotify, successNotify) => {
+        try
+        {
+            const response = await axiosInstance.post('api/ContactForm/sendMessage', data);
+            successNotify(response.data)
+        } catch (error) {
+            handleApiError(error, errorNotify);
+        } finally {
+            setIsLoading(false);
+        }
+    },
+    fetchUserProductsList: async (dateTime, offset, category, searchTerm, setProducts, errorNotify) => {
         try {
-            const response = await axios.post(connectionUrlString + 'api/Products/productsList', {
+            const response = await axiosInstance.post( 'api/Products/productsList', {
                 offset: offset, categories: category , searchTerm: searchTerm
             }, {
                 headers: {
@@ -42,7 +57,7 @@ const apiUser = {
     },
     fetchProductCategories: async (setOptions, categoryIds, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminProducts/productsCategories',
+            const response = await axiosInstance.get('api/AdminProducts/productsCategories',
                 {
                     headers: {
                         categoryIds : categoryIds
@@ -101,7 +116,7 @@ const apiUser = {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axios.post(connectionUrlString + 'api/UserPanel/changePassword', data, {
+                const response = await axiosInstance.post( 'api/UserPanel/changePassword', data, {
                     headers: {
                         token : token
                     }
@@ -113,12 +128,12 @@ const apiUser = {
         } finally {
             setIsLoading(false);
         }
-    }, getOfOrdersPagination: async (userId, setPaginationNumber, errorNotify) => {
+    }, getOfOrdersPagination: async (userId, setPaginationNumber, setErrorMessage,setIsErrorVisible) => {
         try {
 
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axios.get(connectionUrlString + 'api/UserPanel/numberOfOrders', {
+                const response = await axiosInstance.get( 'api/UserPanel/numberOfOrders', {
                     headers: {
                         userId: userId,
                         token: token
@@ -127,14 +142,19 @@ const apiUser = {
                 setPaginationNumber(response.data)
             }
         } catch (error) {
-            handleApiError(error, errorNotify);
+            setIsErrorVisible(true);
+            if (error.response && error.response.data && error.response.data.error) {
+                setErrorMessage(error.response.data.error);
+            } else {
+                setErrorMessage("Wystąpił błąd pobierania danych.");
+            }
         }
     },
-    getUserOrdersHistoryList: async (offset, userId, setOrders, errorNotify) => {
+    getUserOrdersHistoryList: async (offset, userId, setOrders, setErrorMessage, setIsErrorVisible) => {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axios.get(connectionUrlString + 'api/UserPanel/userOrdersHistoryList', {
+                const response = await axiosInstance.get('api/UserPanel/userOrdersHistoryList', {
                     headers: {
                         offset: offset,
                         userId: userId,
@@ -144,14 +164,19 @@ const apiUser = {
                 setOrders(response.data)
             }
         } catch (error) {
-            handleApiError(error, errorNotify);
+            setIsErrorVisible(true);
+            if (error.response && error.response.data && error.response.data.error) {
+                setErrorMessage(error.response.data.error);
+            } else {
+                setErrorMessage("Wystąpił błąd pobierania danych.");
+            }
         }
     },
     checkIfUserGotPassword: async (userId, setIsGotPassword, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axios.get(connectionUrlString + 'api/UserPanel/checkIfPassword', {
+                const response = await axiosInstance.get('api/UserPanel/checkIfPassword', {
                     headers: {
                         userId: userId,
                         token: token
@@ -173,20 +198,25 @@ const apiUser = {
             setIsLoading(false);
         }
     },
-    gmailSession: async (token, setIsLoading, navigate, errorNotify, successNotify) => {
+    handleFacebookLogin: async (errorNotify, setIsLoading) =>{
+        try{
+            const response = await  axios.get(connectionUrlString + "api/Auth/facebookLogin");
+            window.location.href = response.data;
+            setIsLoading(false);
+        }catch (error){
+            handleApiError(error, errorNotify);
+            setIsLoading(false);
+        }
+    },
+    socialSession: async (token, refreshToken, setIsLoading, navigate, errorNotify, successNotify) => {
         setIsLoading(true);
         try {
-            const response = await axios.post(connectionUrlString + 'api/UserVerify/verifyToken', {
-                token
-            });
-            if(response.status === 200)
-            {
                 localStorage.setItem('token', token);
+                localStorage.setItem('refreshToken', refreshToken);
                 localStorage.setItem('successNotifyStorage', 'Poprawnie zalogowano');
                 navigate("/");
                 window.location.reload(true);
                 setIsLoading(false);
-            }
         } catch (error) {
             navigate("/");
             handleApiError(error, errorNotify);

@@ -1,13 +1,14 @@
 import axios from 'axios';
 import {connectionUrlString} from "./props";
 import handleApiError from './apiUtils';
+import axiosInstance from "./interceptor";
 
 const apiAdmin = {
     fetchSingleUser: async (userId, setUserData, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axios.get(connectionUrlString + 'api/AdminUser/singleUser', {
+                const response = await axiosInstance.get('api/AdminUser/singleUser', {
                     headers: {
                         'UserId': userId,
                         token: token
@@ -50,7 +51,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.post(connectionUrlString + 'api/AdminProducts/addProduct', formData, {
+                const response = await axiosInstance.post( 'api/AdminProducts/addProduct', formData, {
                     headers: {
                         token: token
                     }
@@ -69,7 +70,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.put(connectionUrlString + 'api/AdminProducts/editProduct', formData, {
+                const response = await axiosInstance.put('api/AdminProducts/editProduct', formData, {
                     headers: {
                         productId : productId,
                         token: token
@@ -127,7 +128,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.delete(connectionUrlString + 'api/AdminProducts/deleteProduct', {
+                const response = await axiosInstance.delete( 'api/AdminProducts/deleteProduct', {
                     headers: {
                         productId: productId,
                         token: token
@@ -145,7 +146,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.post(connectionUrlString + 'api/AdminUser/usersList', {
+                const response = await axiosInstance.post('api/AdminUser/usersList', {
                     searchTerm : searchTerm,
                     offset : offset
                 }, {
@@ -172,7 +173,7 @@ const apiAdmin = {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axios.put(connectionUrlString + 'api/AdminUser/editUser', data,
+                const response = await axiosInstance.put( 'api/AdminUser/editUser', data,
                     {
                         headers: {
                             token: token
@@ -191,7 +192,7 @@ const apiAdmin = {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axios.delete(connectionUrlString + 'api/AdminUser/deleteUser', {
+                const response = await axiosInstance.delete( 'api/AdminUser/deleteUser', {
                     headers: {
                         userId: userId,
                         token: token
@@ -220,7 +221,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.put(connectionUrlString + 'api/AdminProduction/updateProductsAvailability', products, {
+                const response = await axiosInstance.put('api/AdminProduction/updateProductsAvailability', products, {
                     headers: {
                         'DateTime': dateTime,
                         token: token
@@ -234,7 +235,7 @@ const apiAdmin = {
     },
     fetchProductsToSelect: async (setOptions, errorNotify) => {
         try {
-            const response = await axios.get(connectionUrlString + 'api/AdminOrderingPage/productsToSelect');
+            const response = await axiosInstance.get('api/AdminOrderingPage/productsToSelect');
             const newOptions = response.data.map(products => ({
                 value: products.productId,
                 label: products.name
@@ -249,7 +250,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.get(connectionUrlString + 'api/AdminOrders/ordersList', {
+                const response = await axiosInstance.get('api/AdminOrders/ordersList', {
                     headers:{
                         offset: offset,
                         dateTime: dateTime,
@@ -279,7 +280,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.post(connectionUrlString + 'api/AdminOrders/changeOrderStatus', null,{
+                const response = await axiosInstance.post( 'api/AdminOrders/changeOrderStatus', null,{
                     headers:{
                         orderId: orderId,
                         token: token
@@ -295,7 +296,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.get(connectionUrlString + 'api/AdminMainPage/lastDaysSalary',
+                const response = await axiosInstance.get(  'api/AdminMainPage/lastDaysSalary',
                     {
                         headers : {
                             token: token
@@ -312,7 +313,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.get(connectionUrlString + 'api/AdminMainPage/productsLeft',
+                const response = await axiosInstance.get('api/AdminMainPage/productsLeft',
                     {
                         headers: {
                             token: token
@@ -330,7 +331,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.get(connectionUrlString + 'api/AdminMainPage/unfulfilledOrders',
+                const response = await axiosInstance.get( 'api/AdminMainPage/unfulfilledOrders',
                     {
                         headers:{
                             token: token
@@ -348,7 +349,7 @@ const apiAdmin = {
             const token = localStorage.getItem('token');
             if(token)
             {
-                const response = await axios.get(connectionUrlString + 'api/AdminMainPage/numberOfOrders',
+                const response = await axiosInstance.get( 'api/AdminMainPage/numberOfOrders',
                     {
                         headers:{
                             token: token

@@ -7,7 +7,6 @@ import { Fade } from 'react-reveal';
 import useAuth from "../../hooks/useAuth";
 import LoginModal from "../../components/user/LoginModal";
 import RegistrationModal from "../../components/user/RegistrationModal";
-import {jwtDecode} from "jwt-decode";
 import ForgotPasswordModal from "../../components/user/ForgotPasswordModal";
 
 const HomePage = () => {

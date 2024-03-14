@@ -202,16 +202,16 @@ const OrderSumaryPage = () => {
                                className=" cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]"
                                required/>
                         <label htmlFor="terms"
-                               className="cursor-pointer ml-1 text-sm font-medium text-gray-900 ">*Akceptuję
+                               className="cursor-pointer ml-2 text-sm font-medium text-gray-900 ">* Akceptuję
                             Regulamin oraz Politykę prywatności. </label>
                         <span
-                            className="cursor-pointer ml-1 text-sm font-medium text-[#fda329] hover:text-[#8b8a8a]">(Link)</span>
+                            className="cursor-pointer ml-1 text-sm font-medium text-yellow-orange-500 hover:text-[#8b8a8a]">(Link)</span>
                     </div>
                     <div className="h-full flex justify-center my-4 items-end">
                         <div className="mt-6">
                             <button
                                 type="button"
-                                className="text-lg text-black bg-yellow-orange-200 hover:bg-yellow-orange-300 focus:outline-none focus:ring-4 focus:ring-yellow-orange-300 font-medium rounded-full px-5 py-2.5 flex justify-center items-center"
+                                className="text-lg text-black bg-yellow-orange-400 hover:bg-yellow-orange-300 focus:outline-none focus:ring-4 focus:ring-yellow-orange-300 font-medium rounded-full px-5 py-2.5 flex justify-center items-center"
                                 onClick={handleOrder}
                             >
 
