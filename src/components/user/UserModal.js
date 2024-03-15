@@ -16,9 +16,7 @@ const UserModal = ({ onClose }) => {
     const [isGotPassword, setIsGotPassword] = useState(true);
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.setItem('successNotifyStorage', "Nastąpiło wylogowanie");
-        window.location.reload(true);
+        window.location.href = '/logout';
     };
 
     const openChangePassword = () => {

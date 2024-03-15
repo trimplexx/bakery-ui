@@ -123,7 +123,7 @@ const ProductsPage = () => {
     return (<div
         className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] py-10 xl:px-24 2xl:px-64 justify-center flex flex-grow">
         {isLoading ? <LoadingComponent/> :
-            <div className="border-2 h-full rounded shadow-lg bg-[#EBEBEB] w-full mx-4 md:w-3/4 max-w-7xl">
+            <div className="border-2 h-full rounded shadow-lg bg-[#EBEBEB] w-full mx-2 p-2 max-w-7xl">
                 <div className="w-auto p-4 grid grid-cols-1 md:grid-cols-8">
                     <div className="h-12 z-20 my-2 md:col-span-2">
                         <CustomDatePicker
@@ -167,7 +167,7 @@ const ProductsPage = () => {
                                     <div className="justify-between grid grid-cols-2">
                                         <h2 className="text-gray-600 text-xl font-semibold">{product.name}</h2>
                                         <div className="flex items-center justify-end">
-                                            <p className="text-gray-600 text-lg font-semibold">{product.price} zł/szt</p>
+                                            <p className="text-gray-600 text-lg font-semibold">{product.price} zł</p>
                                         </div>
                                     </div>
                                     <div className="bottom-4 right-4 justify-between grid grid-cols-4">

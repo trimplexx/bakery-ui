@@ -6,10 +6,7 @@ import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import FormInput from "../common/FormInput";
 import {useForm} from "react-hook-form";
 import MotionButton from "../common/MotionButton";
-import axios from "axios";
-import {connectionUrlString} from "../../utils/props";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
-import {useNavigate} from "react-router-dom";
 import apiCommon from "../../utils/apiCommon";
 
 const ForgotPasswordModal = ({onClose, onLoginClick}) => {

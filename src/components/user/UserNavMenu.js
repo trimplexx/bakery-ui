@@ -90,11 +90,11 @@ export const UserNavMenu = () => {
                     </motion.div>
                 </li>
 
-                {isAdmin && (<li className="admin-icon">
+                {isAdmin ? (<li className="admin-icon">
                     <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink to="/admin/home"
                                                                                              className={`icon ${menuOpen ? 'icon-open' : ''}`}>
                         <FaToolbox/> </NavLink></motion.div>
-                </li>)}
+                </li>) : null}
             </ul>
         </nav>
         <ShoppingCard isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />

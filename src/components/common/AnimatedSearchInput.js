@@ -9,7 +9,7 @@ const AnimatedSearchInput = ({ isSearchOpen, searchTerm, onInputChange }) => {
             transition: {
                 type: "spring",
                 stiffness: 100,
-                damping: 10,
+                damping: 20,
             },
         },
     };

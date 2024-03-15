@@ -3,10 +3,11 @@ import {Link} from "react-router-dom";
 import {bakeryLogo} from "../../utils/props";
 import {RiDashboardFill} from "react-icons/ri";
 import {FaShoppingCart, FaUsers, FaWarehouse, FaBreadSlice} from "react-icons/fa";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ImExit} from "react-icons/im";
 import AdminNavLink from "./AdminNavigationLink";
 import useAuth from "../../hooks/useAuth";
+import axiosInstance from "../../utils/interceptor";
 
 export const AdminNavMenu = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,6 +20,20 @@ export const AdminNavMenu = () => {
             sidebar.classList.toggle("-translate-x-full");
         }
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if(token)
+        {
+            axiosInstance.head('api/AdminMainPage/checkIfAdmin', {
+                headers: {
+                    token: token
+                }
+            }).then(response => {
+            }).catch(error => {
+            });
+        }
+    }, []);
 
     return (<>
         <nav className="flex justify-start top-0 z-50 w-full bg-gray-300 border-b border-gray-200">

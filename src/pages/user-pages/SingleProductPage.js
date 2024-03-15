@@ -114,8 +114,8 @@ const SingleProductPage = () => {
 
     return (<div>
             {isLoading ? <LoadingComponent/> : <div
-                className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-10 px-10 xl:px-24 2xl:px-40 justify-center flex">
-                {productData && (<div className="bg-gray-200 w-full max-w-8xl p-6 rounded-2xl">
+                className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] sm:p-10 p-2 sm:px-10 xl:px-24 2xl:px-40 justify-center flex">
+                {productData && (<div className="bg-gray-200 w-full max-w-8xl p-2 sm:p-6 rounded-2xl">
                         <div className="grid lg:grid-cols-2 gap-5 mb-4">
                             {productData.image ? <img className="rounded-lg shadow-xl" src={productData.image} alt="image description"/> :
                                 <img className="rounded-lg shadow-xl" src={notFoundImage} alt="image description"/> }
@@ -129,7 +129,7 @@ const SingleProductPage = () => {
                                 </div>
                                 <p className="text-lg text-gray-700 mb-6">{productData.description}</p>
 
-                                <div className="grid sm:grid-cols-2 mt-auto">
+                                <div className="sm:grid sm:grid-cols-2 mt-auto">
                                     <div className="col-span-2 w-full">
                                         {isErrorVisible && !isInfoVisible ?
                                             <CustomAlert isVisible={isErrorVisible} type="error" info={productQuantityInfo} handleClose={handleErrorClose} />
@@ -138,28 +138,27 @@ const SingleProductPage = () => {
                                             <CustomAlert isVisible={isInfoVisible} type="info" info={productQuantityInfo} handleClose={handleInfoClose} />
                                             : null}
                                     </div>
-
-                                    <div className="h-12 z-20 my-2">
-                                        <CustomDatePicker minDate={minDate}
-                                                          selectedDate={selectedDate}
-                                                          setSelectedDate={setSelectedDate}
-                                                          color="gray-200"
-                                                          text="Data zamówienia"
-                                        />
-                                    </div>
-                                    <div className="flex justify-end">
-                                        <input type="number" id="salt" step="1" min="0"
-                                               aria-describedby="helper-text-explanation" max={maxProductQuantity}
-                                               value={quantity}
-                                               onChange={handleQuantityChange}
-                                               className=" w-16 h-12 z-20 bg-transparent my-2 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block p-2"
-                                               placeholder="ilość" required/>
-                                        <AnimatedIconButton
-                                            Icon={FaShoppingCart}
-                                            color="ml-2 text-gray-600 hover:text-green-500 text-3xl"
-                                            handleIconClick={handleAddToCart}
-                                        />
-                                    </div>
+                                        <div className="h-12 z-20 my-2 flex justify-center sm:justify-start ">
+                                            <CustomDatePicker minDate={minDate}
+                                                              selectedDate={selectedDate}
+                                                              setSelectedDate={setSelectedDate}
+                                                              color="gray-200"
+                                                              text="Data zamówienia"
+                                            />
+                                        </div>
+                                        <div className="flex sm:justify-end  justify-center w-full">
+                                            <input type="number" id="salt" step="1" min="0"
+                                                   aria-describedby="helper-text-explanation" max={maxProductQuantity}
+                                                   value={quantity}
+                                                   onChange={handleQuantityChange}
+                                                   className=" w-16 h-12 z-20 bg-transparent my-2 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block p-2"
+                                                   placeholder="ilość" required/>
+                                            <AnimatedIconButton
+                                                Icon={FaShoppingCart}
+                                                color="ml-2 text-gray-600 hover:text-green-500 text-3xl"
+                                                handleIconClick={handleAddToCart}
+                                            />
+                                        </div>
                                 </div>
                             </div>
                         </div>

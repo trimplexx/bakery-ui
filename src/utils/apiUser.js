@@ -223,6 +223,42 @@ const apiUser = {
             setIsLoading(false);
         }
     },
+    logout: async (setIsLoading, navigate) => {
+        try {
+            const token = localStorage.getItem('token');
+            const refreshToken = localStorage.getItem('refreshToken');
+
+
+            const response = await axios.post(connectionUrlString + 'api/Auth/logout',
+                {
+                    Token: token,
+                    refreshToken: refreshToken,
+                });
+            localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            localStorage.setItem('errorNotifyStorage', response.data);
+            navigate("/")
+            window.location.reload(true);
+        } catch (error) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            localStorage.setItem('errorNotifyStorage', "Nastąpiło wylogowanie");
+            navigate("/")
+            window.location.reload(true);
+        } finally {
+            if(setIsLoading != null)
+                setIsLoading(false);
+        }
+    },
+    fetchInstagramPosts: async (setInstagramData, setIsLoading) =>{
+        try{
+            const response = await  axios.get(connectionUrlString + "api/InstagramApi/instagramPost");
+            setInstagramData(response.data);
+            setIsLoading(false);
+        }catch (error){
+            setIsLoading(false);
+        }
+    },
 }
 
 export default apiUser;

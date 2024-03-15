@@ -25,6 +25,7 @@ import GmailLoginSession from "./pages/user-pages/SocialLoginSession";
 import ShoppingCardState from "./helpers/ShoppingCardState";
 import {useCleanLocalStorage} from "./hooks/useCleanLocalStorage";
 import FaqPage from "./pages/user-pages/FaqPage";
+import LogoutPage from "./pages/user-pages/LogoutPage";
 
 function App() {
     const { isAdmin } = useAuth();
@@ -46,6 +47,7 @@ function App() {
                         <Route path="weryfikacja/:token" element={<UserVerifyPage />} />
                         <Route path="social-session/:token/:refreshToken" element={<GmailLoginSession />} />
                         <Route path="faq" element={<FaqPage />} />
+                        <Route path="logout" element={<LogoutPage />} />
                         <Route path="*" element={<NoPage/>}/>
                     </Route>
                     {isAdmin ?
@@ -65,7 +67,6 @@ function App() {
                                 </div>
                             </>
                         }/>) : null}
-
                 </Routes>
                 <Footer/>
             </BrowserRouter>

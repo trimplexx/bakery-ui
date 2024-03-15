@@ -11,10 +11,6 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 const ContactPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const {register, handleSubmit} = useForm();
-    const [open, setOpen] = useState(false);
-    const position = {
-        lat: 50.2620067, lng: 19.0128041,
-    };
     const [formData, setFormData] = useState({
         email: '', password: ''
     });
@@ -35,11 +31,11 @@ const ContactPage = () => {
                 className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl xl:grid xl:grid-cols-5 gap-4">
                 <Fade left>
                     <div className=" text-gray-800 p-2">
-                        <h2 className="text-2xl mb-2 text-[lucida-console]"
+                        <h2 className="text-3xl mb-2 text-[lucida-console]"
                             style={{fontFamily: 'Lucida Console, serif'}}>Kontakt</h2>
-                        <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}> <strong> Trzeba Chleba</strong></p>
+                        <p className="text-gray-700 py-1 text-xl" style={{fontFamily: 'Lucida Console, serif'}}> <strong> Trzeba Chleba</strong></p>
                         <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
-                            <strong>Adres:</strong> ul. Przykładowa 123, Miasto</p>
+                            <strong>Adres:</strong> ul. Plebiscytowa 7, 40-035 Katowice</p>
                         <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
                             <strong>Telefon:</strong> 123-456-789</p>
                         <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
@@ -49,26 +45,12 @@ const ContactPage = () => {
 
                 <div className="xl:col-span-4">
                     <Fade right>
-                        <APIProvider apiKey={apiKeyMap}>
-                            <div style={{width: "100%", height: "400px", borderRadius: "10px",}}>
-                                <Map zoom={16} center={position} mapId="d2fa563e063dc60e">
-                                    <AdvancedMarker position={position} onClick={() => setOpen(true)}>
-                                        <Pin
-                                            background={"red"}
-                                            borderColor={"white"}
-                                            glyphColor={"white"}
-                                        />
-                                    </AdvancedMarker>
-
-                                    {open && (<InfoWindow position={position} onCloseClick={() => setOpen(false)}>
-                                            <h2 className="text-md font-bold py-2">Trzeba Chleba</h2>
-                                            <p className="py-1">ul. Przykładowa 123</p>
-                                            <p className="py-1">40-082 Katowice</p>
-                                            <p className="py-1">Polska</p>
-                                        </InfoWindow>)}
-                                </Map>
+                            <div className="w-full">
+                                <iframe className="w-full h-[500px]"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2550.9548843752195!2d19.018327776446185!3d50.25542690138699!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4716ce48f9dc1ee7%3A0x158a453af712059e!2sPlebiscytowa%207%2C%2040-035%20Katowice!5e0!3m2!1spl!2spl!4v1710526646503!5m2!1spl!2spl"
+                                        allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                             </div>
-                        </APIProvider>
+
                     </Fade>
                 </div>
                 <Fade right>
