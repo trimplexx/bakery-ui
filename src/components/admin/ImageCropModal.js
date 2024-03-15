@@ -37,7 +37,7 @@ const ImageCropModal = ({ image, onClose, onSave }) => {
                         />
                     </div>
                     <div className="justify-end flex">
-                        <button onClick={createImage} className="text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none font-medium rounded-lg text-sm w-36 px-5 py-2.5 text-center">Zapisz</button>
+                        <button onClick={createImage} type="button" className="text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none font-medium rounded-lg text-sm w-36 px-5 py-2.5 text-center">Zapisz</button>
                     </div>
                 </div>
             </AnimatedModal>

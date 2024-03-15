@@ -26,7 +26,6 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
         event.preventDefault();
         setBackgroundImage(null);
         setSelectedFile(null);
-        setOpenModal(false);
         setProductsData(prevState => ({
             ...prevState,
             image: null
@@ -60,7 +59,6 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
             categories: categories
         }));
     };
-
 
     const handleFileChange = (event) => {
         if (event.target.files.length > 0) {

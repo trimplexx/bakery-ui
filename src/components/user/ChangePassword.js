@@ -26,7 +26,6 @@ const ChangePassword = () => {
             setUserId(userIdFromToken);
             setValue('userId', userIdFromToken);
         } else {
-            console.error('Brak tokenu w localStorage');
         }
     }, [setValue]);
 

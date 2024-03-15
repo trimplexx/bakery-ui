@@ -21,17 +21,18 @@ const EditProductModal = ({onClose, productId}) => {
         Promise.all([fetchData()]).then(() => {
             setIsLoadingProduct(false);
         });
-    }, [productId, setProductData]);
+    }, [productId]);
 
     const onSubmit = async () => {
         setIsLoading(true);
+        let imageFile = null;
 
-        const imageFile = await createImageFileFromImageUrl(productsData.image, productsData.name, errorNotify);
+        if(productsData.image != null)
+            imageFile = await createImageFileFromImageUrl(productsData.image, productsData.name, errorNotify);
         const formData = new FormData();
         for (const key in productsData) {
             if (Object.prototype.hasOwnProperty.call(productsData, key)) {
                 if (key === 'image') {
-                    // Append the transformed image file
                     formData.append('image', imageFile);
                 } else {
                     formData.append(key, productsData[key]);
