@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import SubmitButton from "../common/SubmitButton";
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 import EditInput from "../common/EditInput";
 import apiUser from "../../utils/apiUser";
 
 const ChangePassword = () => {
-    const [userId, setUserId] = useState(false);
-    const { register, handleSubmit, setValue } = useForm();
+    const [, setUserId] = useState(false);
+    const {register, handleSubmit, setValue} = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [userData, setUserData] = useState({
+    const [, setUserData] = useState({
         oldPassword: "",
         newPassword: "",
         confirmNewPassword: ""
@@ -47,7 +47,7 @@ const ChangePassword = () => {
             setIsLoading(false);
             return;
         }
-        const { confirmNewPassword, ...passwordData } = data;
+        const {confirmNewPassword, ...passwordData} = data;
         await apiUser.userChangePassword(passwordData, setIsLoading, successNotify, errorNotify)
     };
 
@@ -57,7 +57,8 @@ const ChangePassword = () => {
 
     return (
         <form className="py-4 sm:p-7" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="mb-12 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329] ">Zmień hasło</h1>
+            <h1 className="mb-12 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329] ">Zmień
+                hasło</h1>
             <div className="grid gap-6 mb-3">
                 <EditInput
                     register={register}
@@ -84,13 +85,15 @@ const ChangePassword = () => {
                     onChange={handleInputChange}
                 />
                 <div className="flex items-center mb-4">
-                    <input type="checkbox" id="show-password" onClick={toggleShowPassword} value="" className="cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]" />
-                    <label htmlFor="show-password" className="cursor-pointer ml-2 text-sm font-medium text-gray-900">Pokaż hasła</label>
+                    <input type="checkbox" id="show-password" onClick={toggleShowPassword} value=""
+                           className="cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]"/>
+                    <label htmlFor="show-password" className="cursor-pointer ml-2 text-sm font-medium text-gray-900">Pokaż
+                        hasła</label>
                 </div>
             </div>
 
             <div className="md:col-start-2 md:col-span-3 w-full mt-3">
-                <SubmitButton isLoading={isLoading} text="Zmień hasło" />
+                <SubmitButton isLoading={isLoading} text="Zmień hasło"/>
             </div>
         </form>
     );

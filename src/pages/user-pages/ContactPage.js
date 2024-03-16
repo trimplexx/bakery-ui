@@ -1,6 +1,4 @@
 import React, {useState} from "react";
-import {AdvancedMarker, APIProvider, InfoWindow, Map, Pin,} from "@vis.gl/react-google-maps";
-import {apiKeyMap} from "../../utils/props";
 import {Fade} from "react-reveal";
 import FormInput from "../../components/common/FormInput";
 import SubmitButton from "../../components/common/SubmitButton";
@@ -11,7 +9,7 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 const ContactPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const {register, handleSubmit} = useForm();
-    const [formData, setFormData] = useState({
+    const [, setFormData] = useState({
         email: '', password: ''
     });
 
@@ -26,41 +24,42 @@ const ContactPage = () => {
     };
 
     return (<div
-            className=" bg-gradient-to-b from-[#F5F5F5] h-full via-gray-300 to-[#F5F5F5] p-2 px-2 sm:p-10 sm:px-10 xl:px-24 2xl:px-40 justify-center flex flex-grow">
-            <div
-                className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl xl:grid xl:grid-cols-5 gap-4">
-                <Fade left>
-                    <div className=" text-gray-800 p-2">
-                        <h2 className="text-3xl mb-2 text-[lucida-console]"
-                            style={{fontFamily: 'Lucida Console, serif'}}>Kontakt</h2>
-                        <p className="text-gray-700 py-1 text-xl" style={{fontFamily: 'Lucida Console, serif'}}> <strong> Trzeba Chleba</strong></p>
-                        <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
-                            <strong>Adres:</strong> ul. Plebiscytowa 7, 40-035 Katowice</p>
-                        <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
-                            <strong>Telefon:</strong> 123-456-789</p>
-                        <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
-                            <strong>Email:</strong> kontakt@piekarnia.com</p>
-                    </div>
-                </Fade>
-
-                <div className="xl:col-span-4">
-                    <Fade right>
-                            <div className="w-full">
-                                <iframe className="w-full h-[500px]"
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2550.9548843752195!2d19.018327776446185!3d50.25542690138699!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4716ce48f9dc1ee7%3A0x158a453af712059e!2sPlebiscytowa%207%2C%2040-035%20Katowice!5e0!3m2!1spl!2spl!4v1710526646503!5m2!1spl!2spl"
-                                        allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
-
-                    </Fade>
+        className=" bg-gradient-to-b from-[#F5F5F5] h-full via-gray-300 to-[#F5F5F5] p-2 px-2 sm:p-10 sm:px-10 xl:px-24 2xl:px-40 justify-center flex flex-grow">
+        <div
+            className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl xl:grid xl:grid-cols-5 gap-4">
+            <Fade left>
+                <div className=" text-gray-800 p-2">
+                    <h2 className="text-3xl mb-2 text-[lucida-console]"
+                        style={{fontFamily: 'Lucida Console, serif'}}>Kontakt</h2>
+                    <p className="text-gray-700 py-1 text-xl" style={{fontFamily: 'Lucida Console, serif'}}>
+                        <strong> Trzeba Chleba</strong></p>
+                    <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
+                        <strong>Adres:</strong> ul. Plebiscytowa 7, 40-035 Katowice</p>
+                    <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
+                        <strong>Telefon:</strong> 123-456-789</p>
+                    <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
+                        <strong>Email:</strong> kontakt@piekarnia.com</p>
                 </div>
+            </Fade>
+
+            <div className="xl:col-span-4">
                 <Fade right>
+                    <div className="w-full">
+                        <iframe className="w-full h-[500px]"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2550.9548843752195!2d19.018327776446185!3d50.25542690138699!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4716ce48f9dc1ee7%3A0x158a453af712059e!2sPlebiscytowa%207%2C%2040-035%20Katowice!5e0!3m2!1spl!2spl!4v1710526646503!5m2!1spl!2spl"
+                                allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+
+                </Fade>
+            </div>
+            <Fade right>
                 <form className="p-7 xl:col-span-4 xl:col-start-2" onSubmit={handleSubmit(onSubmit)} noValidate>
                     <div className="w-full justify-center flex">
-                    <h1 className=" text-4xl text-center max-w-lg font-serif leading-loose text-[#fda329] items-center">
-                        Skontaktuj się z nami
-                    </h1>
+                        <h1 className=" text-4xl text-center max-w-lg font-serif leading-loose text-[#fda329] items-center">
+                            Skontaktuj się z nami
+                        </h1>
                     </div>
-                    <p className="text-gray-700 py-1 mb-4" style={{fontFamily:'Lucida Console, serif' }}>Zauważyłeś
+                    <p className="text-gray-700 py-1 mb-4" style={{fontFamily: 'Lucida Console, serif'}}>Zauważyłeś
                         jakiś problem na naszej stronie, bądź masz jakieś pytanie? Wypełnij formularz swoimi danymi oraz
                         wiadomością, którą chcesz do nas dostarczyć, a my odezwiemy się w wiadomości mailowej tak szybko
                         jak to będzie możliwe.</p>
@@ -78,18 +77,18 @@ const ContactPage = () => {
                     </div>
                     <div className="relative md:col-span-5">
                         <textarea id="message" {...register("message")}
-                            maxLength="4000"
-                            onChange={(e) => handleInputChange('message', e.target.value)}
-                            className="block px-2.5 h-36 pb-2.5 pt-4 mb-6 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-400 appearance-none focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
-                            placeholder=" " required />
+                                  maxLength="4000"
+                                  onChange={(e) => handleInputChange('message', e.target.value)}
+                                  className="block px-2.5 h-36 pb-2.5 pt-4 mb-6 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-400 appearance-none focus:outline-none focus:ring-0 focus:border-[#fda329] peer"
+                                  placeholder=" " required/>
                         <label htmlFor="message"
                                className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-200  px-2 peer-focus:px-2 peer-focus:text-[#fda329] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/4 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Wiadomość</label>
                     </div>
                     <SubmitButton isLoading={isLoading} text="Wyślij wiadomość"/>
                 </form>
-                </Fade>
-            </div>
-        </div>);
+            </Fade>
+        </div>
+    </div>);
 };
 
 export default ContactPage;

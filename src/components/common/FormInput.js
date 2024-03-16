@@ -1,18 +1,18 @@
 import React from 'react';
 
-const FormInput = ({ register, id, label, type, value, onChange, maxLength, color }) => {
+const FormInput = ({register, id, label, type, value, onChange, maxLength, color}) => {
     const handleInputChange = (e) => {
         let inputValue = e.target.value;
         if (maxLength && inputValue.length > maxLength) {
             inputValue = inputValue.slice(0, maxLength);
         }
-        onChange({ target: { value: inputValue } });
+        onChange({target: {value: inputValue}});
     };
 
     return (
         <div className="relative flex-grow">
             <input
-                {...register(id, { required: true })}
+                {...register(id, {required: true})}
                 type={type}
                 id={id}
                 value={value}

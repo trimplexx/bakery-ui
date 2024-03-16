@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {FaTrashAlt} from "react-icons/fa";
 import {notFoundImage} from "../../utils/props";
 
-const ProductShoppingCard = ({ product, index, date, handleDelete, handleQuantityChange }) => {
+const ProductShoppingCard = ({product, index, date, handleDelete, handleQuantityChange}) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const handleImageLoad = () => {
@@ -24,7 +24,7 @@ const ProductShoppingCard = ({ product, index, date, handleDelete, handleQuantit
                         className="rounded-full bg-gray-300 p-2 hover:bg-white ml-auto"
                         onClick={() => handleDelete(index, date)}
                     >
-                        <FaTrashAlt className="text-red-500" />
+                        <FaTrashAlt className="text-red-500"/>
                     </button>
                 </div>
                 <div className="sm:grid sm:grid-cols-2 p-1 sm:p-2 ">

@@ -44,13 +44,10 @@ const OrderSumaryPage = () => {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             const decodedToken = JSON.parse(atob(base64));
-            if(decodedToken.Phone === "")
-            {
+            if (decodedToken.Phone === "") {
                 setIsErrorVisible(true);
                 phoneRef = null;
-            }
-            else
-            {
+            } else {
                 phoneRef.current = decodedToken.Phone.substring(3);
             }
 
@@ -132,10 +129,13 @@ const OrderSumaryPage = () => {
         setIsErrorVisible(false);
     };
 
-    return (<div className=" h-full bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-5 sm:p-10 xl:px-16 2xl:px-20 xl:py-10 flex justify-center">
+    return (<div
+        className=" h-full bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-5 sm:p-10 xl:px-16 2xl:px-20 xl:py-10 flex justify-center">
         <div className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl">
             {phoneRef ?
-                <CustomAlert isVisible={isErrorVisible} type="error" info="Musisz uzupełnić numer telefonu w danych profilu po kliknięciu ikony użytkownika." handleClose={handleErrorClose} />
+                <CustomAlert isVisible={isErrorVisible} type="error"
+                             info="Musisz uzupełnić numer telefonu w danych profilu po kliknięciu ikony użytkownika."
+                             handleClose={handleErrorClose}/>
                 : null}
             <div className="p-4 w-full lg:w-96">
                 <Select
@@ -150,14 +150,14 @@ const OrderSumaryPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-5 mb-4">
                 {isLoading ? (<div
-                        className="flex-grow items-center mx-4 h-full md:col-span-4 bg-gray-300 rounded mb-4 justify-center">
-                        <div className="p-4 flex-col items-center justify-center h-full flex text-lg">
-                            <FadeLoader color="#eab308"/>
-                            <p className="text-yellow-400 text-2xl font-bold mt-4">Ładowanie...</p>
-                        </div>
-                    </div>) : <div className="overflow-y-auto max-h-[52vh] md:col-span-4">
+                    className="flex-grow items-center mx-4 h-full md:col-span-4 bg-gray-300 rounded mb-4 justify-center">
+                    <div className="p-4 flex-col items-center justify-center h-full flex text-lg">
+                        <FadeLoader color="#eab308"/>
+                        <p className="text-yellow-400 text-2xl font-bold mt-4">Ładowanie...</p>
+                    </div>
+                </div>) : <div className="overflow-y-auto max-h-[65vh] md:col-span-4">
                     {Array.isArray(productData) && productData.length > 0 ? (
-                        <div className="overflow-y-auto max-h-[65vh]">
+                        <div className="">
                             {productData.map((product, index) => (<ProductShoppingCard
                                 key={index}
                                 product={product}

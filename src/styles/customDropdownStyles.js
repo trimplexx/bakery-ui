@@ -16,7 +16,7 @@ export const customDropdownStyles = {
         backgroundColor: state.isSelected ? '#fda329' : (state.isFocused ? 'lightgray' : 'white'),
         borderRadius: 'lg',
     }),
-    menu: (provided, state) => ({
+    menu: (provided) => ({
         ...provided,
         zIndex: 10000,
     }),

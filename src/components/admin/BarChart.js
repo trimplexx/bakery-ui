@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 import Chart from 'chart.js/auto';
 
-const ChartRenderer = ({ chartData }) => {
+const ChartRenderer = ({chartData}) => {
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
 

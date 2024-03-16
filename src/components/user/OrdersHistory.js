@@ -41,7 +41,7 @@ const OrdersHistory = () => {
         } else {
             errorNotify('Brak tokenu w localStorage');
         }
-    }, [currentPage,isLoadingButton]);
+    }, [currentPage, isLoadingButton]);
 
     const handleCancelOrder = async (orderId) => {
         setOrderId(orderId)
@@ -72,26 +72,26 @@ const OrdersHistory = () => {
     };
 
     return (<div>
-            {isLoading ? <LoadingComponent/> : <div className="min-h-[450px]">
-                <OrdersTable
-                    orders={orders}
-                    handleCancelOrder={handleCancelOrder}
-                    paginationNumber={paginationNumber}
-                    handlePageChange={handlePageChange}
-                    currentPage={currentPage}
-                    isErrorVisible={isErrorVisible}
-                    errorMessage={errorMessage}
-                    handleErrorClose={handleErrorClose}
-                />
-                <CustomConfirmModal
-                    visible={isConfirmModalVisible}
-                    message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}
-                    onConfirm={handleConfirm}
-                    onCancel={handleCancel}
-                    isLoading={isLoadingButton}
-                />
-            </div>}
-        </div>);
+        {isLoading ? <LoadingComponent/> : <div className="min-h-[450px]">
+            <OrdersTable
+                orders={orders}
+                handleCancelOrder={handleCancelOrder}
+                paginationNumber={paginationNumber}
+                handlePageChange={handlePageChange}
+                currentPage={currentPage}
+                isErrorVisible={isErrorVisible}
+                errorMessage={errorMessage}
+                handleErrorClose={handleErrorClose}
+            />
+            <CustomConfirmModal
+                visible={isConfirmModalVisible}
+                message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
+                isLoading={isLoadingButton}
+            />
+        </div>}
+    </div>);
 
 };
 

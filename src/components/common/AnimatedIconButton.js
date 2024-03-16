@@ -1,7 +1,7 @@
 import React from "react";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
-const AnimatedIconButton = ({ handleIconClick, Icon, color }) => {
+const AnimatedIconButton = ({handleIconClick, Icon, color}) => {
     const buttonVariants = {
         hover: {
             scale: 1.1,
@@ -20,7 +20,7 @@ const AnimatedIconButton = ({ handleIconClick, Icon, color }) => {
             variants={buttonVariants}
         >
             <motion.span whileHover="hover">
-                <Icon className={`text-2xl ${color}`} />
+                <Icon className={`text-2xl ${color}`}/>
             </motion.span>
         </motion.button>
     );

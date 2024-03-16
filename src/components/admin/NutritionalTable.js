@@ -1,10 +1,10 @@
 import React from 'react';
 
-const NutritionalTable = ({ register, productsData, setProductsData }) => {
+const NutritionalTable = ({register, productsData, setProductsData}) => {
 
     const handleInputChange = (id, newValue) => {
         const inputValue = newValue.slice(0, 10);
-        setProductsData(prevData => ({ ...prevData, [id]: inputValue }));
+        setProductsData(prevData => ({...prevData, [id]: inputValue}));
     };
 
 
@@ -31,11 +31,15 @@ const NutritionalTable = ({ register, productsData, setProductsData }) => {
                             <div className="grid grid-cols-3 items-center w-auto">
                                 <input {...register("kj")} value={productsData.kj}
                                        onChange={(e) => handleInputChange('kj', e.target.value)}
-                                       type="number" id="kj" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="kJ" required/>
+                                       type="number" id="kj" aria-describedby="helper-text-explanation"
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2"
+                                       placeholder="kJ" required/>
                                 <div className="text-center mx-0">/</div>
                                 <input {...register("kcal")} value={productsData.kcal}
                                        onChange={(e) => handleInputChange('kcal', e.target.value)}
-                                       type="number" id="kcal" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2" placeholder="Kcal" required/>
+                                       type="number" id="kcal" aria-describedby="helper-text-explanation"
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-20 p-2"
+                                       placeholder="Kcal" required/>
                             </div>
                         </td>
                     </tr>
@@ -46,7 +50,9 @@ const NutritionalTable = ({ register, productsData, setProductsData }) => {
                         <td className="px-6 py-1">
                             <input {...register("fat")} value={productsData.fat}
                                    onChange={(e) => handleInputChange('fat', e.target.value)}
-                                   type="number" id="fat" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcz" required/>
+                                   type="number" id="fat" step="0.01" aria-describedby="helper-text-explanation"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2"
+                                   placeholder="tłuszcz" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -56,7 +62,10 @@ const NutritionalTable = ({ register, productsData, setProductsData }) => {
                         <td className="px-6 py-1">
                             <input {...register("saturatedFat")} value={productsData.saturatedFat}
                                    onChange={(e) => handleInputChange('saturatedFat', e.target.value)}
-                                   type="number" id="saturatedFat" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="tłuszcze nasycone" required/>
+                                   type="number" id="saturatedFat" step="0.01"
+                                   aria-describedby="helper-text-explanation"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2"
+                                   placeholder="tłuszcze nasycone" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -66,7 +75,10 @@ const NutritionalTable = ({ register, productsData, setProductsData }) => {
                         <td className="px-6 py-1">
                             <input {...register("carbohydrates")} value={productsData.carbohydrates}
                                    onChange={(e) => handleInputChange('carbohydrates', e.target.value)}
-                                   type="number" id="carbohydrates" step="0.01" name="carbohydrates" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="węglowodany" required/>
+                                   type="number" id="carbohydrates" step="0.01" name="carbohydrates"
+                                   aria-describedby="helper-text-explanation"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2"
+                                   placeholder="węglowodany" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -76,7 +88,9 @@ const NutritionalTable = ({ register, productsData, setProductsData }) => {
                         <td className="px-6 py-1">
                             <input {...register("sugars")} value={productsData.sugars}
                                    onChange={(e) => handleInputChange('sugars', e.target.value)}
-                                   type="number" id="sugars" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="cukry" required/>
+                                   type="number" id="sugars" step="0.01" aria-describedby="helper-text-explanation"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2"
+                                   placeholder="cukry" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -86,7 +100,9 @@ const NutritionalTable = ({ register, productsData, setProductsData }) => {
                         <td className="px-6 py-1">
                             <input {...register("proteins")} value={productsData.proteins}
                                    onChange={(e) => handleInputChange('proteins', e.target.value)}
-                                   type="number" id="proteins" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="białko" required/>
+                                   type="number" id="proteins" step="0.01" aria-describedby="helper-text-explanation"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2"
+                                   placeholder="białko" required/>
                         </td>
                     </tr>
                     <tr className="bg-white border-b">
@@ -96,7 +112,9 @@ const NutritionalTable = ({ register, productsData, setProductsData }) => {
                         <td className="px-6 py-1">
                             <input {...register("salt")} value={productsData.salt}
                                    onChange={(e) => handleInputChange('salt', e.target.value)}
-                                   type="number" id="salt" step="0.01" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2" placeholder="sól" required/>
+                                   type="number" id="salt" step="0.01" aria-describedby="helper-text-explanation"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block w-auto p-2"
+                                   placeholder="sól" required/>
                         </td>
                     </tr>
                     </tbody>

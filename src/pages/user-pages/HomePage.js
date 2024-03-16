@@ -11,7 +11,7 @@ import InstagramPosts from "../../components/user/InstagramPosts";
 import SecSideMainPage from "../../components/user/SecSideMainPage";
 
 const HomePage = () => {
-    const [userModalOpen, setUserModalOpen] = useState(false);
+    const [, setUserModalOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [instagramData, setInstagramData] = useState([]);

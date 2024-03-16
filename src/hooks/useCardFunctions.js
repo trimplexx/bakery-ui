@@ -21,7 +21,7 @@ export const useOrderFunctions = () => {
         loadStoredDates();
         setIsLoading(false);
 
-    }, [setProductData, selectedOption,isCardChange]);
+    }, [setProductData, selectedOption, isCardChange]);
 
 
     const handleSelectChange = async (selectedOption) => {

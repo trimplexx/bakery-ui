@@ -27,7 +27,7 @@ const EditProductModal = ({onClose, productId}) => {
         setIsLoading(true);
         let imageFile = null;
 
-        if(productsData.image != null)
+        if (productsData.image != null)
             imageFile = await createImageFileFromImageUrl(productsData.image, productsData.name, errorNotify);
         const formData = new FormData();
         for (const key in productsData) {
@@ -60,7 +60,7 @@ const EditProductModal = ({onClose, productId}) => {
                 setProductsData={setProductData}
                 text="Edytuj produkt"
             />}
-        </div>);
+    </div>);
 };
 
 export default EditProductModal;

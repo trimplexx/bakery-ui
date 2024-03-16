@@ -10,7 +10,7 @@ import AdminHome from "./pages/admin-pages/AdminHome";
 import {AdminNavMenu} from "./components/admin/AdminNavMenu";
 import AdminProducts from "./pages/admin-pages/AdminProducts";
 import AdminOrders from "./pages/admin-pages/AdminOrders";
-import React, {} from "react";
+import React from "react";
 import useAuth from "./hooks/useAuth";
 import AdminUsers from "./pages/admin-pages/AdminUsers";
 import AdminProduction from "./pages/admin-pages/AdminProduction";
@@ -28,61 +28,61 @@ import FaqPage from "./pages/user-pages/FaqPage";
 import LogoutPage from "./pages/user-pages/LogoutPage";
 
 function App() {
-    const { isAdmin } = useAuth();
+    const {isAdmin} = useAuth();
     useCleanLocalStorage();
 
     return (
         <div className="flex flex-col min-h-screen">
             <ShoppingCardState>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<UserNavMenu/>}>
-                        <Route path="/" element={<HomePage/>}/>
-                        <Route path="onas" element={<AboutPage/>}/>
-                        <Route path="kontakt" element={<ContactPage/>}/>
-                        <Route path="produkty" element={<ProductsPage/>}/>
-                        <Route path="produkt/:productId" element={<SingleProductPage />} />
-                        <Route path="podsumowanie" element={<OrderSumaryPage />} />
-                        <Route path="odzyskiwanie-hasla/:token" element={<ForgotPasswordPage />} />
-                        <Route path="weryfikacja/:token" element={<UserVerifyPage />} />
-                        <Route path="social-session/:token/:refreshToken" element={<GmailLoginSession />} />
-                        <Route path="faq" element={<FaqPage />} />
-                        <Route path="logout" element={<LogoutPage />} />
-                        <Route path="*" element={<NoPage/>}/>
-                    </Route>
-                    {isAdmin ?
-                        (<Route path="admin/*" element={
-                            <>
-                                <AdminNavMenu />
-                                <div className="p-4 sm:ml-64 max-h-screen sm:h-auto">
-                                    <Routes>
-                                        <Route path="home" element={<AdminHome/>}/>
-                                        <Route path="produkty" element={<AdminProducts/>}/>
-                                        <Route path="zamowienia" element={<AdminOrders/>}/>
-                                        <Route path="zamow" element={<AdminMakeOrder/>}/>
-                                        <Route path="uzytkownicy" element={<AdminUsers/>}/>
-                                        <Route path="produkcja" element={<AdminProduction/>}/>
-                                        <Route path="*" element={<Navigate to="/*" />} ></Route>
-                                    </Routes>
-                                </div>
-                            </>
-                        }/>) : null}
-                </Routes>
-                <Footer/>
-            </BrowserRouter>
-            <ToastContainer
-                position="top-center"
-                autoClose={10000}
-                hideProgressBar={false}
-                newestOnTop
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable={false}
-                pauseOnHover={false}
-                theme="light"
-                limit={2}
-            />
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<UserNavMenu/>}>
+                            <Route path="/" element={<HomePage/>}/>
+                            <Route path="onas" element={<AboutPage/>}/>
+                            <Route path="kontakt" element={<ContactPage/>}/>
+                            <Route path="produkty" element={<ProductsPage/>}/>
+                            <Route path="produkt/:productId" element={<SingleProductPage/>}/>
+                            <Route path="podsumowanie" element={<OrderSumaryPage/>}/>
+                            <Route path="odzyskiwanie-hasla/:token" element={<ForgotPasswordPage/>}/>
+                            <Route path="weryfikacja/:token" element={<UserVerifyPage/>}/>
+                            <Route path="social-session/:token/:refreshToken" element={<GmailLoginSession/>}/>
+                            <Route path="faq" element={<FaqPage/>}/>
+                            <Route path="logout" element={<LogoutPage/>}/>
+                            <Route path="*" element={<NoPage/>}/>
+                        </Route>
+                        {isAdmin ?
+                            (<Route path="admin/*" element={
+                                <>
+                                    <AdminNavMenu/>
+                                    <div className="p-4 sm:ml-64 max-h-screen sm:h-auto">
+                                        <Routes>
+                                            <Route path="home" element={<AdminHome/>}/>
+                                            <Route path="produkty" element={<AdminProducts/>}/>
+                                            <Route path="zamowienia" element={<AdminOrders/>}/>
+                                            <Route path="zamow" element={<AdminMakeOrder/>}/>
+                                            <Route path="uzytkownicy" element={<AdminUsers/>}/>
+                                            <Route path="produkcja" element={<AdminProduction/>}/>
+                                            <Route path="*" element={<Navigate to="/*"/>}></Route>
+                                        </Routes>
+                                    </div>
+                                </>
+                            }/>) : null}
+                    </Routes>
+                    <Footer/>
+                </BrowserRouter>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={10000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable={false}
+                    pauseOnHover={false}
+                    theme="light"
+                    limit={2}
+                />
             </ShoppingCardState>
         </div>
     );

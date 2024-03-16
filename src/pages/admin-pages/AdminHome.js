@@ -79,13 +79,13 @@ const AdminHome = () => {
                             </thead>
                             <tbody>
                             {productsLeft.map((product, index) => (<tr key={index} className="border-b border-gray-300">
-                                    <td className="py-2 px-4">
-                                        <div className="flex justify-center">{product.productName}</div>
-                                    </td>
-                                    <td className="py-2 px-4">
-                                        <div className="flex justify-center">{product.quantityLeft}</div>
-                                    </td>
-                                </tr>))}
+                                <td className="py-2 px-4">
+                                    <div className="flex justify-center">{product.productName}</div>
+                                </td>
+                                <td className="py-2 px-4">
+                                    <div className="flex justify-center">{product.quantityLeft}</div>
+                                </td>
+                            </tr>))}
                             </tbody>
                         </table>
                     </div>
@@ -111,8 +111,8 @@ const AdminHome = () => {
                                     <td className="py-2 px-4">
                                         <div className="flex flex-col justify-center">
                                             {order.orderedProducts.map((product, i) => (<div key={i}>
-                                                    <span>{product.productName}</span> x<span>{product.quantity}</span>
-                                                </div>))}
+                                                <span>{product.productName}</span> x<span>{product.quantity}</span>
+                                            </div>))}
                                         </div>
                                     </td>
                                     <td className="py-2 px-4">

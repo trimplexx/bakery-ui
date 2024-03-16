@@ -2,7 +2,16 @@ import React from 'react';
 import ImageCropModal from './ImageCropModal';
 import {FaTrashAlt} from "react-icons/fa";
 
-const ImageDropzone = ({ backgroundImage, handleFileChange, handleInputClick, selectedFile, openModal, setOpenModal, setBackgroundImage , handleDeleteImage}) => {
+const ImageDropzone = ({
+                           backgroundImage,
+                           handleFileChange,
+                           handleInputClick,
+                           selectedFile,
+                           openModal,
+                           setOpenModal,
+                           setBackgroundImage,
+                           handleDeleteImage
+                       }) => {
     return (
         <div className="justify-center flex">
             <div className="relative w-[340px]">
@@ -52,12 +61,13 @@ const ImageDropzone = ({ backgroundImage, handleFileChange, handleInputClick, se
                             className="absolute right-2 bottom-2 rounded-full bg-white p-2 hover:bg-red-200"
                             onClick={handleDeleteImage}
                         >
-                            <FaTrashAlt className="text-red-500" />
+                            <FaTrashAlt className="text-red-500"/>
                         </button>
                     )}
                 </label>
             </div>
-            {openModal && <ImageCropModal image={selectedFile} onClose={() => setOpenModal(false)} onSave={setBackgroundImage} />}
+            {openModal &&
+                <ImageCropModal image={selectedFile} onClose={() => setOpenModal(false)} onSave={setBackgroundImage}/>}
         </div>
     );
 };

@@ -2,7 +2,6 @@ import {useNavigate, useParams} from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
 import LoadingComponent from "../../components/common/LoadingComponent";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
-import apiCommon from "../../utils/apiCommon";
 import apiUser from "../../utils/apiUser";
 
 const SocialLoginSession = () => {

@@ -19,13 +19,13 @@ const OrdersHistoryModal = ({onClose, userId}) => {
     const [orderId, setOrderId] = useState(null);
 
     useEffect(() => {
-            const getOfOrdersPagination = async () => {
-                await apiUser.getOfOrdersPagination(userId, setPaginationNumber, errorNotify);
-            };
+        const getOfOrdersPagination = async () => {
+            await apiUser.getOfOrdersPagination(userId, setPaginationNumber, errorNotify);
+        };
 
-            const getUserOrdersHistoryList = async () => {
-                await apiUser.getUserOrdersHistoryList(currentPage-1, userId, setOrders, errorNotify);
-            };
+        const getUserOrdersHistoryList = async () => {
+            await apiUser.getUserOrdersHistoryList(currentPage - 1, userId, setOrders, errorNotify);
+        };
         Promise.all([getOfOrdersPagination(), getUserOrdersHistoryList()]).then(() => {
             setIsLoading(false);
         });
@@ -57,28 +57,28 @@ const OrdersHistoryModal = ({onClose, userId}) => {
 
 
     return (<div>
-        {isLoading ? <LoadingComponent/> :
-        <div className="fixed inset-0 z-50">
-            <AnimatedModal onClose={onClose}>
-                <div className="p-6 bg-white rounded-2xl">
-                    <OrdersTable
-                        orders={orders}
-                        paginationNumber={paginationNumber}
-                        handlePageChange={handlePageChange}
-                        handleCancelOrder={handleCancelOrder}
-                        currentPage={currentPage}
-                    />
-                    <CustomConfirmModal
-                        visible={isConfirmModalVisible}
-                        message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}
-                        onConfirm={handleConfirm}
-                        onCancel={handleCancel}
-                        isLoading={isLoadingButton}
-                    />
-                </div>
-            </AnimatedModal>
-        </div>}
-            </div>
+            {isLoading ? <LoadingComponent/> :
+                <div className="fixed inset-0 z-50">
+                    <AnimatedModal onClose={onClose}>
+                        <div className="p-6 bg-white rounded-2xl">
+                            <OrdersTable
+                                orders={orders}
+                                paginationNumber={paginationNumber}
+                                handlePageChange={handlePageChange}
+                                handleCancelOrder={handleCancelOrder}
+                                currentPage={currentPage}
+                            />
+                            <CustomConfirmModal
+                                visible={isConfirmModalVisible}
+                                message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}
+                                onConfirm={handleConfirm}
+                                onCancel={handleCancel}
+                                isLoading={isLoadingButton}
+                            />
+                        </div>
+                    </AnimatedModal>
+                </div>}
+        </div>
     );
 };
 

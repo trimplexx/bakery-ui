@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import React, {useEffect, useState} from 'react';
+import {FaArrowLeft, FaArrowRight} from 'react-icons/fa';
 
-const CustomPagination = ({ paginationNumber, onPageChange, initialPage }) => {
+const CustomPagination = ({paginationNumber, onPageChange, initialPage}) => {
     const [currentPage, setCurrentPage] = useState(initialPage);
 
     useEffect(() => {
@@ -12,7 +12,7 @@ const CustomPagination = ({ paginationNumber, onPageChange, initialPage }) => {
         return null;
     }
 
-    const pages = Array.from({ length: paginationNumber }, (_, index) => index + 1);
+    const pages = Array.from({length: paginationNumber}, (_, index) => index + 1);
 
     const handlePreviousClick = () => {
         if (currentPage > 1) {
@@ -54,7 +54,7 @@ const CustomPagination = ({ paginationNumber, onPageChange, initialPage }) => {
                     sm:text-lg bg-white border-2 border-yellow-400 rounded hover:bg-gray-200 hover:text-gray-700
                     focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 >
-                    <FaArrowLeft />
+                    <FaArrowLeft/>
                 </button>
             </li>
             {visiblePages.map((page, index) => (
@@ -80,7 +80,7 @@ const CustomPagination = ({ paginationNumber, onPageChange, initialPage }) => {
                     sm:text-lg bg-white border-2 border-yellow-400 rounded hover:bg-gray-200 hover:text-gray-700
                     focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 >
-                    <FaArrowRight />
+                    <FaArrowRight/>
                 </button>
             </li>
         </ul>

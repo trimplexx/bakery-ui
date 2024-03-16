@@ -32,7 +32,7 @@ const apiAdmin = {
             const response = await axios.get(connectionUrlString + 'api/AdminProducts/productsCategories',
                 {
                     headers: {
-                        categoryIds : categoryIds
+                        categoryIds: categoryIds
                     }
                 });
             const categories = response.data;
@@ -46,12 +46,11 @@ const apiAdmin = {
             handleApiError(error, errorNotify);
         }
     },
-    addProduct: async ( formData, successNotify, errorNotify, onClose, setIsLoading) => {
+    addProduct: async (formData, successNotify, errorNotify, onClose, setIsLoading) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
-                const response = await axiosInstance.post( 'api/AdminProducts/addProduct', formData, {
+            if (token) {
+                const response = await axiosInstance.post('api/AdminProducts/addProduct', formData, {
                     headers: {
                         token: token
                     }
@@ -65,14 +64,13 @@ const apiAdmin = {
             setIsLoading(false);
         }
     },
-    editProduct: async ( formData, productId, successNotify, errorNotify, onClose, setIsLoading) => {
+    editProduct: async (formData, productId, successNotify, errorNotify, onClose, setIsLoading) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
+            if (token) {
                 const response = await axiosInstance.put('api/AdminProducts/editProduct', formData, {
                     headers: {
-                        productId : productId,
+                        productId: productId,
                         token: token
                     }
                 });
@@ -126,9 +124,8 @@ const apiAdmin = {
     deleteProduct: async (productId, successNotify, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
-                const response = await axiosInstance.delete( 'api/AdminProducts/deleteProduct', {
+            if (token) {
+                const response = await axiosInstance.delete('api/AdminProducts/deleteProduct', {
                     headers: {
                         productId: productId,
                         token: token
@@ -144,16 +141,15 @@ const apiAdmin = {
     fetchUsersList: async (offset, searchTerm, setUsers, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
+            if (token) {
                 const response = await axiosInstance.post('api/AdminUser/usersList', {
-                    searchTerm : searchTerm,
-                    offset : offset
+                    searchTerm: searchTerm,
+                    offset: offset
                 }, {
-                        headers: {
-                                token: token
-                            }
-                    });
+                    headers: {
+                        token: token
+                    }
+                });
                 setUsers(response.data);
             }
 
@@ -173,7 +169,7 @@ const apiAdmin = {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axiosInstance.put( 'api/AdminUser/editUser', data,
+                const response = await axiosInstance.put('api/AdminUser/editUser', data,
                     {
                         headers: {
                             token: token
@@ -184,8 +180,7 @@ const apiAdmin = {
             }
         } catch (error) {
             handleApiError(error, errorNotify);
-        }
-        finally{
+        } finally {
             setIsLoading(false);
         }
     },
@@ -193,7 +188,7 @@ const apiAdmin = {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axiosInstance.delete( 'api/AdminUser/deleteUser', {
+                const response = await axiosInstance.delete('api/AdminUser/deleteUser', {
                     headers: {
                         userId: userId,
                         token: token
@@ -217,11 +212,10 @@ const apiAdmin = {
             handleApiError(error, errorNotify);
         }
     },
-    updateProductsAvailability: async ( products, dateTime, successNotify, errorNotify) => {
+    updateProductsAvailability: async (products, dateTime, successNotify, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
+            if (token) {
                 const response = await axiosInstance.put('api/AdminProduction/updateProductsAvailability', products, {
                     headers: {
                         'DateTime': dateTime,
@@ -249,10 +243,9 @@ const apiAdmin = {
     fetchOrdersList: async (offset, dateTime, phone, setUsers, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
+            if (token) {
                 const response = await axiosInstance.get('api/AdminOrders/ordersList', {
-                    headers:{
+                    headers: {
                         offset: offset,
                         dateTime: dateTime,
                         phone: phone,
@@ -268,9 +261,10 @@ const apiAdmin = {
     fetchOrdersPaginationNumber: async (dateTime, setPaginationNumber, errorNotify) => {
         try {
             const response = await axios.get(connectionUrlString + 'api/AdminOrders/numberOfOrders', {
-                headers:{
+                headers: {
                     dateTime: dateTime
-                }});
+                }
+            });
             setPaginationNumber(response.data);
         } catch (error) {
             handleApiError(error, errorNotify);
@@ -279,13 +273,13 @@ const apiAdmin = {
     changeOrderStatus: async (orderId, errorNotify, successNotify) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
-                const response = await axiosInstance.post( 'api/AdminOrders/changeOrderStatus', null,{
-                    headers:{
+            if (token) {
+                const response = await axiosInstance.post('api/AdminOrders/changeOrderStatus', null, {
+                    headers: {
                         orderId: orderId,
                         token: token
-                    }});
+                    }
+                });
                 successNotify(response.data);
             }
         } catch (error) {
@@ -295,11 +289,10 @@ const apiAdmin = {
     fetchLastDaysSalary: async (setLastDaysSalary, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
-                const response = await axiosInstance.get(  'api/AdminMainPage/lastDaysSalary',
+            if (token) {
+                const response = await axiosInstance.get('api/AdminMainPage/lastDaysSalary',
                     {
-                        headers : {
+                        headers: {
                             token: token
                         }
                     })
@@ -312,8 +305,7 @@ const apiAdmin = {
     fetchProductsLeft: async (setProductsLeft, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
+            if (token) {
                 const response = await axiosInstance.get('api/AdminMainPage/productsLeft',
                     {
                         headers: {
@@ -330,11 +322,10 @@ const apiAdmin = {
     fetchUnfulfilledOrders: async (setUnfulfilledOrders, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
-                const response = await axiosInstance.get( 'api/AdminMainPage/unfulfilledOrders',
+            if (token) {
+                const response = await axiosInstance.get('api/AdminMainPage/unfulfilledOrders',
                     {
-                        headers:{
+                        headers: {
                             token: token
                         }
                     })
@@ -348,11 +339,10 @@ const apiAdmin = {
     fetchNumberOfOrders: async (setNumberOfOrders, errorNotify) => {
         try {
             const token = localStorage.getItem('token');
-            if(token)
-            {
-                const response = await axiosInstance.get( 'api/AdminMainPage/numberOfOrders',
+            if (token) {
+                const response = await axiosInstance.get('api/AdminMainPage/numberOfOrders',
                     {
-                        headers:{
+                        headers: {
                             token: token
                         }
                     })

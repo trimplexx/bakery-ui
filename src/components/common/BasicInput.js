@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BasicInput = ({ id, label, type, value, onChange, maxLength }) => {
+const BasicInput = ({id, label, type, value, onChange, maxLength}) => {
     const handleInputChange = (e) => {
         let inputValue = e.target.value;
 
@@ -14,7 +14,7 @@ const BasicInput = ({ id, label, type, value, onChange, maxLength }) => {
             return;
         }
 
-        onChange({ target: { value: filteredValue } });
+        onChange({target: {value: filteredValue}});
     };
 
     return (

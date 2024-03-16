@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
+
 export const ShoppingCardContext = React.createContext(null);
 
-const ShoppingCardState = ({ children }) => {
+const ShoppingCardState = ({children}) => {
     const [isCardChange, setIsCardChange] = useState(false);
 
-    return(
+    return (
         <ShoppingCardContext.Provider value={{isCardChange, setIsCardChange}}>
             {children}
         </ShoppingCardContext.Provider>

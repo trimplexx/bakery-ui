@@ -1,13 +1,13 @@
-import React from 'react';
+import {useEffect} from "react";
 
-const EditInput = ({ register, id, label, type, value, onChange, maxLength, disabled, minLength }) => {
+const EditInput = ({register, id, label, type, value, onChange, maxLength, disabled, minLength}) => {
 
     const handleInputChange = (e) => {
         let inputValue = e.target.value;
         if (maxLength && inputValue.length > maxLength) {
             inputValue = inputValue.slice(0, maxLength);
         }
-        onChange({ target: { value: inputValue } });
+        onChange({target: {value: inputValue}});
     };
 
     const inputStyle = disabled ? {
@@ -15,13 +15,18 @@ const EditInput = ({ register, id, label, type, value, onChange, maxLength, disa
         cursor: 'not-allowed',
     } : {};
 
+    // Dodajemy useEffect tutaj
+    useEffect(() => {
+        handleInputChange({target: {value: value}});
+    }, [value]);
+
     return (
         <div className="relative flex-grow">
             <input
-                {...register(id, { required: true })}
+                {...register(id, {required: true})}
                 type={type}
                 id={id}
-                value={value}
+                value={value || ''}
                 onChange={handleInputChange}
                 maxLength={maxLength}
                 minLength={minLength}

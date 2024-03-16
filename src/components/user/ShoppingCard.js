@@ -1,20 +1,20 @@
-import React, {useRef, useEffect, useState, useContext} from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {motion, useAnimation} from 'framer-motion';
 import Select from "react-select";
-import { customDropdownStyles } from "../../styles/customDropdownStyles";
-import { IoCashOutline } from "react-icons/io5";
-import { NavLink } from "react-router-dom";
+import {customDropdownStyles} from "../../styles/customDropdownStyles";
+import {IoCashOutline} from "react-icons/io5";
+import {NavLink} from "react-router-dom";
 import ProductShoppingCard from "../common/ProductsShoppingCard";
-import { useOrderFunctions } from "../../hooks/useCardFunctions";
+import {useOrderFunctions} from "../../hooks/useCardFunctions";
 import {FadeLoader} from "react-spinners";
 import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
 import {useCleanLocalStorage} from "../../hooks/useCleanLocalStorage";
 
-const ShoppingCard = ({ isOpen, onClose }) => {
+const ShoppingCard = ({isOpen, onClose}) => {
     const sidebarRef = useRef(null);
     const controls = useAnimation();
     useCleanLocalStorage();
-    const [maxHeight, setMaxHeight] = useState(0);
+    const [, setMaxHeight] = useState(0);
     const {setIsCardChange, isCardChange} = useContext(ShoppingCardContext);
     const {
         productData,
@@ -30,12 +30,12 @@ const ShoppingCard = ({ isOpen, onClose }) => {
     } = useOrderFunctions();
 
     const sidebarVariants = {
-        open: { x: 0 },
-        closed: { x: '100%' }
+        open: {x: 0},
+        closed: {x: '100%'}
     };
 
     useEffect(() => {
-        if(isCardChange === false)
+        if (isCardChange === false)
             setIsCardChange(true)
         else
             setIsCardChange(false)
@@ -52,8 +52,7 @@ const ShoppingCard = ({ isOpen, onClose }) => {
             if (foundOption) {
                 handleSelectChange(foundOption);
             }
-        }
-        else {
+        } else {
             setProductData(null);
             setSelectedOption(null);
         }
@@ -66,6 +65,7 @@ const ShoppingCard = ({ isOpen, onClose }) => {
         }
     }, [sidebarRef, isOpen]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleClickOutside = (e) => {
         if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
             onClose();
@@ -85,9 +85,9 @@ const ShoppingCard = ({ isOpen, onClose }) => {
             <motion.div
                 className="fixed inset-0 z-30 bg-gray-900 opacity-0"
                 onClick={onClose}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isOpen ? 0.5 : 0 }}
-                transition={{ duration: 0.3 }}
+                initial={{opacity: 0}}
+                animate={{opacity: isOpen ? 0.5 : 0}}
+                transition={{duration: 0.3}}
             ></motion.div>
             <motion.aside
                 ref={sidebarRef}
@@ -95,7 +95,7 @@ const ShoppingCard = ({ isOpen, onClose }) => {
                 initial={false}
                 animate={controls}
                 variants={sidebarVariants}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                transition={{duration: 0.3, ease: 'easeInOut'}}
             >
                 <div className="flex justify-end p-4">
                     <div className="relative space-x-1 justify-end">
@@ -104,7 +104,7 @@ const ShoppingCard = ({ isOpen, onClose }) => {
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                  viewBox="0 0 14 14">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                             </svg>
                         </button>
                     </div>
@@ -125,13 +125,13 @@ const ShoppingCard = ({ isOpen, onClose }) => {
                 {isLoading ? (
                     <div className="flex-grow items-center mx-4 h-full bg-gray-300 rounded mb-4 justify-center">
                         <div className="p-4 flex-col items-center justify-center h-full flex text-lg">
-                                <FadeLoader color="#eab308" />
-                                <p className="text-yellow-400 text-2xl font-bold mt-4">Ładowanie...</p>
+                            <FadeLoader color="#eab308"/>
+                            <p className="text-yellow-400 text-2xl font-bold mt-4">Ładowanie...</p>
                         </div>
                     </div>
                 ) : (
                     Array.isArray(productData) && productData.length > 0 ? (
-                        <div className="overflow-y-auto flex-grow" >
+                        <div className="overflow-y-auto flex-grow">
                             {productData.map((product, index) => (
                                 <ProductShoppingCard
                                     key={index}
@@ -159,7 +159,7 @@ const ShoppingCard = ({ isOpen, onClose }) => {
                             onClick={onClose}
                             className="text-center text-md text-black bg-yellow-orange-400 hover:bg-yellow-orange-300 focus:outline-none focus:ring-4 focus:ring-yellow-orange-300 font-medium rounded-full px-5 py-2.5 flex justify-center items-center"
                         >
-                            Przejdź do realizacji <IoCashOutline className="ml-2 text-3xl" />
+                            Przejdź do realizacji <IoCashOutline className="ml-2 text-3xl"/>
                         </button>
                     </NavLink>
                 </div>

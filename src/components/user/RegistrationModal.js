@@ -7,11 +7,11 @@ import FormInput from "../common/FormInput";
 import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import apiUser from "../../utils/apiUser";
 
-const RegistrationModal = ({ onClose, onLoginClick }) => {
-    const { register, handleSubmit} = useForm();
+const RegistrationModal = ({onClose, onLoginClick}) => {
+    const {register, handleSubmit} = useForm();
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [formData, setFormData] = useState({
+    const [, setFormData] = useState({
         firstName: '',
         lastName: '',
         phone: '',
@@ -61,29 +61,44 @@ const RegistrationModal = ({ onClose, onLoginClick }) => {
 
     return (
         <AnimatedModal onClose={onClose}>
-            <form className="bg-white p-7 rounded-lg w-600 shadow-md w-auto sm:w-[700px] h-auto overflow-auto max-h-screen" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="mb-4 mx-8 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329] ">Zarejestruj się</h1>
+            <form
+                className="bg-white p-7 rounded-lg w-600 shadow-md w-auto sm:w-[700px] h-auto overflow-auto max-h-screen"
+                onSubmit={handleSubmit(onSubmit)}>
+                <h1 className="mb-4 mx-8 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329] ">Zarejestruj
+                    się</h1>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
-                    <FormInput register={register} id="firstName" label="Imie" type="text" maxLength="40" onChange={(e) => handleInputChange('firstName', e.target.value)}/>
-                    <FormInput register={register} id="lastName" label="Nazwisko" type="text" maxLength="50" onChange={(e) => handleInputChange('lastName', e.target.value)}/>
+                    <FormInput register={register} id="firstName" label="Imie" type="text" maxLength="40"
+                               onChange={(e) => handleInputChange('firstName', e.target.value)}/>
+                    <FormInput register={register} id="lastName" label="Nazwisko" type="text" maxLength="50"
+                               onChange={(e) => handleInputChange('lastName', e.target.value)}/>
                 </div>
                 <div className="grid gap-6 mb-3">
                     <div className="flex">
-                        <span className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded">
+                        <span
+                            className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded">
                         <span className="fi fi-pl mr-2"></span> +48
                     </span>
-                        <FormInput register={register} id="phone" label="Numer telefonu" type="text" maxLength="9" minLength="9" onChange={(e) => handleInputChange('phone', e.target.value)}/>
+                        <FormInput register={register} id="phone" label="Numer telefonu" type="text" maxLength="9"
+                                   minLength="9" onChange={(e) => handleInputChange('phone', e.target.value)}/>
                     </div>
-                    <FormInput register={register} id="email" label="Email" type="email" maxLength="50" onChange={(e) => handleInputChange('email', e.target.value)}/>
-                    <FormInput register={register} id="password" label="Hasło" type={showPassword ? "text" : "password"} maxLength="20" onChange={(e) => handleInputChange('password', e.target.value)}/>
-                    <FormInput register={register} id="repeatPassword" label="Powtórz hasło" type={showPassword ? "text" : "password"} maxLength="20" onChange={(e) => handleInputChange('repeatPassword', e.target.value)}/>
+                    <FormInput register={register} id="email" label="Email" type="email" maxLength="50"
+                               onChange={(e) => handleInputChange('email', e.target.value)}/>
+                    <FormInput register={register} id="password" label="Hasło" type={showPassword ? "text" : "password"}
+                               maxLength="20" onChange={(e) => handleInputChange('password', e.target.value)}/>
+                    <FormInput register={register} id="repeatPassword" label="Powtórz hasło"
+                               type={showPassword ? "text" : "password"} maxLength="20"
+                               onChange={(e) => handleInputChange('repeatPassword', e.target.value)}/>
                     <div className="flex items-center mb-4">
-                        <input type="checkbox" id="show-password" onClick={toggleShowPassword} value="" className="cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]" />
-                        <label htmlFor="show-password" className="cursor-pointer ml-2 font-medium text-gray-900">Pokaż hasło</label>
+                        <input type="checkbox" id="show-password" onClick={toggleShowPassword} value=""
+                               className="cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]"/>
+                        <label htmlFor="show-password" className="cursor-pointer ml-2 font-medium text-gray-900">Pokaż
+                            hasło</label>
                     </div>
                     <div className="flex-auto items-start">
                         <div className="flex items-center h-5">
-                            <input id="terms" type="checkbox" value="" className=" cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]" required />
+                            <input id="terms" type="checkbox" value=""
+                                   className=" cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]"
+                                   required/>
                             <label htmlFor="terms" className="cursor-pointer ml-2 font-medium text-gray-900 ">
                                 * Akceptuję
                                 <span className="text-gray-500 hover:text-yellow-400 "> Regulamin </span>
@@ -93,10 +108,11 @@ const RegistrationModal = ({ onClose, onLoginClick }) => {
 
                         </div>
                     </div>
-                   <SubmitButton isLoading={isLoading} text="Zarejestruj się"/>
+                    <SubmitButton isLoading={isLoading} text="Zarejestruj się"/>
                 </div>
                 <div className="flex space-x-1 justify-end ">
-                    <p> Posiadasz konto? </p> <span className="cursor-pointer hover:text-yellow-400 text-gray-500" onClick={onLoginClick}> Przejdź do logowania.  </span>
+                    <p> Posiadasz konto? </p> <span className="cursor-pointer hover:text-yellow-400 text-gray-500"
+                                                    onClick={onLoginClick}> Przejdź do logowania.  </span>
                 </div>
             </form>
         </AnimatedModal>

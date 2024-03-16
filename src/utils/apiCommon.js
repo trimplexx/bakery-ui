@@ -26,16 +26,14 @@ const apiCommon = {
                     dateTime: dateTime
                 }
             });
-            if(setIsInfoVisible != null && setIsErrorVisible != null)
-            {
+            if (setIsInfoVisible != null && setIsErrorVisible != null) {
                 setIsInfoVisible(true);
                 setIsErrorVisible(false);
                 setQuantityProductInfo("Dostępność produktu na dzień: " + dateTime + " wynosi: " + response.data);
             }
             setMaxQuantity(response.data);
         } catch (error) {
-            if(setIsInfoVisible != null && setIsErrorVisible != null)
-            {
+            if (setIsInfoVisible != null && setIsErrorVisible != null) {
                 setIsInfoVisible(false);
                 setIsErrorVisible(true);
             }
@@ -51,7 +49,7 @@ const apiCommon = {
         try {
             const response = await axios.post(connectionUrlString + 'api/Ordering/cancelOrder', {}, {
                 headers: {
-                    orderId : orderId
+                    orderId: orderId
                 }
             });
             successNotify(response.data);

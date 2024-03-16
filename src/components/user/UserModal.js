@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import "../../styles/modal.css";
-import { AnimatedModal } from "../common/AnimatedModal";
+import {AnimatedModal} from "../common/AnimatedModal";
 import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import EditData from "./EditData";
 import ChangePassword from "./ChangePassword";
@@ -8,7 +8,7 @@ import OrdersHistory from "./OrdersHistory";
 import apiUser from "../../utils/apiUser";
 import {errorNotify} from "../../helpers/ToastNotifications";
 
-const UserModal = ({ onClose }) => {
+const UserModal = ({onClose}) => {
     useCloseOnEsc(onClose);
     const [showChangePassword, setShowChangePassword] = useState(false);
     const [showEditData, setShowEditData] = useState(true); // Domyślnie ustawione na true
@@ -40,8 +40,7 @@ const UserModal = ({ onClose }) => {
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
-            if(token)
-            {
+            if (token) {
                 const base64Url = token.split('.')[1];
                 const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
                 const decodedToken = JSON.parse(atob(base64));
@@ -61,7 +60,8 @@ const UserModal = ({ onClose }) => {
 
     return (
         <AnimatedModal onClose={onClose}>
-            <div className="flex flex-col w-full h-full max-w-screen-lg max-h-screen mx-auto overflow-auto bg-white rounded-2xl">
+            <div
+                className="flex flex-col w-full h-full max-w-screen-lg max-h-screen mx-auto overflow-auto bg-white rounded-2xl min-h-[65vh]">
                 <div className="flex-shrink-0 bg-gray-300 rounded-t-xl sm:px-4 pt-8 flex flex-col min-h-1/2 max-h-4/5">
                     <div className="flex justify-around">
                         <button
@@ -94,20 +94,18 @@ const UserModal = ({ onClose }) => {
                 </div>
                 <div className="flex-grow p-2 sm:p-4 overflow-auto">
                     {showChangePassword && (
-                        <ChangePassword onClose={() => setShowChangePassword(false)} />
+                        <ChangePassword onClose={() => setShowChangePassword(false)}/>
                     )}
                     {showEditData && (
-                        <EditData onClose={() => setShowEditData(false)} />
+                        <EditData onClose={() => setShowEditData(false)}/>
                     )}
                     {showOrdersHistory && (
-                        <OrdersHistory onClose={() => setShowOrdersHistory(false)} />
+                        <OrdersHistory onClose={() => setShowOrdersHistory(false)}/>
                     )}
                 </div>
             </div>
         </AnimatedModal>
     );
-
-
 
 
 };

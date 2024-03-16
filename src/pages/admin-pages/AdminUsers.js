@@ -8,13 +8,12 @@ import useAuth from "../../hooks/useAuth";
 import CustomPagination from "../../components/common/CustomPagination";
 import apiAdmin from "../../utils/apiAdmin";
 import LoadingComponent from "../../components/common/LoadingComponent";
-import apiUser from "../../utils/apiUser";
 import CustomConfirmModal from "../../components/common/CustomConfirmModal";
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
-   const [isModalClosed, setIsModalClosed] = useState(false);
-    const [isHistoryModalClosed, setIsHistoryModalClosed] = useState(false);
+    const [isModalClosed, setIsModalClosed] = useState(false);
+    const [, setIsHistoryModalClosed] = useState(false);
     const [editedUserId, setEditedUserId] = useState(null);
     const [historyUserPhone, setHistoryUserPhone] = useState(null);
     const {isAdmin} = useAuth();
@@ -71,7 +70,7 @@ const AdminUsers = () => {
     const handleConfirm = async () => {
         setIsLoadingDelete(true);
         await apiAdmin.deleteUser(userId, successNotify, errorNotify)
-            .then(()=>{
+            .then(() => {
                 setUserId(null)
                 setIsLoadingDelete(false);
                 setIsConfirmModalVisible(false);
@@ -155,11 +154,11 @@ const AdminUsers = () => {
                             </td>
                             <td className="px-6 py-4 flex justify-center">
                                 {isAdmin ? (<button
-                                        className="rounded-full bg-white p-2 hover:bg-red-200 mr-1"
-                                        onClick={() => handleDeleteUser(user.userId)}
-                                    >
-                                        <FaTrashAlt className="text-red-500"/>
-                                    </button>) : null}
+                                    className="rounded-full bg-white p-2 hover:bg-red-200 mr-1"
+                                    onClick={() => handleDeleteUser(user.userId)}
+                                >
+                                    <FaTrashAlt className="text-red-500"/>
+                                </button>) : null}
                             </td>
                         </tr>))}
                     </tbody>

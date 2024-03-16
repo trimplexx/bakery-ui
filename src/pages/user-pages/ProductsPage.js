@@ -18,6 +18,7 @@ import apiAdmin from "../../utils/apiAdmin";
 import apiCommon from "../../utils/apiCommon";
 import LoadingComponent from "../../components/common/LoadingComponent";
 import {LocalStorageCheck} from "../../helpers/LocalStorageCheck";
+import useMinDate from "../../hooks/useMinDate";
 
 const ProductsPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -32,8 +33,7 @@ const ProductsPage = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [categoriesMap, setCategoriesMap] = useState({});
-    const now = new Date();
-    const minDate = (now.getHours() < 15 || (now.getHours() === 15 && now.getMinutes() < 45)) ? now : new Date(now.setDate(now.getDate() + 1));
+    const minDate = useMinDate();
 
 
     useEffect(() => {
@@ -127,7 +127,7 @@ const ProductsPage = () => {
                 <div className="w-auto p-4 grid grid-cols-1 md:grid-cols-8">
                     <div className="h-12 z-20 my-2 md:col-span-2">
                         <CustomDatePicker
-                            minDate={minDate}
+                            minDate={minDate()}
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                             color="[#EBEBEB]"
@@ -207,7 +207,7 @@ const ProductsPage = () => {
                     <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}
                                       initialPage={currentPage}/>
                 </div>
-        </div>}
+            </div>}
     </div>);
 };
 

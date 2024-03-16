@@ -85,28 +85,29 @@ export const UserNavMenu = () => {
                 <li>
                     <motion.div variants={linkVariants} whileHover="hover" whileTap="tap">
                         <div onClick={handleCartIconClick} className={`icon ${menuOpen ? 'icon-open' : ''}`}>
-                            <FaShoppingCart />
+                            <FaShoppingCart/>
                         </div>
                     </motion.div>
                 </li>
 
                 {isAdmin ? (<li className="admin-icon">
                     <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink to="/admin/home"
-                                                                                             className={`icon ${menuOpen ? 'icon-open' : ''}`}>
+                                                                                                   className={`icon ${menuOpen ? 'icon-open' : ''}`}>
                         <FaToolbox/> </NavLink></motion.div>
                 </li>) : null}
             </ul>
         </nav>
-        <ShoppingCard isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <ShoppingCard isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)}/>
         {!isLoggedIn && modalOpen === 'login' &&
-            <LoginModal isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={handleRegisterClick} onForgotPasswordClick={handleForgotClick}/>}
+            <LoginModal isOpen={true} onClose={() => setModalOpen(null)} onRegisterClick={handleRegisterClick}
+                        onForgotPasswordClick={handleForgotClick}/>}
         {!isLoggedIn && modalOpen === 'register' &&
             <RegistrationModal isOpen={true} onClose={() => setModalOpen(null)} onLoginClick={handleLoginClick}/>}
         {!isLoggedIn && modalOpen === 'forgot' &&
             <ForgotPasswordModal isOpen={true} onClose={() => setModalOpen(null)} onLoginClick={handleLoginClick}/>}
 
         {isLoggedIn && userModalOpen && (
-            <UserModal isOpen={true} onClose={() => setUserModalOpen(false)} />
+            <UserModal isOpen={true} onClose={() => setUserModalOpen(false)}/>
         )}
 
         <Outlet/>

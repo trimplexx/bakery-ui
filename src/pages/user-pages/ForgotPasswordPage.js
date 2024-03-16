@@ -13,7 +13,7 @@ const ForgotPasswordPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
+    const [, setFormData] = useState({
         password: '',
     });
 
@@ -57,10 +57,14 @@ const ForgotPasswordPage = () => {
                         literę oraz jedną cyfrę, maksymalnie 20 znaków
                     </h1>
                     <div className="grid gap-6 mt-8 mb-14">
-                        <FormInput register={register} id="password" label="Hasło" type={showPassword ? "text" : "password"} maxLength="20" onChange={(e) => handleInputChange('password', e.target.value)}/>
+                        <FormInput register={register} id="password" label="Hasło"
+                                   type={showPassword ? "text" : "password"} maxLength="20"
+                                   onChange={(e) => handleInputChange('password', e.target.value)}/>
                         <div className="flex items-center mb-4">
-                            <input type="checkbox" id="show-password" onClick={toggleShowPassword} value="" className="cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]" />
-                            <label htmlFor="show-password" className="cursor-pointer ml-2 text-sm font-medium text-gray-900">Pokaż hasło</label>
+                            <input type="checkbox" id="show-password" onClick={toggleShowPassword} value=""
+                                   className="cursor-pointer w-4 h-4 text-[#fda329] bg-gray-100 border-gray-300 rounded focus:ring-[#fda329]"/>
+                            <label htmlFor="show-password"
+                                   className="cursor-pointer ml-2 text-sm font-medium text-gray-900">Pokaż hasło</label>
                         </div>
                     </div>
                     <SubmitButton isLoading={isLoading} text="Zmień hasło"/>

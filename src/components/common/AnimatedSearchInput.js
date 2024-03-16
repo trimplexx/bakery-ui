@@ -1,9 +1,9 @@
 import React from "react";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
-const AnimatedSearchInput = ({ isSearchOpen, searchTerm, onInputChange }) => {
+const AnimatedSearchInput = ({isSearchOpen, searchTerm, onInputChange}) => {
     const inputVariants = {
-        hidden: { x: "100%" },
+        hidden: {x: "100%"},
         visible: {
             x: 0,
             transition: {

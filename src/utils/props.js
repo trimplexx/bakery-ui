@@ -1,5 +1,4 @@
 export const home = process.env.PUBLIC_URL;
-
 export const addImage = home + "/images/addImage.jpg";
 export const bakeryLogo = home + "/images/BakeryLogo.png";
 export const notFoundImage = home + "/images/notFoundImage.png";

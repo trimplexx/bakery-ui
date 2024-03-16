@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import apiUser from "../../utils/apiUser";
 import {errorNotify} from "../../helpers/ToastNotifications";
 
-const ProductsCategories = ({ selectedCategories, handleCategorySelection }) => {
+const ProductsCategories = ({selectedCategories, handleCategorySelection}) => {
     const [categoriesMap, setCategoriesMap] = useState({});
 
     const getCategoryButtonClass = (category) => {
@@ -19,7 +19,7 @@ const ProductsCategories = ({ selectedCategories, handleCategorySelection }) => 
     }, []);
 
     const buttonVariants = {
-        hidden: { x: 100, opacity: 0 },
+        hidden: {x: 100, opacity: 0},
         visible: {
             x: 0,
             opacity: 1,
@@ -39,7 +39,7 @@ const ProductsCategories = ({ selectedCategories, handleCategorySelection }) => 
                 animate="visible"
                 variants={buttonVariants}
             >
-                {Object.entries(categoriesMap).map(([category, number]) => (
+                {Object.entries(categoriesMap).map(([category]) => (
                     <button
                         key={category}
                         className={getCategoryButtonClass(category)}

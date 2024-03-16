@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 import {errorNotifyStorage, successNotifyStorage} from "../helpers/ToastNotifications";
 
 const useToastStorage = () => {

@@ -8,7 +8,7 @@ const LogoutPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        apiUser.logout(setIsLoading,navigate)
+        apiUser.logout(setIsLoading, navigate)
     }, []);
 
 

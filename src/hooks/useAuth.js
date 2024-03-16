@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 const useAuth = () => {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -11,12 +11,12 @@ const useAuth = () => {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             const decodedToken = JSON.parse(atob(base64));
-            if(decodedToken.isAdmin === 'True')
+            if (decodedToken.isAdmin === 'True')
                 setIsAdmin(true);
         }
     }, []);
 
-    return { isAdmin, isLoggedIn };
+    return {isAdmin, isLoggedIn};
 };
 
 

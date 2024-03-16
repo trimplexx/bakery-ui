@@ -11,9 +11,9 @@ import apiCommon from "../../utils/apiCommon";
 
 const ForgotPasswordModal = ({onClose, onLoginClick}) => {
     useCloseOnEsc(onClose);
-    const { register, handleSubmit} = useForm();
+    const {register, handleSubmit} = useForm();
     const [isLoading, setIsLoading] = useState(false);
-    const [formData, setFormData] = useState({
+    const [, setFormData] = useState({
         email: '',
     });
 
@@ -32,28 +32,28 @@ const ForgotPasswordModal = ({onClose, onLoginClick}) => {
     return (
         <AnimatedModal onClose={onClose}>
             <div className="w-auto h-auto overflow-auto max-h-screen bg-white rounded-lg divide-x-2 divide-gray-300">
-                    <form className="px-7 py-4" onSubmit={handleSubmit(onSubmit)}>
-                        <h1 className="mb-2 text-4xl text-center max-w-lg font-[lucida-console] leading-loose text-[#fda329]">
-                            Zapomniałeś hasła?
-                        </h1>
-                        <h1 className="text-lg text-center max-w-lg font-sans leading-loose text-black">
-                            Wpisz adres e-mail podany podczas rejestracji konta.
-                        </h1>
-                        <div className="grid gap-6 mt-8 mb-14">
-                            <FormInput
-                                register={register}
-                                id="email"
-                                label="Email"
-                                type="email"
-                                maxLength="50"
-                                onChange={(e) => handleInputChange('email', e.target.value)}
-                            />
-                        </div>
-                            <SubmitButton isLoading={isLoading} text="Wyślij link" />
-                    </form>
-                    <div className="px-7 mb-6">
-                    <MotionButton onClick={onLoginClick} color="red-600" text="Anuluj"></MotionButton>
+                <form className="px-7 py-4" onSubmit={handleSubmit(onSubmit)}>
+                    <h1 className="mb-2 text-4xl text-center max-w-lg font-[lucida-console] leading-loose text-[#fda329]">
+                        Zapomniałeś hasła?
+                    </h1>
+                    <h1 className="text-lg text-center max-w-lg font-sans leading-loose text-black">
+                        Wpisz adres e-mail podany podczas rejestracji konta.
+                    </h1>
+                    <div className="grid gap-6 mt-8 mb-14">
+                        <FormInput
+                            register={register}
+                            id="email"
+                            label="Email"
+                            type="email"
+                            maxLength="50"
+                            onChange={(e) => handleInputChange('email', e.target.value)}
+                        />
                     </div>
+                    <SubmitButton isLoading={isLoading} text="Wyślij link"/>
+                </form>
+                <div className="px-7 mb-6">
+                    <MotionButton onClick={onLoginClick} color="red-600" text="Anuluj"></MotionButton>
+                </div>
             </div>
         </AnimatedModal>
 

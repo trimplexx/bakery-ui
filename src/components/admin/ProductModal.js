@@ -33,8 +33,7 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
     };
 
     const submitForm = async (formData) => {
-        const categories = selectedOption ? selectedOption.map(option => option.value) : null;
-        formData.categories = categories;
+        formData.categories = selectedOption ? selectedOption.map(option => option.value) : null;
 
         if (backgroundImage) {
             const imageFile = await createImageFileFromImageUrl(backgroundImage, formData.name, errorNotify);
@@ -73,7 +72,7 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
 
     useEffect(() => {
         const fetchData = async () => {
-            await apiAdmin.fetchProductCategories(setOptions,null, errorNotify);
+            await apiAdmin.fetchProductCategories(setOptions, null, errorNotify);
         };
         fetchData();
 
@@ -92,7 +91,7 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
     }, [productsData, options, setBackgroundImage, setSelectedOption]);
 
     const handleInputChange = (id, newValue) => {
-        setProductsData(prevData => ({ ...prevData, [id]: newValue }));
+        setProductsData(prevData => ({...prevData, [id]: newValue}));
     };
 
     return (<div className="fixed inset-0 z-50">
@@ -121,12 +120,14 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
 
                         <div className="mt-4">
                             <FormInput register={register} id="name" label="Nazwa produktu" type="text" maxLength="45"
-                                       value={productsData.name} onChange={(e) => handleInputChange('name', e.target.value)}/>
+                                       value={productsData.name}
+                                       onChange={(e) => handleInputChange('name', e.target.value)}/>
                         </div>
                         <div className="w-auto flex mt-4">
                             <div className="relative w-full">
                                 <FormInput register={register} id="price" label="Cena" type="text" maxLength="10"
-                                           value={productsData.price} onChange={(e) => handleInputChange('price', e.target.value)}/>
+                                           value={productsData.price}
+                                           onChange={(e) => handleInputChange('price', e.target.value)}/>
                             </div>
                             <span
                                 className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-e-lg">
@@ -134,8 +135,10 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
                                 </span>
                         </div>
                         <div className="mt-4">
-                            <FormInput register={register} id="weight" label="Masa netto (G)" type="number" maxLength="20"
-                                       value={productsData.weight} onChange={(e) => handleInputChange('weight', e.target.value)}/>
+                            <FormInput register={register} id="weight" label="Masa netto (G)" type="number"
+                                       maxLength="20"
+                                       value={productsData.weight}
+                                       onChange={(e) => handleInputChange('weight', e.target.value)}/>
                         </div>
                         <div className="relative mt-4">
                             <Select
@@ -148,7 +151,8 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
                             />
                         </div>
                     </div>
-                    <NutritionalTable register={register} productsData={productsData} setProductsData={setProductsData}/>
+                    <NutritionalTable register={register} productsData={productsData}
+                                      setProductsData={setProductsData}/>
                     <div className="relative md:col-span-5">
                             <textarea id="description" {...register("description")}
                                       value={productsData.description}

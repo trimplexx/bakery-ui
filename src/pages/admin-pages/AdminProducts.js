@@ -30,7 +30,7 @@ const AdminProducts = () => {
 
     const loadingElements = () => {
         const fetchCategories = async () => {
-            await apiAdmin.fetchProductCategories(setOptions,null, errorNotify);
+            await apiAdmin.fetchProductCategories(setOptions, null, errorNotify);
         };
 
         const categories = selectedOption ? selectedOption.map(option => option.value) : null;
@@ -139,7 +139,8 @@ const AdminProducts = () => {
                     <SearchInput text="Wyszukaj produkt..." onChange={handleSearchInputChange}/>
                 </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 justify-center mb-10">
+            <div
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 justify-center mb-10">
                 <div className="flex justify-center items-start py-4 px-2">
                     <div
                         className="w-full h-full max-w-sm bg-[#c4c2c2] border-4 border-[#c4c2c2] hover:border-yellow-300 rounded-lg shadow cursor-pointer">
