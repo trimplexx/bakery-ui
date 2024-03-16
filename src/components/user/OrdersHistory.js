@@ -11,7 +11,7 @@ const OrdersHistory = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [orders, setOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [isLoadingButton, setIsLoadingButton] = useState(true);
+    const [isLoadingButton, setIsLoadingButton] = useState(false);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const [orderId, setOrderId] = useState(null);
     const [isErrorVisible, setIsErrorVisible] = useState(false);
@@ -41,7 +41,7 @@ const OrdersHistory = () => {
         } else {
             errorNotify('Brak tokenu w localStorage');
         }
-    }, [currentPage]);
+    }, [currentPage,isLoadingButton]);
 
     const handleCancelOrder = async (orderId) => {
         setOrderId(orderId)

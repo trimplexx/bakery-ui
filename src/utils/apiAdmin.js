@@ -179,7 +179,8 @@ const apiAdmin = {
                             token: token
                         }
                     });
-                successNotify(response.data);
+                localStorage.setItem("token", response.data);
+                successNotify("Poprawnie zaaktualizowano dane.");
             }
         } catch (error) {
             handleApiError(error, errorNotify);

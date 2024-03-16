@@ -12,12 +12,14 @@ import CustomConfirmModal from "../../components/common/CustomConfirmModal";
 import {FadeLoader} from "react-spinners";
 import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
 import {useCleanLocalStorage} from "../../hooks/useCleanLocalStorage";
+import {CustomAlert} from "../../components/common/CustomAlert";
 
 const OrderSumaryPage = () => {
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const {isCardChange} = useContext(ShoppingCardContext);
     useCleanLocalStorage();
-    const phoneRef = useRef(null);
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
+    let phoneRef = useRef(null);
     const {
         productData,
         setProductData,
@@ -42,7 +44,16 @@ const OrderSumaryPage = () => {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             const decodedToken = JSON.parse(atob(base64));
-            phoneRef.current = decodedToken.Phone;
+            if(decodedToken.Phone === "")
+            {
+                setIsErrorVisible(true);
+                phoneRef = null;
+            }
+            else
+            {
+                phoneRef.current = decodedToken.Phone.substring(3);
+            }
+
         }
 
         // Wczytaj wybraną opcję z localStorage
@@ -117,8 +128,15 @@ const OrderSumaryPage = () => {
         setIsConfirmModalVisible(false);
     };
 
-    return (<div className=" h-full bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-5 sm:p-10 xl:p-16 2xl:p-20 flex justify-center">
+    const handleErrorClose = () => {
+        setIsErrorVisible(false);
+    };
+
+    return (<div className=" h-full bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-5 sm:p-10 xl:px-16 2xl:px-20 xl:py-10 flex justify-center">
         <div className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl">
+            {phoneRef ?
+                <CustomAlert isVisible={isErrorVisible} type="error" info="Musisz uzupełnić numer telefonu w danych profilu po kliknięciu ikony użytkownika." handleClose={handleErrorClose} />
+                : null}
             <div className="p-4 w-full lg:w-96">
                 <Select
                     options={storedDates}
@@ -186,6 +204,7 @@ const OrderSumaryPage = () => {
                                 value={phoneRef.current}
                                 disabled={isUserLoggedIn}
                             />
+
                             {isUserLoggedIn && (<FaLock
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"/>)}
                             <label

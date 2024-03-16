@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {FaTrashAlt} from "react-icons/fa";
+import {notFoundImage} from "../../utils/props";
 
 const ProductShoppingCard = ({ product, index, date, handleDelete, handleQuantityChange }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +13,7 @@ const ProductShoppingCard = ({ product, index, date, handleDelete, handleQuantit
         <div key={index} className={`flex sm:mx-4 bg-gray-300 rounded mb-4 ${isLoading ? 'animate-pulse' : ''}`}>
             <img
                 className="w-40 h-auto rounded-lg shadow-xl"
-                src={product.image}
+                src={product.image ? product.image : notFoundImage}
                 alt="image description"
                 onLoad={handleImageLoad}
             />
