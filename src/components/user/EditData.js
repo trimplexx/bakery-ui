@@ -61,7 +61,7 @@ const EditData = () => {
                                             className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-300 border border-gray-400 rounded">
                                             <span className="fi fi-pl mr-2"></span> +48
                                         </span>
-                    <EditInput register={register} id="phone" label="Numer telefonu" maxLength="9" minLength="9"
+                    <EditInput register={register} id="phone" label="Numer telefonu"
                                type="text"
                                value={userData.phone} onChange={(e) => handleInputChange('phone', e.target.value)}/>
                 </div>
