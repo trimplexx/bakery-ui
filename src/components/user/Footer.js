@@ -21,7 +21,7 @@ const Footer = () => {
                         <p className="text-gray-700 py-1">
                             <strong>Telefon:</strong> 123-456-789</p>
                         <p className="text-gray-700 py-1">
-                            <strong>Email:</strong> kontakt@piekarnia.com</p>
+                            <strong>Email:</strong> kontakt@trzebachleba.pl</p>
                     </div>
 
                     <div className="mb-4 lg:mb-0">

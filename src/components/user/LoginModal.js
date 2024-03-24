@@ -51,10 +51,10 @@ const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
     return (
         <AnimatedModal onClose={onClose}>
             <div
-                className="grid grid-cols-1 sm:grid-cols-2 w-auto h-auto overflow-auto max-h-screen bg-white rounded-lg divide-x-2 divide-gray-300">
+                className="grid grid-cols-1 sm:grid-cols-2 w-auto h-auto overflow-auto max-h-screen bg-white rounded-lg sm:divide-x-2 sm:divide-gray-300">
                 <div>
                     <form className="p-7" onSubmit={handleSubmit(onSubmit)} noValidate>
-                        <h1 className="mb-8 text-4xl text-center max-w-lg font-[lucida-console] leading-loose text-[#fda329]">
+                        <h1 className="mb-8 text-4xl text-center max-w-lg font-[Anuphan] leading-loose text-[#fda329]">
                             Zaloguj się
                         </h1>
                         <div className="grid gap-6 mb-2">
@@ -91,7 +91,7 @@ const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
                     </form>
                     <div className="flex justify-center items-center space-x-4">
                         <div className="h-0.5 bg-gray-300 w-20"></div>
-                        <span className="text-gray-700 text-lg font-medium text-[lucida-console]">lub</span>
+                        <span className="text-gray-700 text-lg font-medium text-[Anuphan]">lub</span>
                         <div className="h-0.5 bg-gray-300 w-20"></div>
                     </div>
                     <div className="flex flex-col justify-center items-center space-y-4 px-7 pt-6 pb-2">
@@ -104,12 +104,12 @@ const LoginModal = ({onClose, onRegisterClick, onForgotPasswordClick}) => {
                     </div>
                 </div>
                 <div className="p-7 sm:p-10">
-                    <h1 className="mb-2 text-2xl max-w-lg font-[lucida-console] leading-loose text-yellow-400">Nie
+                    <h1 className="mb-2 text-2xl max-w-lg font-[Anuphan] leading-loose text-yellow-400">Nie
                         posiadasz konta?</h1>
                     <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Korzyści są
                         następujące: </h2>
                     <LoginModalList/>
-                    <MotionButton color="yellow-400" text="Załóż konto" onClick={onRegisterClick}></MotionButton>
+                    <MotionButton color="yellow-400 mb-20 sm:mb-0" text="Załóż konto" onClick={onRegisterClick}></MotionButton>
                 </div>
             </div>
         </AnimatedModal>

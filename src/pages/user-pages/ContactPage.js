@@ -29,16 +29,16 @@ const ContactPage = () => {
             className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl xl:grid xl:grid-cols-5 gap-4">
             <Fade left>
                 <div className=" text-gray-800 p-2">
-                    <h2 className="text-3xl mb-2 text-[lucida-console]"
-                        style={{fontFamily: 'Lucida Console, serif'}}>Kontakt</h2>
-                    <p className="text-gray-700 py-1 text-xl" style={{fontFamily: 'Lucida Console, serif'}}>
+                    <h2 className="text-3xl mb-2 text-[Anuphan]"
+                        style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Kontakt</h2>
+                    <p className="text-gray-700 py-1 text-xl" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                         <strong> Trzeba Chleba</strong></p>
-                    <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
+                    <p className="text-gray-700 py-1" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                         <strong>Adres:</strong> ul. Plebiscytowa 7, 40-035 Katowice</p>
-                    <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
+                    <p className="text-gray-700 py-1" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                         <strong>Telefon:</strong> 123-456-789</p>
-                    <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
-                        <strong>Email:</strong> kontakt@piekarnia.com</p>
+                    <p className="text-gray-700 py-1" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
+                        <strong>Email:</strong> kontakt@trzebachleba.pl</p>
                 </div>
             </Fade>
 
@@ -59,7 +59,7 @@ const ContactPage = () => {
                             Skontaktuj się z nami
                         </h1>
                     </div>
-                    <p className="text-gray-700 py-1 mb-4" style={{fontFamily: 'Lucida Console, serif'}}>Zauważyłeś
+                    <p className="text-gray-700 py-1 mb-4" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Zauważyłeś
                         jakiś problem na naszej stronie, bądź masz jakieś pytanie? Wypełnij formularz swoimi danymi oraz
                         wiadomością, którą chcesz do nas dostarczyć, a my odezwiemy się w wiadomości mailowej tak szybko
                         jak to będzie możliwe.</p>

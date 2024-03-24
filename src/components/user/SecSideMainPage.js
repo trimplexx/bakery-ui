@@ -16,9 +16,9 @@ const SecSideMainPage = ({
         <div className="p-2 md:p-4 lg:p-8 flex flex-col">
             <Fade right>
                 <h2 className="text-white text-3xl lg:text-4xl py-8 text-center"
-                    style={{fontFamily: 'Lucida Console, serif'}}> Odkrywaj smaki </h2>
-                <p className="p-4 text-xl lg:text-2xl lg:px-8 text-white text-center"
-                   style={{fontFamily: 'Lucida Console, serif'}}>
+                    style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}> Odkrywaj smaki </h2>
+                <p className="text-xl md:text-2xl lg:text-2xl px-5 sm:px-20 lg:px-2 xl:px-4 2xl:px-20 text-white text-center py-2 lg:py-10"
+                   style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                     Odkryj nasze wyjątkowe wypieki, które są wynikiem połączenia tradycyjnych receptur
                     z nowoczesnym podejściem do pieczenia. Każdy produkt jest pieczony z najwyższej
                     jakości składników, z miłością i pasją.<br/><br/>
@@ -36,8 +36,8 @@ const SecSideMainPage = ({
                     <strong className="text-yellow-orange-200"> Soboty w godzinach 7:30 - 14:00 </strong> <br/>
                 </p>
                 <p className="p-4 text-xl lg:text-2xl lg:px-8 text-white text-center"
-                   style={{fontFamily: 'Lucida Console, serif'}}>
-                    Jeśli nasuwają ci się jakieś pytania radzimy zaznajomić się z naszym <NavLink to="/faq"
+                   style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
+                    Jeśli nasuwają ci się jakieś pytania zachęcamy zaznajomić się z naszym <NavLink to="/faq"
                                                                                                   className="text-yellow-orange-200 hover:text-yellow-orange-300"> FAQ</NavLink>
                 </p>
                 <div className="flex justify-center p-4">
@@ -45,7 +45,7 @@ const SecSideMainPage = ({
                         type="button"
                         onClick={handleRegisterClick}
                         className="items-center text-gray-900 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-md lg:text-lg px-5 py-2.5 me-2 mb-2"
-                        style={{fontFamily: 'Lucida Console, serif'}}
+                        style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}
                     >
                         Zarejestruj się!
                     </button>

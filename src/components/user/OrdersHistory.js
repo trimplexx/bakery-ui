@@ -72,7 +72,7 @@ const OrdersHistory = () => {
     };
 
     return (<div>
-        {isLoading ? <LoadingComponent/> : <div className="min-h-[450px]">
+        {isLoading ? <LoadingComponent/> : <div className="mb-auto sm:pb-0">
             <OrdersTable
                 orders={orders}
                 handleCancelOrder={handleCancelOrder}

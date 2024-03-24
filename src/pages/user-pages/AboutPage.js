@@ -51,14 +51,14 @@ const AboutPage = () => {
                     className="w-full bg-gray-400 p-4 sm:px-10 xl:px-16 2xl:px-40 rounded-2xl xl:rounded-none xl:rounded-l-2xl  xl:col-span-2 xl:col-start-2">
                     <Fade top>
                         <h2 className="text-white text-4xl lg:text-5xl py-8 text-center"
-                            style={{fontFamily: 'Lucida Console, serif'}}>
+                            style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                             Witajcie w piekarni "Trzeba chleba"
                         </h2>
                     </Fade>
 
                     <Fade right>
                         <p className="p-4 lg:text-lg text-white text-center"
-                           style={{fontFamily: 'Lucida Console, serif'}}>
+                           style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                             Jesteśmy nowo otwartą piekarnią zlokalizowaną w samym sercu Katowic. Nasza piekarnia to
                             miejsce, gdzie tradycja spotyka się z nowoczesnością, a pasja do pieczenia przenika każdy
                             wypiekany przez nas bochenek.<br/><br/>
@@ -85,9 +85,9 @@ const AboutPage = () => {
                     </Fade>
                     <Fade bottom>
                         <h2 className="text-white lg:text-xl py-2 text-end"
-                            style={{fontFamily: 'Lucida Console, serif'}}>Smacznego!</h2>
+                            style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Smacznego!</h2>
                         <h2 className="text-white lg:text-xl py-2 text-end"
-                            style={{fontFamily: 'Lucida Console, serif'}}>Zespół piekarni "Trzeba chleba"</h2>
+                            style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Zespół piekarni "Trzeba chleba"</h2>
                     </Fade>
                 </div>
             </div>

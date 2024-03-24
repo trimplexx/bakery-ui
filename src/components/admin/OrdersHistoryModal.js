@@ -58,16 +58,16 @@ const OrdersHistoryModal = ({onClose, userId}) => {
 
     return (<div>
             {isLoading ? <LoadingComponent/> :
-                <div className="fixed inset-0 z-50">
+                <div className="fixed inset-0 z-50 ">
                     <AnimatedModal onClose={onClose}>
-                        <div className="p-6 bg-white rounded-2xl">
-                            <OrdersTable
-                                orders={orders}
-                                paginationNumber={paginationNumber}
-                                handlePageChange={handlePageChange}
-                                handleCancelOrder={handleCancelOrder}
-                                currentPage={currentPage}
-                            />
+                        <div className="px-1 py-5 sm:p-6 bg-white rounded-2xl min-h-[90vh] max-h-[85vh] sm:max-h-none overflow-y-auto">
+                                <OrdersTable
+                                    orders={orders}
+                                    paginationNumber={paginationNumber}
+                                    handlePageChange={handlePageChange}
+                                    handleCancelOrder={handleCancelOrder}
+                                    currentPage={currentPage}
+                                />
                             <CustomConfirmModal
                                 visible={isConfirmModalVisible}
                                 message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}

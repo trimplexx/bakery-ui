@@ -4,7 +4,7 @@ import {LuTimerReset} from "react-icons/lu";
 import CustomPagination from "./CustomPagination";
 import React from "react";
 import MotionButton from "./MotionButton";
-import {endOfDay, isBefore, parse} from "date-fns";
+import {endOfDay, isBefore, isToday, parse} from "date-fns";
 import {BsCalendar2DateFill} from "react-icons/bs";
 import {CustomAlert} from "./CustomAlert";
 
@@ -28,7 +28,7 @@ const OrdersTable = ({
         </div>);
     }
 
-    return (<div className="p-2 sm:mx-4 max-w-screen-lg">
+    return (<div className="p-2 sm:mx-4 max-w-screen-lg ">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
@@ -81,15 +81,19 @@ const OrdersTable = ({
                                 <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true}
                                               disabledText="Zamówienie zostało odebrane"></MotionButton> :
                                 order.status === 1 ?
-                                    isBefore(endOfDay(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())), new Date()) ?
-                                        <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true}
-                                                      disabledText="Zamówienie jest przedawnione"></MotionButton> :
-                                        <MotionButton onClick={() => handleCancelOrder(order.orderId)}
-                                                      color="red-600"
-                                                      text="Anuluj zamówienie"></MotionButton> :
-                                    <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true}
-                                                  disabledText="Zamówienie zostało już anulowane"></MotionButton>}
-                        </div>
+                                    (isBefore(endOfDay(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())), new Date())
+                                        || (isToday(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())) && new Date().getHours() >= 17)) ?
+                                        <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienie jest przedawnione"></MotionButton>
+                                        : (!isToday(new Date(order.formattedOrderDate)) && (
+                                            (new Date().getHours() > 15 && new Date().getDay() !== 6) ||
+                                            (new Date().getDay() === 6 && new Date().getHours() > 12)
+                                        )) ?
+                                            <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienia nie można anulować na 2h przed zamknięciem lokalu"></MotionButton>
+                                            : <MotionButton onClick={() => handleCancelOrder(order.orderId)} color="red-600" text="Anuluj zamówienie"></MotionButton>
+                                    : <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienie zostało już anulowane"></MotionButton>}
+
+                                </div>
+
                     </td>
                 </tr>))}
                 </tbody>

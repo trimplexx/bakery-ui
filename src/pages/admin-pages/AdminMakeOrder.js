@@ -150,9 +150,9 @@ const AdminMakeOrder = () => {
 
 
     return (<div>
-        {isLoading ? <LoadingComponent/> : <div>
+        {isLoading ? <LoadingComponent/> : <div className="pb-16">
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                <div className="h-14 z-50">
+                <div className="h-14 z-30">
                     <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white"
                                       minDate={new Date()}/>
                 </div>
@@ -161,13 +161,17 @@ const AdminMakeOrder = () => {
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" className="px-6 py-3">
+                        <th scope="col" className="px-2 sm:px-6 py-3">
+                            <div className="flex justify-center items-center">
                             Nazwa produktu
+                            </div>
                         </th>
-                        <th scope="col" className="px-6 py-3">
+                        <th scope="col" className="px-2 sm:px-6 py-3">
+                            <div className="flex justify-center items-center">
                             Ilość
+                            </div>
                         </th>
-                        <th scope="col" className="px-6 py-3">
+                        <th scope="col" className="px-2 sm:px-6 py-3">
                         </th>
                     </tr>
                     </thead>
@@ -185,7 +189,9 @@ const AdminMakeOrder = () => {
                                 />
                             </div>
                         </th>
-                        <td className="px-6 py-4">
+                        <td className="px-2 sm:px-6 py-4">
+                            <div className="flex justify-center items-center">
+                                <div className="max-w-lg">
                             <BasicInput
                                 id="quantity"
                                 type="number"
@@ -193,14 +199,18 @@ const AdminMakeOrder = () => {
                                 value={selectedQuantity}
                                 onChange={(e) => handleAddQuantityChange(e.target.value)}
                             />
+                                </div>
+                            </div>
                         </td>
                         <td className="flex justify-center py-6">
+                            <div className="flex justify-center items-center">
                             <button
                                 className="rounded-full bg-white p-2 hover:bg-green-200 mr-1"
                                 onClick={addToLocalStorage}
                             >
-                                <FaPlus className="text-green-500 text-3xl"/>
+                                <FaPlus className="text-green-500 text-xl sm:text-3xl"/>
                             </button>
+                            </div>
                         </td>
                     </tr>
                     {productsList.map((product, index) => (<tr
@@ -208,11 +218,15 @@ const AdminMakeOrder = () => {
                         className={`${index % 2 === 0 ? 'even:bg-gray-50 even:dark:bg-gray-800' : 'odd:bg-white odd:dark:bg-gray-900'} border-b dark:border-gray-700`}
                     >
                         <th scope="row" className="py-2 font-bold text-lg whitespace-nowrap">
-                            <div className="px-6">
+                            <div className="px-2 sm:px-6">
+                                <div className="flex justify-center items-center">
                                 {product.name}
+                                </div>
                             </div>
                         </th>
-                        <td className="px-6 py-4">
+                        <td className="px-2 sm:px-6 py-4 max-w-xl">
+                            <div className="flex justify-center items-center">
+                            <div className="max-w-lg">
                             <BasicInput
                                 id={`quantity-${product.index}`}
                                 type="number"
@@ -220,25 +234,29 @@ const AdminMakeOrder = () => {
                                 value={product.quantity}
                                 onChange={(e) => handleEditQuantityChange(index, e.target.value)}
                             />
+                            </div>
+                            </div>
                         </td>
                         <td className="flex justify-center py-6">
+                            <div className="flex justify-center items-center">
                             <button
                                 className="rounded-full bg-white p-2 hover:bg-red-200 mr-1"
                                 onClick={handleDeleteFromList}
                             >
-                                <FaTrashAlt className="text-red-500 text-3xl"/>
+                                <FaTrashAlt className="text-red-500 text-xl sm:text-3xl"/>
                             </button>
+                            </div>
                         </td>
                     </tr>))}
                     </tbody>
                 </table>
             </div>
-            <div className="flex justify-end p-4 gap-4">
+            <div className="flex justify-end p-2 sm:p-4 gap-4 h-16 sm:h-full">
                 <MotionButton
                     text="Zamów"
                     color="green-600"
                     onClick={handleMakeOrder}
-                />
+                    />
                 <OrderConfirmModal
                     visible={isConfirmModalVisible}
                     message="Czy na pewno chcesz zrealizować zamówienie?"

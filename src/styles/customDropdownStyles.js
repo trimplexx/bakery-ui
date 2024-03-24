@@ -18,6 +18,14 @@ export const customDropdownStyles = {
     }),
     menu: (provided) => ({
         ...provided,
-        zIndex: 10000,
+        zIndex: 9999,
+        maxHeight: '150px',
+        overflow: 'hidden'
     }),
+    menuList: (provided) => ({
+        ...provided,
+        maxHeight: '150px',
+        overflow: 'auto',
+
+    })
 };

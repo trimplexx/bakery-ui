@@ -26,6 +26,8 @@ import ShoppingCardState from "./helpers/ShoppingCardState";
 import {useCleanLocalStorage} from "./hooks/useCleanLocalStorage";
 import FaqPage from "./pages/user-pages/FaqPage";
 import LogoutPage from "./pages/user-pages/LogoutPage";
+import PrivacyPolicy from "./pages/user-pages/PrivacyPolicyPage";
+import StatutePage from "./pages/user-pages/StatutePage";
 
 function App() {
     const {isAdmin} = useAuth();
@@ -41,6 +43,8 @@ function App() {
                             <Route path="onas" element={<AboutPage/>}/>
                             <Route path="kontakt" element={<ContactPage/>}/>
                             <Route path="produkty" element={<ProductsPage/>}/>
+                            <Route path="polityka" element={<PrivacyPolicy/>}/>
+                            <Route path="regulamin" element={<StatutePage/>}/>
                             <Route path="produkt/:productId" element={<SingleProductPage/>}/>
                             <Route path="podsumowanie" element={<OrderSumaryPage/>}/>
                             <Route path="odzyskiwanie-hasla/:token" element={<ForgotPasswordPage/>}/>
@@ -54,7 +58,7 @@ function App() {
                             (<Route path="admin/*" element={
                                 <>
                                     <AdminNavMenu/>
-                                    <div className="p-4 sm:ml-64 max-h-screen sm:h-auto">
+                                    <div className="p-4 md:ml-64 max-h-screen sm:h-auto">
                                         <Routes>
                                             <Route path="home" element={<AdminHome/>}/>
                                             <Route path="produkty" element={<AdminProducts/>}/>

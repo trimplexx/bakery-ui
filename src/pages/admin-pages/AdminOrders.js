@@ -115,10 +115,10 @@ const AdminOrders = () => {
         setIsSecConfirmModalVisible(false);
     };
 
-    return (<div>
+    return (<div className="pb-16">
             {isLoading ? <LoadingComponent/> : <div>
                 <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
-                    <div className="h-14 z-40 md:col-span-2 xl:col-span-1">
+                    <div className="h-14 z-30 md:col-span-2 xl:col-span-1">
                         <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white"
                                           minDate={null}/>
                     </div>
@@ -131,21 +131,29 @@ const AdminOrders = () => {
                         <thead
                             className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-2 sm:px-6 py-3">
+                                <div className="flex justify-center items-center">
                                 Numer telefonu
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Produkty
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Suma
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                <div className="flex justify-center">Zrealizowane
                                 </div>
                             </th>
-                            <th scope="col" className="px-6 py-3">
-                                <div className="flex justify-center">Anuluj
+                            <th scope="col" className="px-2 sm:px-6 py-3">
+                                <div className="flex justify-center items-center">
+                                Produkty
+                                </div>
+                            </th>
+                            <th scope="col" className="px-2 sm:px-6 py-3">
+                                <div className="flex justify-center items-center">
+                                Suma
+                                </div>
+                            </th>
+                            <th scope="col" className="px-2 sm:px-6 py-3">
+                                <div className="flex justify-center items-center">
+                                    Zrealizowane
+                                </div>
+                            </th>
+                            <th scope="col" className="px-2 sm:px-6 py-3">
+                                <div className="flex justify-center items-center">
+                                    Anuluj
                                 </div>
 
                             </th>
@@ -154,15 +162,25 @@ const AdminOrders = () => {
                         <tbody>
                         {orders.map((order, index) => (<tr key={index}
                                                            className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                            <th className="px-6 py-4">{order.phone || 'Brak numeru'}</th>
-                            <td className="px-6 py-4">
+                            <th className="px-2 sm:px-6 py-4">
+                                <div className="flex justify-center items-center">
+                                    {order.phone || 'Brak numeru'}
+                            </div>
+                            </th>
+                            <td className="px-2 sm:px-6 py-4">
+                                <div className="flex justify-center items-center">
                                 {order.orderedProducts.map((product, idx) => (<span key={idx}>
                     {product.productName} x{product.productQuantity}
                                     {idx !== order.orderedProducts.length - 1 && ', '}
                 </span>))}
+                                </div>
                             </td>
-                            <td className="px-6 py-4">{order.orderTotal} zł</td>
-                            <td className="px-6 py-4">
+                            <td className="px-2 sm:px-6 py-4">
+                                <div className="flex justify-center items-center">
+                                    {order.orderTotal} zł
+                                </div>
+                                </td>
+                            <td className="px-2 sm:px-6 py-4">
                                 <div className="justify-center flex">
                                     {order.status !== 3 ? <input
                                             type="checkbox"

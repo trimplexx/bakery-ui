@@ -18,7 +18,7 @@ const BasicInput = ({id, label, type, value, onChange, maxLength}) => {
     };
 
     return (
-        <div className="relative flex-grow w-40 lg:w-auto">
+        <div className="relative flex-grow w-full lg:w-auto">
             <input
                 type={type}
                 id={id}

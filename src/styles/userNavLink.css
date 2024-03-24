@@ -5,7 +5,7 @@
 nav {
     display: flex;
     justify-content: space-evenly;
-    font-family: 'Lucida Console', serif;
+    font-family: 'Anuphan', serif;
     background-color: #EBEBEB;
     color: white;
     position: sticky;
@@ -152,7 +152,7 @@ nav ul.icons-list li div {
         max-height: 0;
         opacity: 0;
         overflow: hidden;
-        transition: all 1s ease;
+        transition: all 0.5s ease;
     }
 
     nav ul.menu.open {
@@ -168,7 +168,7 @@ nav ul.icons-list li div {
     .navbar-enter-active {
         max-height: 200px;
         opacity: 1;
-        transition: all 1s ease;
+        transition: all 0.5s ease;
     }
 
     .navbar-exit {
@@ -179,6 +179,6 @@ nav ul.icons-list li div {
     .navbar-exit-active {
         max-height: 0;
         opacity: 0;
-        transition: all 1s ease;
+        transition: all 0.5s ease;
     }
 }

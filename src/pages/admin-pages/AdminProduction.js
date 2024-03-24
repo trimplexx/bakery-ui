@@ -84,13 +84,13 @@ const AdminProduction = () => {
     return (
         <div>
             {isLoading ? <LoadingComponent/> :
-                <div>
+                <div className="pb-16">
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-                        <div className="h-14 z-40">
+                        <div className="h-14 z-30">
                             <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate}
                                               color="white" minDate={new Date()}/>
                         </div>
-                        <div className="lg:col-start-3 h-14 z-10">
+                        <div className="lg:col-start-3 h-14 z-20">
                             <CustomDatePicker selectedDate={secSelectedDate} setSelectedDate={secSetSelectedDate}
                                               color="white" minDate={null}/>
                         </div>
@@ -116,11 +116,13 @@ const AdminProduction = () => {
                                 <th scope="col" className="px-6 py-3">
                                     Nazwa produktu
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-2 sm:px-6 py-3">
                                     Ilość na dzień
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Zamówiona ilość
+                                <th scope="col" className="px-2 sm:px-6 py-3 flex">
+                                    <div className="flex justify-end items-end w-full mr-4">
+                                        Zamówiona ilość
+                                    </div>
                                 </th>
                             </tr>
                             </thead>
@@ -130,11 +132,11 @@ const AdminProduction = () => {
                                     <tr key={product.id}
                                         className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                                         <th scope="row" className="py-2 font-bold text-lg whitespace-nowrap">
-                                            <div className="px-6">
+                                            <div className="px-2 sm:px-6 text-sm sm:text-base">
                                                 {product.name}
                                             </div>
                                         </th>
-                                        <td className="px-6 py-4">
+                                        <td className="sm:px-6 py-4 w-40 sm:w-60">
                                             <BasicInput
                                                 id={`quantity-${product.productId}`}
                                                 type="number"
@@ -144,8 +146,8 @@ const AdminProduction = () => {
                                                 maxLength="40"
                                             />
                                         </td>
-                                        <td className="px-6 py-4 text-lg font-bold">
-                                            <div className="px-10">
+                                        <td className="px-2 sm:px-6 py-4 text-lg font-bold pr-4">
+                                            <div className="px-2 sm:px-6 flex justify-end items-end w-full ">
                                                 {product.orderedQuantity}
                                             </div>
                                         </td>

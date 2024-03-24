@@ -45,7 +45,7 @@ const EditData = () => {
     return (<div >
         {isLoading ? <LoadingComponent/> : <form className="py-4 sm:p-7"
                                                  onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="mb-12 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329]">Edytuj
+            <h1 className="mb-12 text-4xl text-center font-[Anuphan] leading-loose text-[#fda329]">Edytuj
                 dane</h1>
             <div className="grid gap-6 mb-6 md:grid-cols-2">
                 <EditInput register={register} id="firstName" label="Imię" type="text" maxLength="40"

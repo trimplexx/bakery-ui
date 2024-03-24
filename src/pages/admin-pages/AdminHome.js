@@ -61,12 +61,11 @@ const AdminHome = () => {
 
     return (<div>
             {isLoading ? <LoadingComponent/> :
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 gap-x-10 lg:h-adminCustom">
-                    <div className="border-2 border-gray-400 rounded-md p-6 bg-gray-100 h-full shadow-lg">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 gap-x-10 xl:h-adminCustom pb-10">
+                    <div className="border-2 border-gray-400 rounded-md bg-gray-100 h-full shadow-lg">
                         <BarChart chartData={chartData}/>
                     </div>
-                    <div
-                        className="border-2 border-gray-400 rounded-md p-6 bg-gray-100 shadow-lg h-full overflow-y-auto hover:shadow-xl transition duration-300">
+                    <div className="border-2 border-gray-400 rounded-md px-2 sm:p-6 bg-gray-100 shadow-lg h-full overflow-y-auto hover:shadow-xl transition duration-300">
                         <div className="flex justify-center mb-4">
                             <h3 className="text-2xl font-bold">Pozostałe produkty na dziś</h3>
                         </div>
@@ -89,10 +88,9 @@ const AdminHome = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div
-                        className="border-2 border-gray-400 rounded-md p-6 bg-gray-100 shadow-lg  h-full overflow-y-auto hover:shadow-xl transition duration-300">
-                        <div className="flex justify-center mb-4">
-                            <h3 className="text-2xl font-bold">Niezrealizowane zamówienia dziś</h3>
+                    <div className="border-2 border-gray-400 rounded-md py-4 px-2 sm:p-6 bg-gray-100 shadow-lg  h-full overflow-y-auto hover:shadow-xl transition duration-300">
+                        <div className="flex justify-center items-center mb-4">
+                            <h3 className="text-xl sm:text-2xl flex items-center font-bold">Niezrealizowane zamówienia dziś</h3>
                         </div>
                         <table className="w-full">
                             <thead>

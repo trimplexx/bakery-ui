@@ -18,13 +18,16 @@ export const LocalStorageCheck = () => {
         newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
         localStorage.setItem('selectedDate', newDate.toISOString());
     }
-    if (selectedDate < today || (now.getHours() > 13 || (now.getHours() === 13 && now.getMinutes() >= 45 && now.getDay() === 6))) {
+    if(now.getDate() === 6)
+    {
+        if (selectedDate < today || (now.getHours() > 13 || (now.getHours() === 13 && now.getMinutes() >= 45)) ) {
 
-        // Jeśli tak, ustaw datę na obecny lub następny dzień
-        const newDate = (now.getHours() > 13 || (now.getHours() === 13 && now.getMinutes() >= 45)) ? new Date(now.setDate(now.getDate() + 2)) : now;
-        newDate.setHours(0, 0, 0, 0);
-        newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
-        localStorage.setItem('selectedDate', newDate.toISOString());
+            // Jeśli tak, ustaw datę na obecny lub następny dzień
+            const newDate = (now.getHours() > 13 || (now.getHours() === 13 && now.getMinutes() >= 45)) ? new Date(now.setDate(now.getDate() + 2)) : now;
+            newDate.setHours(0, 0, 0, 0);
+            newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
+            localStorage.setItem('selectedDate', newDate.toISOString());
+        }
     }
 };
 

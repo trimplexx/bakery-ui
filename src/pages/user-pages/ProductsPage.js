@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomDatePicker from "../../components/common/CustomDataPicker";
 import {FaSearch, FaShoppingCart} from "react-icons/fa";
 import {TbCategory} from "react-icons/tb";
@@ -19,9 +19,12 @@ import apiCommon from "../../utils/apiCommon";
 import LoadingComponent from "../../components/common/LoadingComponent";
 import {LocalStorageCheck} from "../../helpers/LocalStorageCheck";
 import useMinDate from "../../hooks/useMinDate";
+import {useOrderFunctions} from "../../hooks/useCardFunctions";
+import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
 
 const ProductsPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const {setIsCardChange, isCardChange} = useContext(ShoppingCardContext);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -34,7 +37,6 @@ const ProductsPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [categoriesMap, setCategoriesMap] = useState({});
     const minDate = useMinDate();
-
 
     useEffect(() => {
         LocalStorageCheck();
@@ -115,7 +117,17 @@ const ProductsPage = () => {
                 } else {
                     errorNotify("Produkt znajduje się już w koszyku!")
                 }
+                const storedOption = localStorage.getItem('selectedOption');
+                if (storedOption === null) {
+                    let isoDate = selectedDate.toISOString();
+                    let dateOnly = isoDate.slice(0, 10);
+                    localStorage.setItem("selectedOption", dateOnly);
+                }
                 localStorage.setItem(cartKey, JSON.stringify(cartItems));
+                if (isCardChange === false)
+                    setIsCardChange(true)
+                else
+                    setIsCardChange(false)
             }
         }, errorNotify, null, null);
     };

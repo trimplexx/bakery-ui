@@ -49,7 +49,7 @@ const ForgotPasswordPage = () => {
         {isLoading ? <LoadingComponent/> :
             <div className="w-auto h-auto overflow-auto max-h-screen bg-white rounded-lg divide-x-2 divide-gray-300">
                 <form className="px-7 py-4" onSubmit={handleSubmit(onSubmit)}>
-                    <h1 className="mb-2 text-4xl text-center max-w-lg font-[lucida-console] leading-loose text-[#fda329]">
+                    <h1 className="mb-2 text-4xl text-center max-w-lg font-[Anuphan] leading-loose text-[#fda329]">
                         Zresetuj hasło
                     </h1>
                     <h1 className="text-base text-center max-w-lg font-sans leading-loose text-black">

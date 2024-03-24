@@ -13,6 +13,8 @@ import {FadeLoader} from "react-spinners";
 import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
 import {useCleanLocalStorage} from "../../hooks/useCleanLocalStorage";
 import {CustomAlert} from "../../components/common/CustomAlert";
+import {NavLink} from "react-router-dom";
+import {Nav} from "react-bootstrap";
 
 const OrderSumaryPage = () => {
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
@@ -129,8 +131,9 @@ const OrderSumaryPage = () => {
         setIsErrorVisible(false);
     };
 
-    return (<div
-        className=" h-full bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] p-5 sm:p-10 xl:px-16 2xl:px-20 xl:py-10 flex justify-center">
+    return (
+        <div
+            className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] py-10 xl:px-24 2xl:px-64 justify-center flex flex-grow">
         <div className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl">
             {phoneRef ?
                 <CustomAlert isVisible={isErrorVisible} type="error"
@@ -145,6 +148,7 @@ const OrderSumaryPage = () => {
                     onChange={handleSelectChange}
                     noOptionsMessage={() => "Brak dostępnych koszyków."}
                     placeholder="Wybierz koszyk z produktami."
+                    isSearchable={false}
                 />
             </div>
 
@@ -222,9 +226,7 @@ const OrderSumaryPage = () => {
                                required/>
                         <label htmlFor="terms"
                                className="cursor-pointer ml-2 text-sm font-medium text-gray-900 ">* Akceptuję
-                            Regulamin oraz Politykę prywatności. </label>
-                        <span
-                            className="cursor-pointer ml-1 text-sm font-medium text-yellow-orange-500 hover:text-[#8b8a8a]">(Link)</span>
+                            <NavLink to="/regulamin" className="hover:text-yellow-orange-500"> Regulamin </NavLink> oraz <NavLink className="hover:text-yellow-orange-500" to="/polityka"> Politykę prywatności. </NavLink> </label>
                     </div>
                     <div className="h-full flex justify-center my-4 items-end">
                         <div className="mt-6">
