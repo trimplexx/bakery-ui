@@ -17,9 +17,9 @@ const ProductShoppingCard = ({product, index, date, handleDelete, handleQuantity
                 alt="image description"
                 onLoad={handleImageLoad}
             />
-            <div className="items-start h-full justify-between flex-row">
-                <div className="justify-between flex p-1 sm:p-2 w-full">
-                    <h1 className="text-lg sm:text-xl font-semibold">{product.name}</h1>
+            <div className="items-start h-full justify-between">
+                <div className="justify-between flex p-1 sm:p-2 w-full flex-rows">
+                    <h1 className="text-lg font-semibold">{product.name}</h1>
                     <button
                         className="rounded-full bg-gray-300 p-2 hover:bg-white ml-auto"
                         onClick={() => handleDelete(index, date)}
@@ -27,8 +27,8 @@ const ProductShoppingCard = ({product, index, date, handleDelete, handleQuantity
                         <FaTrashAlt className="text-red-500"/>
                     </button>
                 </div>
-                <div className="grid grid-cols-5 p-1 sm:p-2 w-full">
-                    <div className="flex justify-center col-span-2">
+                <div className="grid grid-cols-5 p-1 sm:p-2 w-full ">
+                    <div className="flex justify-center col-span-2 min-w-[6vh]">
                         <input
                             type="number"
                             id={`quantity-${index}`}
@@ -37,12 +37,12 @@ const ProductShoppingCard = ({product, index, date, handleDelete, handleQuantity
                             value={product.quantity}
                             onChange={(e) => handleQuantityChange(e, index, date)}
                             aria-describedby="helper-text-explanation"
-                            className="mx-2 sm:mx-4 w-full h-10 bg-transparent my-2 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block p-2"
+                            className=" mx-1 w-full h-10 bg-transparent my-2 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-[#fda329] focus:border-[#fda329] block p-2"
                             placeholder="ilość"
                             required
                         />
                     </div>
-                    <div className="justify-center flex items-center col-span-3">
+                    <div className="justify-end flex items-center col-span-3">
                         <p className="text-base font-semibold px-1 sm:px-4">
                             {(product.price * product.quantity).toFixed(2)} zł
                         </p>

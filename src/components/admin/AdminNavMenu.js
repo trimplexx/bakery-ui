@@ -1,5 +1,4 @@
 import {GiSlicedBread} from "react-icons/gi";
-import {Link} from "react-router-dom";
 import {bakeryLogo} from "../../utils/props";
 import {RiDashboardFill} from "react-icons/ri";
 import {FaBreadSlice, FaShoppingCart, FaUsers, FaWarehouse} from "react-icons/fa";
@@ -32,6 +31,10 @@ export const AdminNavMenu = () => {
             });
         }
     }, []);
+
+    const closeMenu = () => {
+        setSidebarOpen(false);
+    };
 
     return (
         <>
@@ -66,12 +69,12 @@ export const AdminNavMenu = () => {
                    aria-label="Sidebar">
                 <div className="h-full px-3 pb-4 overflow-y-auto  flex flex-col">
                     <ul className="space-y-2 font-medium mt-2">
-                        <AdminNavLink to="/admin/home" text="Panel Główny" icon={RiDashboardFill}/>
-                        <AdminNavLink to="/admin/produkty" text="Produkty" icon={GiSlicedBread}/>
-                        <AdminNavLink to="/admin/zamowienia" text="Zamówienia" icon={FaShoppingCart}/>
-                        <AdminNavLink to="/admin/zamow" text="Wykonaj zamówienie" icon={FaBreadSlice}/>
-                        <AdminNavLink to="/admin/produkcja" text="Produkcja" icon={FaWarehouse}/>
-                        <AdminNavLink to="/admin/uzytkownicy" text="Użytkownicy" icon={FaUsers}/>
+                        <AdminNavLink to="/admin/home" text="Panel Główny" onClick={closeMenu} icon={RiDashboardFill}/>
+                        <AdminNavLink to="/admin/produkty" text="Produkty" onClick={closeMenu} icon={GiSlicedBread}/>
+                        <AdminNavLink to="/admin/zamowienia" text="Zamówienia" onClick={closeMenu} icon={FaShoppingCart}/>
+                        <AdminNavLink to="/admin/zamow" text="Wykonaj zamówienie" onClick={closeMenu} icon={FaBreadSlice}/>
+                        <AdminNavLink to="/admin/produkcja" text="Produkcja"  onClick={closeMenu} icon={FaWarehouse}/>
+                        <AdminNavLink to="/admin/uzytkownicy" text="Użytkownicy" onClick={closeMenu} icon={FaUsers}/>
                         <AdminNavLink to="/" text="Wyjście" icon={ImExit}/>
                     </ul>
                 </div>

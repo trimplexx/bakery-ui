@@ -87,6 +87,10 @@ export const UserNavMenu = () => {
         hover: {scale: 1.1, originX: 0, transition: {duration: 0.05}}, tap: {scale: 0.9}
     };
 
+    const closeMenu = () => {
+        setMenuOpen(false);
+    };
+
     return (<>
         <nav id="navbar"><Link to="/">
             <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><img src={bakeryLogo} alt="a"
@@ -97,28 +101,29 @@ export const UserNavMenu = () => {
                         animate={menuOpen ? "open" : "closed"}> {menuOpen ? <FaTimes/> : <FaBars/>} </motion.div>
             <ul className={`menu ${menuOpen ? 'open' : ''}`}>
                 <li>
-                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink
-                        to="/produkty">Produkty</NavLink></motion.div>
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap">
+                        <NavLink to="/produkty" onClick={closeMenu}>Produkty</NavLink>
+                    </motion.div>
                 </li>
                 <li>
-                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink to="/onas">O
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap" onClick={closeMenu}><NavLink to="/onas">O
                         nas</NavLink></motion.div>
                 </li>
                 <li>
-                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><NavLink
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap" onClick={closeMenu}><NavLink
                         to="/kontakt">Kontakt</NavLink></motion.div>
                 </li>
             </ul>
             <ul className={`icons-list ${menuOpen ? 'icons-open' : ''}`}>
                 <li>
-                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap">
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap" onClick={closeMenu}>
                         <div onClick={handleLoginClick} className={`icon ${menuOpen ? 'icon-open' : ''}`}><FaUser/>
                         </div>
                     </motion.div>
                 </li>
                 <li>
                     <div onClick={handleCartIconClick} className={`icon ${menuOpen ? 'icon-open' : ''}`}>
-                        <motion.div variants={linkVariants} whileHover="hover" whileTap="tap">
+                        <motion.div variants={linkVariants} whileHover="hover" whileTap="tap" onClick={closeMenu}>
                             <FaShoppingCart/>
                         </motion.div>
                         {cartCount > 0 &&

@@ -167,12 +167,12 @@ const ShoppingCard = ({isOpen, onClose}) => {
                     )
                 )}
                 <div className="bottom-0 grid grid-cols-2 w-full p-2 sm:p-4 bg-[#F5F5F5] items-center ">
-                    <p className="text-md sm:text-xl font-medium text-gray-900 mb-2">Suma: {calculateTotalPrice()} zł</p>
+                    <p className="text-md sm:text-lg font-medium text-gray-900 mb-2">Suma: {calculateTotalPrice()} zł</p>
                     <NavLink to="/podsumowanie" className="flex justify-end">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="text-center text-sm sm:text-base text-black bg-yellow-orange-400 hover:bg-yellow-orange-300 focus:outline-none focus:ring-4 focus:ring-yellow-orange-300 font-medium rounded-full px-5 py-2.5 flex justify-center items-center"
+                            className="text-center text-sm text-black bg-yellow-orange-400 hover:bg-yellow-orange-300 focus:outline-none focus:ring-4 focus:ring-yellow-orange-300 font-medium rounded-full px-5 py-2.5 flex justify-center items-center"
                         >
                             Przejdź do realizacji <IoCashOutline className="ml-2 text-3xl"/>
                         </button>

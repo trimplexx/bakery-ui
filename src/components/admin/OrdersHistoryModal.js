@@ -17,14 +17,16 @@ const OrdersHistoryModal = ({onClose, userId}) => {
     const [isLoadingButton, setIsLoadingButton] = useState(false);
     const [orders, setOrders] = useState([]);
     const [orderId, setOrderId] = useState(null);
+    const [errorMessage, setErrorMessage] = useState();
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
 
     useEffect(() => {
         const getOfOrdersPagination = async () => {
-            await apiUser.getOfOrdersPagination(userId, setPaginationNumber, errorNotify);
+            await apiUser.getOfOrdersPagination(userId, setPaginationNumber, setErrorMessage, setIsErrorVisible);
         };
 
         const getUserOrdersHistoryList = async () => {
-            await apiUser.getUserOrdersHistoryList(currentPage - 1, userId, setOrders, errorNotify);
+            await apiUser.getUserOrdersHistoryList(currentPage - 1, userId, setOrders, setErrorMessage, setIsErrorVisible);
         };
         Promise.all([getOfOrdersPagination(), getUserOrdersHistoryList()]).then(() => {
             setIsLoading(false);
@@ -60,10 +62,12 @@ const OrdersHistoryModal = ({onClose, userId}) => {
             {isLoading ? <LoadingComponent/> :
                 <div className="fixed inset-0 z-50 ">
                     <AnimatedModal onClose={onClose}>
-                        <div className="px-1 py-5 sm:p-6 bg-white rounded-2xl min-h-[90vh] max-h-[85vh] sm:max-h-none overflow-y-auto">
+                        <div className="mt-4 px-1 pt-4 lg:pt-7 bg-white rounded-2xl min-h-[85vh] max-h-[85vh] sm:max-h-none overflow-y-auto sm:min-w-[60vh]">
                                 <OrdersTable
                                     orders={orders}
                                     paginationNumber={paginationNumber}
+                                    isErrorVisible={isErrorVisible}
+                                    errorMessage={errorMessage}
                                     handlePageChange={handlePageChange}
                                     handleCancelOrder={handleCancelOrder}
                                     currentPage={currentPage}

@@ -61,8 +61,8 @@ const UserModal = ({onClose}) => {
     return (
         <AnimatedModal onClose={onClose}>
             <div
-                className="flex flex-col w-full h-full max-w-screen-lg mx-auto bg-white min-h-[45vh] rounded-lg max-h-[85vh] sm:max-h-none">
-                <div className="flex-shrink-0 bg-gray-300 sm:px-4 pt-8 flex flex-col min-h-1/2 max-h-4/5 ">
+                className="flex flex-col w-full h-full max-w-screen-lg mx-auto bg-white min-h-[40vh] rounded-lg max-h-[85vh]">
+                <div className="flex-shrink-0 bg-gray-300 sm:px-4 pt-8 flex flex-col min-h-1/2 max-h-4/5 rounded-lg">
                     <div className="flex justify-around">
                         <button
                             className={`text-center rounded-t-2xl p-2 sm:p-4 sm:text-lg font-bold sm:mr-4 text-gray-900 ${showEditData ? 'bg-white' : 'hover:bg-white '} focus:outline-none focus:ring-0`}

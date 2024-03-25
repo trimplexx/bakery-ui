@@ -14,7 +14,6 @@ import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
 import {useCleanLocalStorage} from "../../hooks/useCleanLocalStorage";
 import {CustomAlert} from "../../components/common/CustomAlert";
 import {NavLink} from "react-router-dom";
-import {Nav} from "react-bootstrap";
 
 const OrderSumaryPage = () => {
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);

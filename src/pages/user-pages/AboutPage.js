@@ -28,9 +28,9 @@ const AboutPage = () => {
     return (
         <div
             className="h-full bg-gradient-to-b from-[#EBEBEB] via-gray-300 to-[#EBEBEB] relative flex-grow py-auto mt-auto items-center justify-center flex py-2">
-            <div className="grid grid-cols-1 xl:grid-cols-3 ">
-                <div className="w-full h-full p-8 flex-col flex justify-center">
-                    <div className="px-4 pb-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 ">
+                <div className="w-full h-full lg:h-3/5 2xl:h-5/6 xl:mt-4 p-8 flex-col flex justify-center">
+                    <div className=" pb-4">
                         <Fade left>
                             <Slider {...settings}>
                                 <div>
@@ -48,9 +48,9 @@ const AboutPage = () => {
                 </div>
 
                 <div
-                    className="w-full bg-gray-400 p-4 sm:px-10 xl:px-16 2xl:px-40 rounded-2xl xl:rounded-none xl:rounded-l-2xl  xl:col-span-2 xl:col-start-2">
+                    className="w-full bg-gray-400 p-4 sm:px-10 xl:px-20  rounded-2xl lg:rounded-none lg:rounded-l-2xl  lg:col-span-2 lg:col-start-2">
                     <Fade top>
-                        <h2 className="text-white text-4xl lg:text-5xl py-8 text-center"
+                        <h2 className="text-white text-4xl lg:text-5xl py-4 text-center"
                             style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                             Witajcie w piekarni "Trzeba chleba"
                         </h2>

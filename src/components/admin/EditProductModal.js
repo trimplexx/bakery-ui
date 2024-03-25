@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import ProductModal from "./ProductModal";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import {useProductsData} from "../../hooks/useProductsData";
-import createImageFileFromImageUrl from "../../helpers/CreateImageFileFromImageUrl";
 import apiAdmin from "../../utils/apiAdmin";
 import LoadingComponent from "../common/LoadingComponent";
 

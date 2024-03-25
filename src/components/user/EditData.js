@@ -86,7 +86,6 @@ const EditData = () => {
                 </div>
 
             </div>
-
             <div className=" md:col-start-2 md:col-span-3 w-full mt-10">
                 <SubmitButton isLoading={isLoading} text="Zapisz zmiany"/>
             </div>

@@ -183,15 +183,16 @@ const AdminMakeOrder = () => {
                                     value={selectedOption}
                                     onChange={handleChange}
                                     options={options}
+                                    placeholder="Wybierz produkt."
                                     styles={customDropdownStyles}
                                     menuPortalTarget={document.body}
                                     menuPosition={"absolute"}
                                 />
                             </div>
                         </th>
-                        <td className="px-2 sm:px-6 py-4">
-                            <div className="flex justify-center items-center">
-                                <div className="max-w-lg">
+                        <td className="px-2 sm:px-6 py-4 w-28 sm:w-auto">
+                            <div className="flex justify-center items-center ">
+                                <div className="max-w-lg ">
                             <BasicInput
                                 id="quantity"
                                 type="number"

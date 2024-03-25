@@ -82,12 +82,15 @@ const HomePage = () => {
                             style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Trzeba</h2>
                     </Fade>)}
                     <Fade left>
-                        <p className="text-xl md:text-2xl lg:text-2xl px-5 sm:px-20 lg:px-2 xl:px-4 2xl:px-20 text-white text-center py-2 lg:py-10"
+                        <p className="text-xl md:text-2xl lg:text-2xl px-5 sm:px-20 lg:px-2 xl:px-4 2xl:px-10 text-white text-center py-4"
                            style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}
                         ><strong className="text-3xl">Witaj w
-                            piekarni "Trzeba Chleba"!</strong><br/><br/>Tutaj każdy kęs to historia pasji i
-                            staranności. Nasz zespół to pasjonaci, dla których pieczenie to sztuka. Nasze wypieki są
-                            niepowtarzalne – pełne aromatu i chrupiące na zewnątrz, a miękkie w środku. Zapraszamy
+                            piekarni "Trzeba Chleba"!</strong><br/>
+                        </p>
+                        <p className="text-xl md:text-2xl lg:text-2xl px-5 sm:px-20 lg:px-2 xl:px-4 2xl:px-20 text-white text-center py-2"
+                           style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}
+                        >Tutaj każdy kęs to historia pasji i staranności. Nasz zespół to pasjonaci, dla których pieczenie to sztuka.
+                            Nasze wypieki są niepowtarzalne – pełne aromatu i chrupiące na zewnątrz, a miękkie w środku. Zapraszamy
                             do naszej piekarni, gdzie jakość i doświadczenie stawiamy na pierwszym miejscu. Odkryj,
                             jak pieczenie może być pasją, a każdy chleb smakować jak najlepszy wybór dla Twojego
                             podniebienia.<br/><br/> <br/> <strong className="text-red-600">Strona jest w wersji testowej pod przyszły użytek.</strong>
@@ -96,7 +99,7 @@ const HomePage = () => {
                 </div>
                 <div className="w-full lg:w-3/5">
                     {!isSmallScreen && (<Fade right>
-                        <h2 className="text-[#707070] text-6xl text-start py-4 lg:px-2 xl:ml-4"
+                        <h2 className="text-[#707070] text-6xl text-start py-4 lg:px-2 xl:ml-2"
                             style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}> Chleba</h2>
                     </Fade>)}
                     <div className="md:px-8 md:pb-8 lg:px-10 lg:pb-10 w-full h-4/5 2xl:h-fit flex-col flex justify-center lg:pt-0 py-6">

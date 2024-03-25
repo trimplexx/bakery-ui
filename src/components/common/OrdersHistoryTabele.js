@@ -23,7 +23,7 @@ const OrdersTable = ({
         return (<div className="py-4">
             {isErrorVisible ? <CustomAlert isVisible={isErrorVisible} type="error" info={errorMessage}
                                            handleClose={handleErrorClose}/> : null}
-            <p className="text-center text-gray-500 dark:text-gray-400 px-40 py-10 text-2xl font-bold">Brak
+            <p className="text-center text-gray-500 dark:text-gray-400 py-10 text-2xl font-bold">Brak
                 zamówień</p>
         </div>);
     }

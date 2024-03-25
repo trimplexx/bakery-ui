@@ -19,8 +19,8 @@ import apiCommon from "../../utils/apiCommon";
 import LoadingComponent from "../../components/common/LoadingComponent";
 import {LocalStorageCheck} from "../../helpers/LocalStorageCheck";
 import useMinDate from "../../hooks/useMinDate";
-import {useOrderFunctions} from "../../hooks/useCardFunctions";
 import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
+import {useCleanLocalStorage} from "../../hooks/useCleanLocalStorage";
 
 const ProductsPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -37,6 +37,7 @@ const ProductsPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [categoriesMap, setCategoriesMap] = useState({});
     const minDate = useMinDate();
+    useCleanLocalStorage();
 
     useEffect(() => {
         LocalStorageCheck();
@@ -146,21 +147,21 @@ const ProductsPage = () => {
                             text="Data zamówienia"
                         />
                     </div>
-                    <div className="h-12 justify-end flex items-center md:col-span-6 pr-4 relative my-2">
+                    <div className="h-12 justify-end flex items-center md:col-span-6 sm:pr-4 relative my-2">
                         {isSearchOpen ? (<AnimatedSearchInput isSearchOpen={isSearchOpen} searchTerm={searchTerm}
                                                               onInputChange={handleInputChange}/>) : null}
 
                         <AnimatedIconButton handleIconClick={handleSearchIconClick} Icon={FaSearch}
                                             color={searchButtonColor}/>
                     </div>
-                    <div className="h-12 justify-end flex items-center md:col-span-8 pr-4 relative my-2">
+                    <div className="h-12 justify-end flex items-center md:col-span-8 sm:pr-4 relative my-2 sm:mt-4">
                         {isCategoryOpen ? (<ProductsCategories handleCategorySelection={handleCategorySelection}
                                                                selectedCategories={selectedCategories}/>) : null}
                         <AnimatedIconButton handleIconClick={handleCategoryClick} Icon={TbCategory}
                                             color={categoryButtonColor}/>
                     </div>
                 </div>
-                <div className="grid lg:grid-cols-2 gap-12 gap-x-14 sm:px-14 py-10">
+                <div className="grid lg:grid-cols-2 gap-8 gap-x-10 sm:px-14 py-3">
                     {products.length > 0 ? (products.map((product, index) => (<Fade bottom>
                         <Link key={index} to={`/produkt/${product.productId}`}>
                             <motion.div

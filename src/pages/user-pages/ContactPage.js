@@ -55,11 +55,11 @@ const ContactPage = () => {
             <Fade right>
                 <form className="p-7 xl:col-span-4 xl:col-start-2" onSubmit={handleSubmit(onSubmit)} noValidate>
                     <div className="w-full justify-center flex">
-                        <h1 className=" text-4xl text-center max-w-lg font-serif leading-loose text-[#fda329] items-center">
+                        <h1 className=" text-4xl text-center max-w-lg text-[#fda329] items-center mb-4">
                             Skontaktuj się z nami
                         </h1>
                     </div>
-                    <p className="text-gray-700 py-1 mb-4" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Zauważyłeś
+                    <p className="text-gray-700 py-1 mb-4 text-center items-center" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Zauważyłeś
                         jakiś problem na naszej stronie, bądź masz jakieś pytanie? Wypełnij formularz swoimi danymi oraz
                         wiadomością, którą chcesz do nas dostarczyć, a my odezwiemy się w wiadomości mailowej tak szybko
                         jak to będzie możliwe.</p>

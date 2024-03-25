@@ -1,5 +1,4 @@
 import {useEffect} from "react";
-import {empty} from "leaflet/src/dom/DomUtil";
 
 const EditInput = ({register, id, label, type, value, onChange, maxLength, disabled, minLength}) => {
 
