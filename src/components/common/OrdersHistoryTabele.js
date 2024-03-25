@@ -84,16 +84,14 @@ const OrdersTable = ({
                                     (isBefore(endOfDay(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())), new Date())
                                         || (isToday(parse(order.formattedOrderDate, 'dd-MM-yyyy', new Date())) && new Date().getHours() >= 17)) ?
                                         <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienie jest przedawnione"></MotionButton>
-                                        : (!isToday(new Date(order.formattedOrderDate)) && (
+                                        : (isToday(new Date(order.formattedOrderDate)) && (
                                             (new Date().getHours() > 15 && new Date().getDay() !== 6) ||
                                             (new Date().getDay() === 6 && new Date().getHours() > 12)
                                         )) ?
                                             <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienia nie można anulować na 2h przed zamknięciem lokalu"></MotionButton>
                                             : <MotionButton onClick={() => handleCancelOrder(order.orderId)} color="red-600" text="Anuluj zamówienie"></MotionButton>
                                     : <MotionButton color="gray-400" text="Anuluj zamówienie" disabled={true} disabledText="Zamówienie zostało już anulowane"></MotionButton>}
-
-                                </div>
-
+                        </div>
                     </td>
                 </tr>))}
                 </tbody>
