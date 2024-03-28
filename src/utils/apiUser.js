@@ -206,22 +206,19 @@ const apiUser = {
             setIsLoading(false);
         }
     },
-    socialSession: async (token, refreshToken, setIsLoading, navigate, errorNotify) => {
-        setIsLoading(true);
+    socialSession: async (token, refreshToken, navigate, errorNotify) => {
         try {
             localStorage.setItem('token', token);
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('successNotifyStorage', 'Poprawnie zalogowano');
             navigate("/");
             window.location.reload(true);
-            setIsLoading(false);
         } catch (error) {
             navigate("/");
             handleApiError(error, errorNotify);
-            setIsLoading(false);
         }
     },
-    logout: async (setIsLoading, navigate) => {
+    logout: async (navigate) => {
         try {
             const token = localStorage.getItem('token');
             const refreshToken = localStorage.getItem('refreshToken');
@@ -243,9 +240,6 @@ const apiUser = {
             localStorage.setItem('errorNotifyStorage', "Nastąpiło wylogowanie");
             navigate("/")
             window.location.reload(true);
-        } finally {
-            if (setIsLoading != null)
-                setIsLoading(false);
         }
     },
     fetchInstagramPosts: async (setInstagramData, setIsLoading) => {

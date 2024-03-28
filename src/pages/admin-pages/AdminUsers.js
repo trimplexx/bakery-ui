@@ -93,8 +93,8 @@ const AdminUsers = () => {
         setSearchTerm(searchTerm);
     };
 
-    return (<div>
-        {isLoading ? <LoadingComponent/> : <div className="pb-16">
+    return (
+        <div className="pb-16">
             <SearchInput text="Wyszukaj produkt..." onChange={handleSearchInputChange}/>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg py-4">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -202,7 +202,6 @@ const AdminUsers = () => {
                 <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}
                                   initialPage={currentPage}/>
             </div>
-        </div>}
     </div>);
 };
 

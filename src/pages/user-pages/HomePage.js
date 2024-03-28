@@ -73,7 +73,7 @@ const HomePage = () => {
         },],
     };
 
-    return (isLoading ? (<div className="h-auto justify-center flex flex-grow"><LoadingComponent/></div>) :
+    return (
         <div className="h-full bg-gradient-to-b from-[#EBEBEB] via-gray-300 to-[#EBEBEB] relative">
             <div className="lg:flex block">
                 <div className="w-full lg:w-2/5 p-4 bg-gray-400 lg:min-h-[85vh] ">

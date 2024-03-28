@@ -37,8 +37,8 @@ const ContactPage = () => {
                         <strong>Adres:</strong> ul. Plebiscytowa 7, 40-035 Katowice</p>
                     <p className="text-gray-700 py-1" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                         <strong>Telefon:</strong> 123-456-789</p>
-                    <p className="text-gray-700 py-1" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
-                        <strong>Email:</strong> kontakt@trzebachleba.pl</p>
+                    <a href="mailto:kontakt@trzebachleba.pl" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}} className="text-gray-700 py-1 flex flex-row xl:flex-col">
+                        <strong>Email: </strong> <p className="hover:text-yellow-orange-400 ml-1"> kontakt@trzebachleba.pl </p></a>
                 </div>
             </Fade>
 

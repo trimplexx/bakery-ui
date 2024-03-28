@@ -60,7 +60,6 @@ const AdminHome = () => {
 
 
     return (<div>
-            {isLoading ? <LoadingComponent/> :
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 gap-x-10 xl:h-adminCustom pb-10">
                     <div className="border-2 border-gray-400 rounded-md bg-gray-100 h-full shadow-lg">
                         <BarChart chartData={chartData}/>
@@ -124,7 +123,7 @@ const AdminHome = () => {
                         className="border-2 border-gray-400 rounded-md p-6 bg-gray-100 shadow-lg  h-[400px] overflow-y-auto">
                         <DoughnutChart data={data} options={options}/>
                     </div>
-                </div>}
+                </div>
         </div>
     );
 };

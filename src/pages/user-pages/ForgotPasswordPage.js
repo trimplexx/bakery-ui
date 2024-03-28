@@ -46,7 +46,7 @@ const ForgotPasswordPage = () => {
 
     return (<div
         className=" bg-gradient-to-b from-[#F5F5F5] h-full via-gray-300 to-[#F5F5F5] p-10 px-10 xl:px-24 2xl:px-40 justify-center flex flex-grow">
-        {isLoading ? <LoadingComponent/> :
+
             <div className="w-auto h-auto overflow-auto max-h-screen bg-white rounded-lg divide-x-2 divide-gray-300">
                 <form className="px-7 py-4" onSubmit={handleSubmit(onSubmit)}>
                     <h1 className="mb-2 text-4xl text-center max-w-lg font-[Anuphan] leading-loose text-[#fda329]">
@@ -69,7 +69,7 @@ const ForgotPasswordPage = () => {
                     </div>
                     <SubmitButton isLoading={isLoading} text="Zmień hasło"/>
                 </form>
-            </div>}
+            </div>
     </div>);
 };
 

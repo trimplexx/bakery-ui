@@ -12,12 +12,12 @@ const SecSideMainPage = ({
                              handleForgotClick,
                              setModalOpen
                          }) => {
-    return (<div className="w-full lg:w-3/5 bg-gray-400 flex flex-col lg:min-h-[85vh] py-10">
+    return (<div className="w-full lg:w-3/5 bg-gray-400 flex flex-col lg:min-h-[85vh]">
         <div className="p-2 md:p-4 lg:p-8 flex flex-col">
             <Fade right>
-                <h2 className="text-white text-3xl lg:text-4xl py-8 text-center"
+                <h2 className="text-white text-3xl lg:text-4xl py-4 text-center"
                     style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}> Odkrywaj smaki </h2>
-                <p className="text-xl md:text-2xl lg:text-2xl px-5 sm:px-20 lg:px-2 xl:px-4 2xl:px-20 text-white text-center py-2 lg:py-10"
+                <p className="text-xl md:text-2xl lg:text-2xl px-5 sm:px-20 lg:px-2 xl:px-4 2xl:px-20 text-white text-center py-2 "
                    style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                     Odkryj nasze wyjątkowe wypieki, które są wynikiem połączenia tradycyjnych receptur
                     z nowoczesnym podejściem do pieczenia. Każdy produkt jest pieczony z najwyższej

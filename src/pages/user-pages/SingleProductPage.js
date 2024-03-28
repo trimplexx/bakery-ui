@@ -124,7 +124,7 @@ const SingleProductPage = () => {
 
     return (<div
         className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] sm:p-10 p-2 sm:px-10 xl:px-24 2xl:px-40 justify-center flex flex-grow">
-    {isLoading ? <LoadingComponent/> : <div> {productData && (<div className="bg-gray-200 w-full max-w-8xl p-2 sm:p-6 rounded-2xl">
+    <div> {productData && (<div className="bg-gray-200 w-full max-w-8xl p-2 sm:p-6 rounded-2xl">
                 <div className="grid lg:grid-cols-2 gap-5 mb-4">
                     {productData.image ?
                         <div className="w-full justify-center items-center flex"> <img className="rounded-lg shadow-xl" src={productData.image} alt="image description"/> </div>:
@@ -229,7 +229,7 @@ const SingleProductPage = () => {
                     </div>
                 </div>
     </div>)}
-        </div>}
+        </div>
     </div>);
 };
 

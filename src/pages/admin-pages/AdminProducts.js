@@ -122,7 +122,6 @@ const AdminProducts = () => {
     };
 
     return (<div>
-        {isLoading ? <LoadingComponent/> : <div>
             <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
                 <div className="md:col-span-2 xl:col-span-1">
                     <Select
@@ -188,7 +187,6 @@ const AdminProducts = () => {
                 <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}
                                   initialPage={currentPage}/>
             </div>
-        </div>}
     </div>);
 };
 

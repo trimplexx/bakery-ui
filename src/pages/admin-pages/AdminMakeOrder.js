@@ -149,8 +149,7 @@ const AdminMakeOrder = () => {
     };
 
 
-    return (<div>
-        {isLoading ? <LoadingComponent/> : <div className="pb-16">
+    return (<div className="pb-16">
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 <div className="h-14 z-30">
                     <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white"
@@ -274,7 +273,6 @@ const AdminMakeOrder = () => {
                     isLoading={isLoadingAsRealized}
                 />
             </div>
-        </div>}
     </div>);
 };
 export default AdminMakeOrder;

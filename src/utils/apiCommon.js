@@ -105,19 +105,16 @@ const apiCommon = {
             setIsLoading(false);
         }
     },
-    verifyUser: async (token, setIsLoading, navigate, errorNotify, successNotify) => {
-        setIsLoading(true);
+    verifyUser: async (token, navigate, errorNotify, successNotify) => {
         try {
             const response = await axios.post(connectionUrlString + 'api/UserVerify/emailVerification', {
                 token
             });
             navigate("/");
             successNotify(response.data);
-            setIsLoading(false);
         } catch (error) {
             navigate("/");
             handleApiError(error, errorNotify);
-            setIsLoading(false);
         }
     },
 };

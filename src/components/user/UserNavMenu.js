@@ -12,9 +12,8 @@ import ShoppingCard from "./ShoppingCard";
 import UserModal from "./UserModal";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
-import {useOrderFunctions} from "../../hooks/useCardFunctions";
 
-export const UserNavMenu = () => {
+const UserNavMenu = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(null);
@@ -157,3 +156,4 @@ export const UserNavMenu = () => {
         <Outlet/>
     </>);
 };
+export default UserNavMenu;

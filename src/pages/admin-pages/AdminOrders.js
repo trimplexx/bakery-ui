@@ -116,7 +116,6 @@ const AdminOrders = () => {
     };
 
     return (<div className="pb-16">
-            {isLoading ? <LoadingComponent/> : <div>
                 <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
                     <div className="h-14 z-30 md:col-span-2 xl:col-span-1">
                         <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} color="white"
@@ -233,7 +232,6 @@ const AdminOrders = () => {
                     <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}
                                       initialPage={currentPage}/>
                 </div>
-            </div>}
         </div>
 
     )

@@ -82,8 +82,6 @@ const AdminProduction = () => {
         });
     };
     return (
-        <div>
-            {isLoading ? <LoadingComponent/> :
                 <div className="pb-16">
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
                         <div className="h-14 z-30">
@@ -157,7 +155,6 @@ const AdminProduction = () => {
                             </tbody>
                         </table>
                     </div>
-                </div>}
         </div>
     );
 };

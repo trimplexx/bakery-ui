@@ -8,7 +8,7 @@ import AdminNavLink from "./AdminNavigationLink";
 import useAuth from "../../hooks/useAuth";
 import axiosInstance from "../../utils/interceptor";
 
-export const AdminNavMenu = () => {
+const AdminNavMenu = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     useAuth();
 
@@ -82,3 +82,5 @@ export const AdminNavMenu = () => {
         </>
     );
 };
+
+export default AdminNavMenu;
