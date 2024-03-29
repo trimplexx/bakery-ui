@@ -6,14 +6,13 @@ import Slider from 'react-slick';
 import {Fade} from 'react-reveal';
 import useAuth from "../../hooks/useAuth";
 import apiUser from "../../utils/apiUser";
-import LoadingComponent from "../../components/common/LoadingComponent";
 import InstagramPosts from "../../components/user/InstagramPosts";
 import SecSideMainPage from "../../components/user/SecSideMainPage";
 
 const HomePage = () => {
     const [, setUserModalOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [, setIsLoading] = useState(true);
     const [instagramData, setInstagramData] = useState([]);
     const {isLoggedIn} = useAuth();
     const [isSmallScreen, setIsSmallScreen] = useState(false);

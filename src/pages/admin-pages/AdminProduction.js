@@ -5,7 +5,7 @@ import BasicInput from "../../components/common/BasicInput";
 import CustomDatePicker from "../../components/common/CustomDataPicker";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import apiAdmin from "../../utils/apiAdmin";
-import LoadingComponent from "../../components/common/LoadingComponent";
+
 import MotionButton from "../../components/common/MotionButton";
 
 const AdminProduction = () => {
@@ -13,7 +13,7 @@ const AdminProduction = () => {
     const [secSelectedDate, secSetSelectedDate] = useState(new Date());
     const [productsList, setProductsList] = useState([]);
     const [, setProductsToCopy] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [, setIsLoading] = useState(true);
     const [isLoadingCopy, setIsLoadingCopy] = useState(false);
     const [isLoadingSave, setIsLoadingSave] = useState(false);
 

@@ -9,7 +9,6 @@ import CustomPagination from "../../components/common/CustomPagination";
 import SearchInput from "../../components/common/SearchInput";
 import apiAdmin from "../../utils/apiAdmin";
 import CustomConfirmModal from "../../components/common/CustomConfirmModal";
-import LoadingComponent from "../../components/common/LoadingComponent";
 import MotionButton from "../../components/common/MotionButton";
 import {endOfDay, isBefore} from 'date-fns';
 import apiCommon from "../../utils/apiCommon";
@@ -26,7 +25,7 @@ const AdminOrders = () => {
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const [orderId, setOrderId] = useState(null);
     const [newStatus, setNewStatus] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [, setIsLoading] = useState(true);
     const [isLoadingRealized, setIsLoadingRealized] = useState(false);
     const [isLoadingCancel, setIsLoadingCancel] = useState(false);
 

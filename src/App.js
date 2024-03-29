@@ -6,7 +6,6 @@ import useAuth from "./hooks/useAuth";
 import ShoppingCardState from "./helpers/ShoppingCardState";
 import {useCleanLocalStorage} from "./hooks/useCleanLocalStorage";
 import LoadingComponent from "./components/common/LoadingComponent";
-
 const UserNavMenu = lazy(() => import('./components/user/UserNavMenu'));
 const AboutPage = lazy(() => import("./pages/user-pages/AboutPage"));
 const ContactPage = lazy(() => import("./pages/user-pages/ContactPage"));
@@ -34,13 +33,14 @@ const StatutePage = lazy(() => import("./pages/user-pages/StatutePage"));
 function App() {
     const {isAdmin} = useAuth();
     useCleanLocalStorage();
+
     return (
         <div className="flex flex-col min-h-screen">
             <ShoppingCardState>
                 <BrowserRouter>
+                     <UserNavMenu />
                     <Suspense fallback={<LoadingComponent/>}>
                         <Routes>
-                            <Route path="/" element={<UserNavMenu/>}>
                                 <Route path="/" element={<HomePage/>}/>
                                 <Route path="onas" element={<AboutPage/>}/>
                                 <Route path="kontakt" element={<ContactPage/>}/>
@@ -55,7 +55,6 @@ function App() {
                                 <Route path="faq" element={<FaqPage/>}/>
                                 <Route path="logout" element={<LogoutPage/>}/>
                                 <Route path="*" element={<NoPage/>}/>
-                            </Route>
                             {isAdmin ?
                                 (<Route path="admin/*" element={
                                     <>

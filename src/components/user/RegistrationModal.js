@@ -7,6 +7,7 @@ import FormInput from "../common/FormInput";
 import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import apiUser from "../../utils/apiUser";
 import {NavLink} from "react-router-dom";
+import ReactCountryFlag from "react-country-flag";
 
 const RegistrationModal = ({onClose, onLoginClick}) => {
     const {register, handleSubmit} = useForm();
@@ -75,10 +76,11 @@ const RegistrationModal = ({onClose, onLoginClick}) => {
                 </div>
                 <div className="grid gap-6 mb-3">
                     <div className="flex">
-                        <span
-                            className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded">
-                        <span className="fi fi-pl mr-2"></span> +48
-                    </span>
+            <span
+                className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-300 border border-gray-400 rounded">
+                <ReactCountryFlag countryCode="PL" svg className="mr-2" />
+                +48
+            </span>
                         <FormInput register={register} id="phone" label="Numer telefonu" type="text" maxLength="9"
                                    minLength="9" onChange={(e) => handleInputChange('phone', e.target.value)}/>
                     </div>

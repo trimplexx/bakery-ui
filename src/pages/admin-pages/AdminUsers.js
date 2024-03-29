@@ -7,7 +7,6 @@ import {FaTrashAlt} from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
 import CustomPagination from "../../components/common/CustomPagination";
 import apiAdmin from "../../utils/apiAdmin";
-import LoadingComponent from "../../components/common/LoadingComponent";
 import CustomConfirmModal from "../../components/common/CustomConfirmModal";
 
 const AdminUsers = () => {
@@ -20,7 +19,7 @@ const AdminUsers = () => {
     const [searchTerm, setSearchTerm] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [paginationNumber, setPaginationNumber] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [, setIsLoading] = useState(true);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
     const [userId, setUserId] = useState(null);

@@ -6,7 +6,6 @@ import CustomDatePicker from "../../components/common/CustomDataPicker";
 import {FaShoppingCart} from "react-icons/fa";
 import AnimatedIconButton from "../../components/common/AnimatedIconButton";
 import apiCommon from "../../utils/apiCommon";
-import LoadingComponent from "../../components/common/LoadingComponent";
 import axios from "axios";
 import {connectionUrlString, notFoundImage} from "../../utils/props";
 import handleApiError from "../../utils/apiUtils";

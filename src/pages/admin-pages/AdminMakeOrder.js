@@ -8,7 +8,6 @@ import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import OrderConfirmModal from "../../components/admin/OrderConfirmModal";
 import apiCommon from "../../utils/apiCommon";
 import apiAdmin from "../../utils/apiAdmin";
-import LoadingComponent from "../../components/common/LoadingComponent";
 import MotionButton from "../../components/common/MotionButton";
 
 const AdminMakeOrder = () => {
@@ -20,7 +19,7 @@ const AdminMakeOrder = () => {
     const [options, setOptions] = useState([]);
     const [productsList, setProductsList] = useState([]);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [, setIsLoading] = useState(true);
     const [isLoadingAsRealized, setIsLoadingAsRealized] = useState(false);
     const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
 

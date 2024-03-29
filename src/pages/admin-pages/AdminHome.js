@@ -3,7 +3,6 @@ import DoughnutChart from "../../components/admin/DoughnutChart";
 import React, {useEffect, useState} from "react";
 import {errorNotify} from "../../helpers/ToastNotifications";
 import apiAdmin from "../../utils/apiAdmin";
-import LoadingComponent from "../../components/common/LoadingComponent";
 
 const AdminHome = () => {
     const [lastDaysSalary, setLastDaysSalary] = useState([]);
@@ -11,7 +10,7 @@ const AdminHome = () => {
     const [unfulfilledOrders, setUnfulfilledOrders] = useState([]);
     const [numberOfOrders, setNumberOfOrders] = useState({});
     const [triggerFetch] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {

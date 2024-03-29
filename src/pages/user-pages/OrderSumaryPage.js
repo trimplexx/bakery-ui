@@ -14,6 +14,7 @@ import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
 import {useCleanLocalStorage} from "../../hooks/useCleanLocalStorage";
 import {CustomAlert} from "../../components/common/CustomAlert";
 import {NavLink} from "react-router-dom";
+import ReactCountryFlag from "react-country-flag";
 
 const OrderSumaryPage = () => {
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
@@ -194,9 +195,10 @@ const OrderSumaryPage = () => {
                     </div>
                     <div className="flex px-2 my-6">
                                         <span
-                                            className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-200 border border-gray-300 rounded">
-                                            <span className="fi fi-pl mr-2"></span> +48
-                                        </span>
+                                            className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-300 border border-gray-400 rounded">
+                <ReactCountryFlag countryCode="PL" svg className="mr-2" />
+                +48
+            </span>
                         <div className="relative flex-grow w-40 lg:w-auto">
                             <input
                                 type="text"

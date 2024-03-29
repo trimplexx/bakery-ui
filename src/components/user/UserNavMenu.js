@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {bakeryLogo} from "../../utils/props"
-import {Link, NavLink, Outlet} from 'react-router-dom';
+import {Link, NavLink, Outlet, useLocation} from 'react-router-dom';
 import '../../styles/userNavLink.css';
 import {FaBars, FaShoppingCart, FaTimes, FaToolbox, FaUser} from 'react-icons/fa';
 import LoginModal from './LoginModal';
@@ -14,6 +14,8 @@ import ForgotPasswordModal from "./ForgotPasswordModal";
 import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
 
 const UserNavMenu = () => {
+    const [isAdminPath, setIsAdminPath] = useState();
+    const location = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(null);
@@ -24,6 +26,9 @@ const UserNavMenu = () => {
     const [storedDates, setStoredDates] = useState([]);
     useToastStorage();
 
+    useEffect(() => {
+        setIsAdminPath(location.pathname.toLowerCase().startsWith("/admin/"));
+    }, [location]);
 
     const handleRegisterClick = () => {
         setModalOpen('register');
@@ -90,7 +95,8 @@ const UserNavMenu = () => {
         setMenuOpen(false);
     };
 
-    return (<>
+    return (
+        !isAdminPath ? <>
         <nav id="navbar"><Link to="/">
             <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><img src={bakeryLogo} alt="a"
                                                                                        className="w-26 sm:w-42 h-20 sm:h-32 p-2"/>
@@ -154,6 +160,7 @@ const UserNavMenu = () => {
         )}
 
         <Outlet/>
-    </>);
+    </>
+     : null);
 };
 export default UserNavMenu;

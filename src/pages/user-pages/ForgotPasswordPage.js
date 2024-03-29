@@ -1,6 +1,5 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
-import LoadingComponent from "../../components/common/LoadingComponent";
 import FormInput from "../../components/common/FormInput";
 import SubmitButton from "../../components/common/SubmitButton";
 import {useForm} from "react-hook-form";
