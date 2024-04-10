@@ -3,7 +3,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import {homePage1, homePage2, homePage3} from '../../utils/props';
 import Slider from 'react-slick';
-import {Fade} from 'react-reveal';
+import {Fade, Zoom, Reveal} from 'react-reveal';
 import useAuth from "../../hooks/useAuth";
 import apiUser from "../../utils/apiUser";
 import InstagramPosts from "../../components/user/InstagramPosts";
@@ -73,14 +73,14 @@ const HomePage = () => {
     };
 
     return (
-        <div className="h-full bg-gradient-to-b from-[#EBEBEB] via-gray-300 to-[#EBEBEB] relative">
+        <div className=" overflow-x-hidden h-full bg-gradient-to-b from-[#EBEBEB] via-gray-300 to-[#EBEBEB] relative">
             <div className="lg:flex block">
                 <div className="w-full lg:w-2/5 p-4 bg-gray-400 lg:min-h-[85vh] ">
                     {!isSmallScreen && (<Fade left>
                         <h2 className="text-white text-6xl text-end"
                             style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Trzeba</h2>
                     </Fade>)}
-                    <Fade left>
+                    <Fade duration={1500}>
                         <p className="text-xl md:text-2xl lg:text-2xl px-5 sm:px-20 lg:px-2 xl:px-4 2xl:px-10 text-white text-center py-4"
                            style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}
                         ><strong className="text-3xl">Witaj w
@@ -102,8 +102,8 @@ const HomePage = () => {
                             style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}> Chleba</h2>
                     </Fade>)}
                     <div className="md:px-8 md:pb-8 lg:px-10 lg:pb-10 w-full h-4/5 2xl:h-fit flex-col flex justify-center lg:pt-0 py-6">
-                        <Fade right>
-                            <Slider {...settings}>
+                        <Fade duration={2000}>
+                        <Slider {...settings}>
                                 <div>
                                     <img src={homePage1} alt="Slide 1" className="block mx-auto px-4"/>
                                 </div>

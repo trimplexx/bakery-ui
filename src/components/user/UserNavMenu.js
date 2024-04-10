@@ -98,7 +98,7 @@ const UserNavMenu = () => {
     return (
         !isAdminPath ? <>
         <nav id="navbar"><Link to="/">
-            <motion.div variants={linkVariants} whileHover="hover" whileTap="tap"><img src={bakeryLogo} alt="a"
+            <motion.div onClick={closeMenu} variants={linkVariants} whileHover="hover" whileTap="tap"><img src={bakeryLogo} alt="a"
                                                                                        className="w-26 sm:w-42 h-20 sm:h-32 p-2"/>
             </motion.div>
         </Link>

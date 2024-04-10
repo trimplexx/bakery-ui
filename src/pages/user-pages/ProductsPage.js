@@ -134,7 +134,7 @@ const ProductsPage = () => {
     };
 
     return (<div
-        className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] py-10 xl:px-24 2xl:px-64 justify-center flex flex-grow">
+        className=" overflow-x-hidden h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] py-10 xl:px-24 2xl:px-64 justify-center flex flex-grow">
         {isLoading ? <LoadingComponent/> :
             <div className="border-2 h-full rounded shadow-lg bg-[#EBEBEB] w-full mx-2 p-2 max-w-7xl">
                 <div className="w-auto p-4 grid grid-cols-1 md:grid-cols-8">
@@ -162,7 +162,7 @@ const ProductsPage = () => {
                     </div>
                 </div>
                 <div className="grid lg:grid-cols-2 gap-8 gap-x-10 sm:px-14 py-3">
-                    {products.length > 0 ? (products.map((product, index) => (<Fade bottom>
+                    {products.length > 0 ? (products.map((product, index) => (<Fade duration={1500}>
                         <Link key={index} to={`/produkt/${product.productId}`}>
                             <motion.div
                                 className="lg:col-span-1 bg-white shadow-md rounded-lg overflow-hidden grid grid-cols-2 cursor-pointer"

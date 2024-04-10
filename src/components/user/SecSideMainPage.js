@@ -14,7 +14,7 @@ const SecSideMainPage = ({
                          }) => {
     return (<div className="w-full lg:w-3/5 bg-gray-400 flex flex-col lg:min-h-[85vh]">
         <div className="p-2 md:p-4 lg:p-8 flex flex-col">
-            <Fade right>
+            <Fade duration={1500}>
                 <h2 className="text-white text-3xl lg:text-4xl py-4 text-center"
                     style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}> Odkrywaj smaki </h2>
                 <p className="text-xl md:text-2xl lg:text-2xl px-5 sm:px-20 lg:px-2 xl:px-4 2xl:px-20 text-white text-center py-2 "

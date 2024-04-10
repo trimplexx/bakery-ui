@@ -1,7 +1,7 @@
 import React from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import {Fade} from 'react-reveal';
+import {Zoom, Fade, Slide} from 'react-reveal';
 import {About1, About2, About3} from "../../utils/props";
 import Slider from "react-slick";
 
@@ -31,7 +31,7 @@ const AboutPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 ">
                 <div className="w-full h-full lg:h-3/5 2xl:h-5/6 xl:mt-4 p-8 flex-col flex justify-center">
                     <div className=" pb-4">
-                        <Fade left>
+                        <Fade duration={2500}>
                             <Slider {...settings}>
                                 <div>
                                     <img src={About1} alt="Slide 1" className="mx-auto"/>
@@ -56,7 +56,7 @@ const AboutPage = () => {
                         </h2>
                     </Fade>
 
-                    <Fade right>
+                    <Fade duration={1500}>
                         <p className="p-4 lg:text-lg text-white text-center"
                            style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                             Jesteśmy nowo otwartą piekarnią zlokalizowaną w samym sercu Katowic. Nasza piekarnia to
