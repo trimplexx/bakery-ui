@@ -18,14 +18,14 @@ const NoPage = () => {
                     </div>
                     <div className="">
                         <h2 className="text-gray-700 text-center text-xl lg:text-2xl xl:text-3xl mb-4 px-4 flex items-center justify-center"
-                            style={{fontFamily: 'Lucida Console, serif'}}>
+                            style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                             Ups! Wygląda na to, że zgubiłeś się w naszej kuchni
                             <span className="ml-2"><PiSmileySadLight className="text-4xl xl:text-5xl"/></span>
                         </h2>
                         <div className="flex justify-center">
                             <NavLink to="/"
                                      className="mb-8 bg-yellow-400 hover:bg-yellow-500 text-white font-bold p-4 rounded"
-                                     style={{fontFamily: 'Lucida Console, serif'}}>
+                                     style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                                 Przejdź do strony głównej
                             </NavLink>
                         </div>

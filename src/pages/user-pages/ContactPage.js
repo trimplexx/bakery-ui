@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Fade} from "react-reveal";
+import {Fade,Zoom, Slide} from "react-reveal";
 import FormInput from "../../components/common/FormInput";
 import SubmitButton from "../../components/common/SubmitButton";
 import {useForm} from "react-hook-form";
@@ -27,23 +27,23 @@ const ContactPage = () => {
         className=" bg-gradient-to-b from-[#F5F5F5] h-full via-gray-300 to-[#F5F5F5] p-2 px-2 sm:p-10 sm:px-10 xl:px-24 2xl:px-40 justify-center flex flex-grow">
         <div
             className="bg-gray-200 w-full max-w-8xl py-4 sm:p-10 rounded-2xl max-w-7xl xl:grid xl:grid-cols-5 gap-4">
-            <Fade left>
+            <Fade duration={1500}>
                 <div className=" text-gray-800 p-2">
-                    <h2 className="text-3xl mb-2 text-[lucida-console]"
-                        style={{fontFamily: 'Lucida Console, serif'}}>Kontakt</h2>
-                    <p className="text-gray-700 py-1 text-xl" style={{fontFamily: 'Lucida Console, serif'}}>
+                    <h2 className="text-3xl mb-2 text-[Anuphan]"
+                        style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Kontakt</h2>
+                    <p className="text-gray-700 py-1 text-xl" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                         <strong> Trzeba Chleba</strong></p>
-                    <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
+                    <p className="text-gray-700 py-1" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                         <strong>Adres:</strong> ul. Plebiscytowa 7, 40-035 Katowice</p>
-                    <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
+                    <p className="text-gray-700 py-1" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>
                         <strong>Telefon:</strong> 123-456-789</p>
-                    <p className="text-gray-700 py-1" style={{fontFamily: 'Lucida Console, serif'}}>
-                        <strong>Email:</strong> kontakt@piekarnia.com</p>
+                    <a href="mailto:kontakt@trzebachleba.pl" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}} className="text-gray-700 py-1 flex flex-row xl:flex-col">
+                        <strong>Email: </strong> <p className="hover:text-yellow-orange-400 ml-1"> kontakt@trzebachleba.pl </p></a>
                 </div>
             </Fade>
 
             <div className="xl:col-span-4">
-                <Fade right>
+                <Fade duration={2000}>
                     <div className="w-full">
                         <iframe className="w-full h-[500px]"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2550.9548843752195!2d19.018327776446185!3d50.25542690138699!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4716ce48f9dc1ee7%3A0x158a453af712059e!2sPlebiscytowa%207%2C%2040-035%20Katowice!5e0!3m2!1spl!2spl!4v1710526646503!5m2!1spl!2spl"
@@ -52,14 +52,14 @@ const ContactPage = () => {
 
                 </Fade>
             </div>
-            <Fade right>
+            <Fade duration={1500}>
                 <form className="p-7 xl:col-span-4 xl:col-start-2" onSubmit={handleSubmit(onSubmit)} noValidate>
                     <div className="w-full justify-center flex">
-                        <h1 className=" text-4xl text-center max-w-lg font-serif leading-loose text-[#fda329] items-center">
+                        <h1 className=" text-4xl text-center max-w-lg text-[#fda329] items-center mb-4">
                             Skontaktuj się z nami
                         </h1>
                     </div>
-                    <p className="text-gray-700 py-1 mb-4" style={{fontFamily: 'Lucida Console, serif'}}>Zauważyłeś
+                    <p className="text-gray-700 py-1 mb-4 text-center items-center" style={{ fontFamily: 'Anuphan', lineHeight: '1.5'}}>Zauważyłeś
                         jakiś problem na naszej stronie, bądź masz jakieś pytanie? Wypełnij formularz swoimi danymi oraz
                         wiadomością, którą chcesz do nas dostarczyć, a my odezwiemy się w wiadomości mailowej tak szybko
                         jak to będzie możliwe.</p>

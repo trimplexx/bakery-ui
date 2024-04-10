@@ -5,6 +5,7 @@ import {useForm} from "react-hook-form";
 import EditInput from "../common/EditInput";
 import apiAdmin from "../../utils/apiAdmin";
 import LoadingComponent from "../common/LoadingComponent";
+import ReactCountryFlag from "react-country-flag"
 
 const EditData = () => {
     const {register, handleSubmit, setValue} = useForm();
@@ -45,7 +46,7 @@ const EditData = () => {
     return (<div >
         {isLoading ? <LoadingComponent/> : <form className="py-4 sm:p-7"
                                                  onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="mb-12 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329]">Edytuj
+            <h1 className="mb-12 text-4xl text-center font-[Anuphan] leading-loose text-[#fda329]">Edytuj
                 dane</h1>
             <div className="grid gap-6 mb-6 md:grid-cols-2">
                 <EditInput register={register} id="firstName" label="Imię" type="text" maxLength="40"
@@ -57,14 +58,14 @@ const EditData = () => {
             </div>
             <div className="grid gap-6 mb-3">
                 <div className="flex">
-                                        <span
-                                            className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-300 border border-gray-400 rounded">
-                                            <span className="fi fi-pl mr-2"></span> +48
-                                        </span>
-                    <EditInput register={register} id="phone" label="Numer telefonu"
-                               type="text"
-                               value={userData.phone} onChange={(e) => handleInputChange('phone', e.target.value)}/>
+            <span
+                className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-300 border border-gray-400 rounded">
+                <ReactCountryFlag countryCode="PL" svg className="mr-2" />
+                +48
+            </span>
+                    <EditInput register={register} id="phone" label="Numer telefonu" type="text" value={userData.phone} onChange={(e) => handleInputChange('phone', e.target.value)}/>
                 </div>
+
                 <div className="relative flex-grow">
                     <input
                         id="email"
@@ -86,7 +87,6 @@ const EditData = () => {
                 </div>
 
             </div>
-
             <div className=" md:col-start-2 md:col-span-3 w-full mt-10">
                 <SubmitButton isLoading={isLoading} text="Zapisz zmiany"/>
             </div>

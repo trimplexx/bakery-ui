@@ -17,14 +17,16 @@ const OrdersHistoryModal = ({onClose, userId}) => {
     const [isLoadingButton, setIsLoadingButton] = useState(false);
     const [orders, setOrders] = useState([]);
     const [orderId, setOrderId] = useState(null);
+    const [errorMessage, setErrorMessage] = useState();
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
 
     useEffect(() => {
         const getOfOrdersPagination = async () => {
-            await apiUser.getOfOrdersPagination(userId, setPaginationNumber, errorNotify);
+            await apiUser.getOfOrdersPagination(userId, setPaginationNumber, setErrorMessage, setIsErrorVisible);
         };
 
         const getUserOrdersHistoryList = async () => {
-            await apiUser.getUserOrdersHistoryList(currentPage - 1, userId, setOrders, errorNotify);
+            await apiUser.getUserOrdersHistoryList(currentPage - 1, userId, setOrders, setErrorMessage, setIsErrorVisible);
         };
         Promise.all([getOfOrdersPagination(), getUserOrdersHistoryList()]).then(() => {
             setIsLoading(false);
@@ -58,16 +60,18 @@ const OrdersHistoryModal = ({onClose, userId}) => {
 
     return (<div>
             {isLoading ? <LoadingComponent/> :
-                <div className="fixed inset-0 z-50">
+                <div className="fixed inset-0 z-50 ">
                     <AnimatedModal onClose={onClose}>
-                        <div className="p-6 bg-white rounded-2xl">
-                            <OrdersTable
-                                orders={orders}
-                                paginationNumber={paginationNumber}
-                                handlePageChange={handlePageChange}
-                                handleCancelOrder={handleCancelOrder}
-                                currentPage={currentPage}
-                            />
+                        <div className="mt-4 px-1 pt-4 lg:pt-7 bg-white rounded-2xl min-h-[85vh] max-h-[85vh] sm:max-h-none overflow-y-auto sm:min-w-[60vh]">
+                                <OrdersTable
+                                    orders={orders}
+                                    paginationNumber={paginationNumber}
+                                    isErrorVisible={isErrorVisible}
+                                    errorMessage={errorMessage}
+                                    handlePageChange={handlePageChange}
+                                    handleCancelOrder={handleCancelOrder}
+                                    currentPage={currentPage}
+                                />
                             <CustomConfirmModal
                                 visible={isConfirmModalVisible}
                                 message={`Czy na pewno chcesz anulować podane zamówienie? Nie będzie możliwości odwrotu.`}

@@ -32,9 +32,9 @@ const ProductsCategories = ({selectedCategories, handleCategorySelection}) => {
     };
 
     return (
-        <div className="flex justify-center w-full px-4">
+        <div className="flex justify-center w-full sm:px-4">
             <motion.div
-                className="ml-6 flex justify-between overflow-x-auto"
+                className="ml-6 mr-4 flex justify-between overflow-x-auto"
                 initial="hidden"
                 animate="visible"
                 variants={buttonVariants}

@@ -94,10 +94,10 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
         setProductsData(prevData => ({...prevData, [id]: newValue}));
     };
 
-    return (<div className="fixed inset-0 z-50">
+    return (<div className="fixed inset-0 z-50 ">
         <AnimatedModal onClose={onClose}>
             <form onSubmit={handleSubmit(submitForm)}
-                  className="add-product-form bg-white p-8 rounded-lg shadow-md w-auto h-auto overflow-auto max-h-screen">
+                  className="add-product-form bg-white p-3 sm:p-8 rounded-lg shadow-md w-auto h-auto overflow-auto max-h-[85vh] sm:max-h-none">
                 <h1 className="mb-4 text-4xl text-center w-auto font-semibold leading-loose text-[#fda329] ">{text}</h1>
                 <div className="grid md:grid-cols-5 gap-4 grid-cols-1 justify-center">
                     <div className="md:col-span-2 ">
@@ -125,7 +125,7 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
                         </div>
                         <div className="w-auto flex mt-4">
                             <div className="relative w-full">
-                                <FormInput register={register} id="price" label="Cena" type="text" maxLength="10"
+                                <FormInput register={register} id="price" label="Cena" type="number" maxLength="10"
                                            value={productsData.price}
                                            onChange={(e) => handleInputChange('price', e.target.value)}/>
                             </div>
@@ -163,7 +163,7 @@ const ProductModal = ({onClose, onSubmit, productsData, setProductsData, isLoadi
                         <label htmlFor="description"
                                className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#fda329] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Opis</label>
                     </div>
-                    <div className=" md:col-start-2 md:col-span-3 w-full">
+                    <div className=" md:col-start-2 md:col-span-3 w-full sm:mb-0">
                         <SubmitButton isLoading={isLoading} text={text}/>
                     </div>
                 </div>

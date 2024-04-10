@@ -6,6 +6,8 @@ import SubmitButton from "../common/SubmitButton";
 import FormInput from "../common/FormInput";
 import useCloseOnEsc from "../../hooks/useClonseOnEsc";
 import apiUser from "../../utils/apiUser";
+import {NavLink} from "react-router-dom";
+import ReactCountryFlag from "react-country-flag";
 
 const RegistrationModal = ({onClose, onLoginClick}) => {
     const {register, handleSubmit} = useForm();
@@ -64,7 +66,7 @@ const RegistrationModal = ({onClose, onLoginClick}) => {
             <form
                 className="bg-white p-7 rounded-lg w-600 shadow-md w-auto sm:w-[700px] h-auto overflow-auto max-h-screen"
                 onSubmit={handleSubmit(onSubmit)}>
-                <h1 className="mb-4 mx-8 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329] ">Zarejestruj
+                <h1 className="mb-4 mx-8 text-4xl text-center font-[Anuphan] leading-loose text-[#fda329] ">Zarejestruj
                     się</h1>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <FormInput register={register} id="firstName" label="Imie" type="text" maxLength="40"
@@ -74,10 +76,11 @@ const RegistrationModal = ({onClose, onLoginClick}) => {
                 </div>
                 <div className="grid gap-6 mb-3">
                     <div className="flex">
-                        <span
-                            className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded">
-                        <span className="fi fi-pl mr-2"></span> +48
-                    </span>
+            <span
+                className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-300 border border-gray-400 rounded">
+                <ReactCountryFlag countryCode="PL" svg className="mr-2" />
+                +48
+            </span>
                         <FormInput register={register} id="phone" label="Numer telefonu" type="text" maxLength="9"
                                    minLength="9" onChange={(e) => handleInputChange('phone', e.target.value)}/>
                     </div>
@@ -101,16 +104,16 @@ const RegistrationModal = ({onClose, onLoginClick}) => {
                                    required/>
                             <label htmlFor="terms" className="cursor-pointer ml-2 font-medium text-gray-900 ">
                                 * Akceptuję
-                                <span className="text-gray-500 hover:text-yellow-400 "> Regulamin </span>
+                                <NavLink to="regulamin" className="text-gray-500 hover:text-yellow-400 "> Regulamin </NavLink>
                                 oraz
-                                <span className="text-gray-500 hover:text-yellow-400 "> Politykę prywatności </span>.
+                                <NavLink to="polityka"  className="text-gray-500 hover:text-yellow-400 "> Politykę prywatności </NavLink>.
                             </label>
 
                         </div>
                     </div>
                     <SubmitButton isLoading={isLoading} text="Zarejestruj się"/>
                 </div>
-                <div className="flex space-x-1 justify-end ">
+                <div className="flex space-x-1 justify-end mb-20 sm:mb-0">
                     <p> Posiadasz konto? </p> <span className="cursor-pointer hover:text-yellow-400 text-gray-500"
                                                     onClick={onLoginClick}> Przejdź do logowania.  </span>
                 </div>

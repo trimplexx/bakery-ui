@@ -5,7 +5,7 @@ import MotionButton from "./MotionButton";
 const SubmitButton = ({isLoading, text}) => {
     return (
         !isLoading ? (
-            <MotionButton text={text} color="yellow-400"/>
+            <MotionButton text={text} color="yellow-400" type="submit"/>
         ) : (
             <motion.button
                 className="w-full py-2 rounded-md border-none text-white bg-yellow-400"

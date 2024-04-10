@@ -20,14 +20,14 @@ const Footer = () => {
                             <strong>Adres:</strong> ul. Plebiscytowa 7, 40-035 Katowice</p>
                         <p className="text-gray-700 py-1">
                             <strong>Telefon:</strong> 123-456-789</p>
-                        <p className="text-gray-700 py-1">
-                            <strong>Email:</strong> kontakt@piekarnia.com</p>
+                        <a href="mailto:kontakt@trzebachleba.pl" className="text-gray-700 py-1 flex-row flex">
+                            <strong>Email: </strong> <p className="hover:text-yellow-orange-400 ml-1"> kontakt@trzebachleba.pl </p></a>
                     </div>
 
                     <div className="mb-4 lg:mb-0">
                         <h3 className="text-lg font-semibold mb-2">Informacje prawne</h3>
                         <ul>
-                            <li className="py-1"><NavLink className="hover:text-[#FEA831]" to="/polityka-prywatnosci">Polityka
+                            <li className="py-1"><NavLink className="hover:text-[#FEA831]" to="/polityka">Polityka
                                 prywatności</NavLink></li>
                             <li className="py-1"><NavLink className="hover:text-[#FEA831]"
                                                           to="/regulamin">Regulamin</NavLink></li>

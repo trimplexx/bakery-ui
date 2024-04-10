@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomDatePicker from "../../components/common/CustomDataPicker";
 import {FaSearch, FaShoppingCart} from "react-icons/fa";
 import {TbCategory} from "react-icons/tb";
@@ -19,9 +19,12 @@ import apiCommon from "../../utils/apiCommon";
 import LoadingComponent from "../../components/common/LoadingComponent";
 import {LocalStorageCheck} from "../../helpers/LocalStorageCheck";
 import useMinDate from "../../hooks/useMinDate";
+import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
+import {useCleanLocalStorage} from "../../hooks/useCleanLocalStorage";
 
 const ProductsPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const {setIsCardChange, isCardChange} = useContext(ShoppingCardContext);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -34,7 +37,7 @@ const ProductsPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [categoriesMap, setCategoriesMap] = useState({});
     const minDate = useMinDate();
-
+    useCleanLocalStorage();
 
     useEffect(() => {
         LocalStorageCheck();
@@ -115,13 +118,23 @@ const ProductsPage = () => {
                 } else {
                     errorNotify("Produkt znajduje się już w koszyku!")
                 }
+                const storedOption = localStorage.getItem('selectedOption');
+                if (storedOption === null) {
+                    let isoDate = selectedDate.toISOString();
+                    let dateOnly = isoDate.slice(0, 10);
+                    localStorage.setItem("selectedOption", dateOnly);
+                }
                 localStorage.setItem(cartKey, JSON.stringify(cartItems));
+                if (isCardChange === false)
+                    setIsCardChange(true)
+                else
+                    setIsCardChange(false)
             }
         }, errorNotify, null, null);
     };
 
     return (<div
-        className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] py-10 xl:px-24 2xl:px-64 justify-center flex flex-grow">
+        className=" overflow-x-hidden h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] py-10 xl:px-24 2xl:px-64 justify-center flex flex-grow">
         {isLoading ? <LoadingComponent/> :
             <div className="border-2 h-full rounded shadow-lg bg-[#EBEBEB] w-full mx-2 p-2 max-w-7xl">
                 <div className="w-auto p-4 grid grid-cols-1 md:grid-cols-8">
@@ -134,22 +147,22 @@ const ProductsPage = () => {
                             text="Data zamówienia"
                         />
                     </div>
-                    <div className="h-12 justify-end flex items-center md:col-span-6 pr-4 relative my-2">
+                    <div className="h-12 justify-end flex items-center md:col-span-6 sm:pr-4 relative my-2">
                         {isSearchOpen ? (<AnimatedSearchInput isSearchOpen={isSearchOpen} searchTerm={searchTerm}
                                                               onInputChange={handleInputChange}/>) : null}
 
                         <AnimatedIconButton handleIconClick={handleSearchIconClick} Icon={FaSearch}
                                             color={searchButtonColor}/>
                     </div>
-                    <div className="h-12 justify-end flex items-center md:col-span-8 pr-4 relative my-2">
+                    <div className="h-12 justify-end flex items-center md:col-span-8 sm:pr-4 relative my-2 sm:mt-4">
                         {isCategoryOpen ? (<ProductsCategories handleCategorySelection={handleCategorySelection}
                                                                selectedCategories={selectedCategories}/>) : null}
                         <AnimatedIconButton handleIconClick={handleCategoryClick} Icon={TbCategory}
                                             color={categoryButtonColor}/>
                     </div>
                 </div>
-                <div className="grid lg:grid-cols-2 gap-12 gap-x-14 sm:px-14 py-10">
-                    {products.length > 0 ? (products.map((product, index) => (<Fade bottom>
+                <div className="grid lg:grid-cols-2 gap-8 gap-x-10 sm:px-14 py-3">
+                    {products.length > 0 ? (products.map((product, index) => (<Fade duration={1500}>
                         <Link key={index} to={`/produkt/${product.productId}`}>
                             <motion.div
                                 className="lg:col-span-1 bg-white shadow-md rounded-lg overflow-hidden grid grid-cols-2 cursor-pointer"

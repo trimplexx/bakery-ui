@@ -1,5 +1,5 @@
 import React from 'react';
-import Fade from 'react-reveal/Fade';
+import {Fade} from 'react-reveal';
 import {BiCarousel} from "react-icons/bi";
 import {FaRegImage} from "react-icons/fa";
 import {PiPlayBold} from "react-icons/pi";
@@ -19,7 +19,7 @@ const InstagramPosts = ({instagramData}) => {
     };
 
     return (
-        <Fade left>
+        <Fade duration={2000}>
             <div className="lg:w-2/5 w-full p-4 flex flex-wrap">
                 {instagramData.map((post, index) => {
                     return (

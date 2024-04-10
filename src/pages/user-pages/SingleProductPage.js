@@ -1,12 +1,11 @@
 import {useNavigate, useParams} from 'react-router-dom';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {errorNotify, successNotify} from '../../helpers/ToastNotifications';
 import {useProductsData} from '../../hooks/useProductsData';
 import CustomDatePicker from "../../components/common/CustomDataPicker";
 import {FaShoppingCart} from "react-icons/fa";
 import AnimatedIconButton from "../../components/common/AnimatedIconButton";
 import apiCommon from "../../utils/apiCommon";
-import LoadingComponent from "../../components/common/LoadingComponent";
 import axios from "axios";
 import {connectionUrlString, notFoundImage} from "../../utils/props";
 import handleApiError from "../../utils/apiUtils";
@@ -14,11 +13,14 @@ import apiUser from "../../utils/apiUser";
 import {LocalStorageCheck} from "../../helpers/LocalStorageCheck";
 import {CustomAlert} from "../../components/common/CustomAlert";
 import useMinDate from "../../hooks/useMinDate";
+import {ShoppingCardContext} from "../../helpers/ShoppingCardState";
+import LoadingComponent from "../../components/common/LoadingComponent";
 
 const SingleProductPage = () => {
     const {productId} = useParams();
     const [productQuantityInfo, setQuantityProductInfo] = useState();
     const [isErrorVisible, setIsErrorVisible] = useState(false);
+    const {setIsCardChange, isCardChange} = useContext(ShoppingCardContext);
     const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [productData, setProductData] = useProductsData();
@@ -97,7 +99,18 @@ const SingleProductPage = () => {
                     name: productData.name, quantity: quantity,
                 });
             }
+            const storedOption = localStorage.getItem('selectedOption');
+            if (storedOption === null) {
+                let isoDate = selectedDate.toISOString();
+                let dateOnly = isoDate.slice(0, 10);
+                localStorage.setItem("selectedOption", dateOnly);
+            }
+
             localStorage.setItem(cartKey, JSON.stringify(cartItems));
+            if (isCardChange === false)
+                setIsCardChange(true)
+            else
+                setIsCardChange(false)
             successNotify("Pomyślnie dodano do koszyka.")
         }
     };
@@ -111,11 +124,11 @@ const SingleProductPage = () => {
 
     return (<div
         className="h-auto bg-gradient-to-b from-[#F5F5F5] via-gray-300 to-[#F5F5F5] sm:p-10 p-2 sm:px-10 xl:px-24 2xl:px-40 justify-center flex flex-grow">
-    {isLoading ? <LoadingComponent/> : <div> {productData && (<div className="bg-gray-200 w-full max-w-8xl p-2 sm:p-6 rounded-2xl">
+        {isLoading ? <LoadingComponent/> : <div> {productData && (<div className="bg-gray-200 w-full max-w-8xl p-2 sm:p-6 rounded-2xl">
                 <div className="grid lg:grid-cols-2 gap-5 mb-4">
                     {productData.image ?
-                        <img className="rounded-lg shadow-xl" src={productData.image} alt="image description"/> :
-                        <img className="rounded-lg shadow-xl" src={notFoundImage} alt="image description"/>}
+                        <div className="w-full justify-center items-center flex"> <img className="rounded-lg shadow-xl" src={productData.image} alt="image description"/> </div>:
+                        <div className="w-full justify-center items-center flex"> <img className="rounded-lg shadow-xl" src={notFoundImage} alt="image description"/> </div>}
                     <div className="flex flex-col">
                         <h1 className="text-4xl font-semibold mb-4">{productData.name}</h1>
                         <p className="text-lg"><strong>Cena: </strong>{productData.price} zł</p>

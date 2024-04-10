@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import ProductModal from "./ProductModal";
 import {errorNotify, successNotify} from "../../helpers/ToastNotifications";
 import {useProductsData} from "../../hooks/useProductsData";
-import createImageFileFromImageUrl from "../../helpers/CreateImageFileFromImageUrl";
 import apiAdmin from "../../utils/apiAdmin";
 import LoadingComponent from "../common/LoadingComponent";
 
@@ -23,20 +22,19 @@ const EditProductModal = ({onClose, productId}) => {
         });
     }, [productId]);
 
-    const onSubmit = async () => {
+    const onSubmit = async (data) => {
         setIsLoading(true);
-        let imageFile = null;
-
-        if (productsData.image != null)
-            imageFile = await createImageFileFromImageUrl(productsData.image, productsData.name, errorNotify);
         const formData = new FormData();
-        for (const key in productsData) {
-            if (Object.prototype.hasOwnProperty.call(productsData, key)) {
-                if (key === 'image') {
-                    formData.append('image', imageFile);
-                } else {
-                    formData.append(key, productsData[key]);
-                }
+
+        for (const key in data) {
+            if (Array.isArray(data[key])) {
+                data[key].forEach((value, index) => {
+                    formData.append(`${key}[${index}]`, value);
+                });
+            } else if (data[key] instanceof File) {
+                formData.append(key, data[key], data[key].name);
+            } else {
+                formData.append(key, data[key]);
             }
         }
 
@@ -49,6 +47,7 @@ const EditProductModal = ({onClose, productId}) => {
             setIsLoading
         );
     }
+
 
     return (<div>
         {isLoadingProduct ? <LoadingComponent/> :

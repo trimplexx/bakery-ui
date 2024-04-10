@@ -45,12 +45,23 @@ const ShoppingCard = ({isOpen, onClose}) => {
         } else {
             controls.start('closed');
         }
-        // Wczytaj wybraną opcję z localStorage
+
         const storedOption = localStorage.getItem('selectedOption');
         if (storedOption) {
-            const foundOption = storedDates.find(option => option.value === storedOption);
-            if (foundOption) {
-                handleSelectChange(foundOption);
+            // Sprawdź wszystkie klucze w localStorage
+            for (const key in localStorage) {
+                // Sprawdź, czy klucz pasuje do formatu "RRRR-MM-DD"
+                if (/^\d{4}-\d{2}-\d{2}$/.test(key)) {
+                    const foundOption = storedDates.find(option => option.value === storedOption);
+                    if (foundOption) {
+                        handleSelectChange(foundOption);
+                    }
+                    else
+                    {
+                        let obj = {value: key};
+                        handleSelectChange(obj);
+                    }
+                }
             }
         } else {
             setProductData(null);
@@ -74,8 +85,10 @@ const ShoppingCard = ({isOpen, onClose}) => {
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
+
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+
         };
     }, [handleClickOutside]);
 
@@ -109,8 +122,8 @@ const ShoppingCard = ({isOpen, onClose}) => {
                         </button>
                     </div>
                 </div>
-                <div className="w-full justify-center flex items-end mt-6">
-                    <p className="text-3xl font-medium text-gray-900">Koszyk</p>
+                <div className="w-full justify-center flex items-end sm:mt-2">
+                    <p className="text-2xl sm:text-3xl font-medium text-gray-900">Koszyk</p>
                 </div>
                 <div className="p-6">
                     <Select
@@ -120,13 +133,15 @@ const ShoppingCard = ({isOpen, onClose}) => {
                         onChange={handleSelectChange}
                         noOptionsMessage={() => "Brak dostępnych koszyków."}
                         placeholder="Wybierz koszyk z produktami."
+                        isSearchable={false}
                     />
+
                 </div>
                 {isLoading ? (
                     <div className="flex-grow items-center mx-4 h-full bg-gray-300 rounded mb-4 justify-center">
                         <div className="p-4 flex-col items-center justify-center h-full flex text-lg">
                             <FadeLoader color="#eab308"/>
-                            <p className="text-yellow-400 text-2xl font-bold mt-4">Ładowanie...</p>
+                            <p className="text-yellow-400 text-xl sm:text-2xl font-bold mt-4">Ładowanie...</p>
                         </div>
                     </div>
                 ) : (
@@ -145,19 +160,19 @@ const ShoppingCard = ({isOpen, onClose}) => {
                         </div>
                     ) : (
                         <div className="flex-grow items-center mx-4 bg-gray-200 rounded mb-4 justify-center">
-                            <div className="p-4 items-center justify-center flex text-lg">
+                            <div className="p-4 items-center justify-center flex text-md sm:text-lg">
                                 Koszyk jest pusty wybierz date.
                             </div>
                         </div>
                     )
                 )}
-                <div className="bottom-0 grid grid-cols-2 w-full p-6 bg-[#F5F5F5] items-center ">
-                    <p className="text-lg sm:text-xl font-medium text-gray-900 mb-2">Suma: {calculateTotalPrice()} zł</p>
+                <div className="bottom-0 grid grid-cols-2 w-full p-2 sm:p-4 bg-[#F5F5F5] items-center ">
+                    <p className="text-md sm:text-lg font-medium text-gray-900 mb-2">Suma: {calculateTotalPrice()} zł</p>
                     <NavLink to="/podsumowanie" className="flex justify-end">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="text-center text-md text-black bg-yellow-orange-400 hover:bg-yellow-orange-300 focus:outline-none focus:ring-4 focus:ring-yellow-orange-300 font-medium rounded-full px-5 py-2.5 flex justify-center items-center"
+                            className="text-center text-sm text-black bg-yellow-orange-400 hover:bg-yellow-orange-300 focus:outline-none focus:ring-4 focus:ring-yellow-orange-300 font-medium rounded-full px-5 py-2.5 flex justify-center items-center"
                         >
                             Przejdź do realizacji <IoCashOutline className="ml-2 text-3xl"/>
                         </button>

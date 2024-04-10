@@ -6,6 +6,7 @@ import SubmitButton from "../common/SubmitButton";
 import FormInput from "../common/FormInput";
 import {useForm} from "react-hook-form";
 import apiAdmin from "../../utils/apiAdmin";
+import ReactCountryFlag from "react-country-flag";
 
 const EditUserModal = ({userId, onClose}) => {
     useCloseOnEsc(onClose);
@@ -58,8 +59,9 @@ const EditUserModal = ({userId, onClose}) => {
                         <div className="flex">
                                         <span
                                             className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2 text-sm font-medium text-center text-gray-900 bg-gray-300 border border-gray-400 rounded">
-                                            <span className="fi fi-pl mr-2"></span> +48
-                                        </span>
+                <ReactCountryFlag countryCode="PL" svg className="mr-2" />
+                +48
+            </span>
                             <FormInput register={register} id="phone" label="Numer telefonu" maxLength="9" type="text"
                                        value={userData.phone}
                                        onChange={(e) => handleInputChange('phone', e.target.value)}/>

@@ -4,6 +4,7 @@ import SubmitButton from "../common/SubmitButton";
 import {useForm} from "react-hook-form";
 import EditInput from "../common/EditInput";
 import apiUser from "../../utils/apiUser";
+import FormInput from "../common/FormInput";
 
 const ChangePassword = () => {
     const [, setUserId] = useState(false);
@@ -57,10 +58,11 @@ const ChangePassword = () => {
 
     return (
         <form className="py-4 sm:p-7" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="mb-12 text-4xl text-center font-[lucida-console] leading-loose text-[#fda329] ">Zmień
+
+            <h1 className="mb-12 text-4xl text-center font-[Anuphan] leading-loose text-[#fda329] ">Zmień
                 hasło</h1>
             <div className="grid gap-6 mb-3">
-                <EditInput
+                <FormInput
                     register={register}
                     id="oldPassword"
                     label="Stare hasło"
@@ -68,7 +70,7 @@ const ChangePassword = () => {
                     maxLength="50"
                     onChange={handleInputChange}
                 />
-                <EditInput
+                <FormInput
                     register={register}
                     id="newPassword"
                     label="Nowe hasło"
@@ -76,7 +78,7 @@ const ChangePassword = () => {
                     maxLength="50"
                     onChange={handleInputChange}
                 />
-                <EditInput
+                <FormInput
                     register={register}
                     id="confirmNewPassword"
                     label="Potwierdź nowe hasło"

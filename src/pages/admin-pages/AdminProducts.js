@@ -9,7 +9,6 @@ import SearchInput from "../../components/common/SearchInput";
 import {FaTrashAlt} from "react-icons/fa";
 import CustomPagination from "../../components/common/CustomPagination";
 import apiAdmin from "../../utils/apiAdmin";
-import LoadingComponent from "../../components/common/LoadingComponent";
 import CustomConfirmModal from "../../components/common/CustomConfirmModal";
 
 const AdminProducts = () => {
@@ -23,7 +22,7 @@ const AdminProducts = () => {
     const [isModalClosed, setIsModalClosed] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [deletedProductId, setDeletedProductId] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [, setIsLoading] = useState(true);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
     const [productId, setProductId] = useState(null);
     const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
@@ -122,7 +121,6 @@ const AdminProducts = () => {
     };
 
     return (<div>
-        {isLoading ? <LoadingComponent/> : <div>
             <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-4 pb-2">
                 <div className="md:col-span-2 xl:col-span-1">
                     <Select
@@ -188,7 +186,6 @@ const AdminProducts = () => {
                 <CustomPagination paginationNumber={paginationNumber} onPageChange={handlePageChange}
                                   initialPage={currentPage}/>
             </div>
-        </div>}
     </div>);
 };
 
